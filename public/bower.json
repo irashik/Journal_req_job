@@ -1,0 +1,24 @@
+{
+  "name": "Journal_registration_job",
+  "version": "1.0.0",
+  "main": "public/",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "homepage": "https://github.com/irashik/Journal_req_job",
+  
+  "authors": [
+    "Dmitrii Irashin <irashin.dim@gmail.com>"
+  ],
+  "description": "Журнал учета работк СЛД ПТЗ",
+  "license": "MIT",
+  "private": true
+}

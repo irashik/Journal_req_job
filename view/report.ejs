@@ -1,0 +1,69 @@
+<% layout('layout/page') -%>
+
+<% block('title', 'Отчет'); -%>
+
+
+<h1>Отчеты по выполненным работам</h1>
+
+
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+        changeMonth: true
+    });
+  });
+  </script>
+  
+
+ <p>Выберите дату: <input type="text" id="datepicker"></p>
+
+ 
+ 
+ 
+ 
+ 
+  
+ <p>Выберите период</p>
+
+
+
+  <script>
+  $( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#from" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 1
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;
+    }
+  } );
+  </script>
+  
+  
+   
+<label for="from">From</label>
+<input type="text" id="from" name="from">
+<label for="to">to</label>
+<input type="text" id="to" name="to">

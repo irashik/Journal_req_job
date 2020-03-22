@@ -1,6 +1,10 @@
 {
     "name": "Journal_registration_job",
     "version": "1.0.0",
+    "scripts": {
+        "start": "nodemon server.js",
+        "test": "mocha *.test.js"
+    },
     "keywords": [
         "util",
         "functional",
@@ -11,12 +15,28 @@
     "author": "dmitrii",
     "contributors": [],
     "dependencies": {
+        "body-parser": "^1.19.0",
+        "connect-flash": "^0.1.1",
         "connect-mongo": "^3.2.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
         "ejs-mate": "^3.0.0",
+        "errorhandler": "^1.5.1",
         "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "http": "0.0.0",
+        "http-errors": "^1.7.3",
+        "livereload": "^0.9.1",
         "mongodb": "^3.5.5",
         "mongoose": "^5.9.5",
+        "morgan": "^1.10.0",
         "nconf": "^0.10.0",
+        "path": "^0.12.7",
+        "util": "^0.12.2",
         "winston": "^3.2.1"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^7.1.1"
     }
 }

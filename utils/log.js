@@ -36,7 +36,7 @@ const config = {
 winston.addColors(config.colors);
 
 
-const myFormat = printf(({ leve, message, label, timestamp }) => {
+const myFormat = printf(({ level, message, label, timestamp }) => {
     return `[${label}] ${level}: ${message}`;
 });
 

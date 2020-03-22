@@ -1,0 +1,184 @@
+// стили для больших экронов и корневой стиль
+
+
+// подключение шрифтов
+@import 'https://fonts.googleapis.com/css?family=PT+Sans';
+@import 'https://fonts.googleapis.com/css?family=Arimo:400,700|Poiret+One';
+@import 'https://fonts.googleapis.com/css?family=Jura';
+
+@font-face {
+font-family: 'Roboto-Light';
+src: url('../fonts/Roboto-Light.ttf');
+}
+
+@font-face {
+  font-family: "NimbusSanLConRegular";
+  src: url(NimbusSanL-Regu.ttf);
+}
+
+
+
+
+ html  {
+  margin: 0;
+  padding: 0;
+
+  //// TODO: доделай прижатие футера к низу. проблема в ограничении
+  // body 1314px???? из-за слоя?
+
+}
+
+body {
+ min-height: 98vh;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
+
+  // DEBUG:
+   // margin: 10px;
+   // border: 1px solid black;
+   // background-color: green;
+   //  //height: 100%;
+   //align-items: center;
+
+
+}
+
+
+h1 {
+
+  font-family: Poiret One;
+  font-size: 25px;
+
+
+  }
+
+h2 {
+  font-family: Poiret One;
+  /* font-family: Jura; */
+
+  font-size: 18px;
+  font-weight: 100;
+}
+
+h3 {
+font-size: 15px;
+font-family: Arimo;
+  /*  font-family: PT Sans; */
+/* font-family: "NimbusSanLConRegular"; */
+
+  font-weight: 400;
+  margin-bottom: 0em;
+  margin-top: 0em;
+  line-height: 2em;
+
+}
+
+h6 {
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: 500;
+  color: #5E5e5e;
+  line-height: 1.2;
+  text-align: left;
+  font-style: normal;
+  margin-top: 0em;
+  margin-bottom: 1em;
+}
+
+h4 {
+  font-family: Poiret One;
+  font-size: 12px;
+  margin-top: 0em;
+}
+
+
+h5 {
+  font-family: Poiret One;
+  font-size: 12px;
+  margin-bottom: 0em;
+}
+
+p {
+
+}
+
+main {
+    flex-grow: 4;
+}
+
+nav, main, header, footer {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 1px;
+    
+}
+
+div {
+    margin: 5px;
+    
+}
+
+.time_task {
+    display: inline-block;
+    
+}
+
+.task_input {
+    
+    display: inline-block;
+    
+    
+}
+
+
+.task {
+    background-color: blueviolet;
+    
+    
+}
+
+.time_task_input {
+    display: inline-block;
+    width: 80px;
+    //font-size: 10px;
+    
+    
+    
+}
+
+.task2 {
+    display: flex;
+    
+}
+
+.list_worker {
+    font-size: 15px;
+    
+}
+
+
+.task_input_modal {
+    height: 200px;
+}
+
+
+.btn_list_job {
+    font-size: 10px;
+   
+       align-content: right;
+    
+    
+    
+    
+    
+}
+
+.Item_List_right {
+    text-align: right;
+    
+    
+    
+    
+}
+/// end

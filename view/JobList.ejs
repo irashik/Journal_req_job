@@ -1,0 +1,74 @@
+<% layout('layout/page') -%>
+
+<% block('title', 'Список задач'); -%>
+
+  <script src="./js/task_load.js"></script>
+
+
+  
+          
+       
+        
+      
+     <div class="list-group">
+         <!--TODO: IF ACTIVE TO SHOW button-->
+        <a href="#" class="list-group-item list-group-item-action active">
+          Cras justo odio
+          <div class="item_list">
+              Профессия
+              Трудозатраты
+          </div>
+          <div class="Item_List_right"> 
+             <button type="button" class="btn btn-secondary btn_list_job" data-toggle='modal' data-target='#edit_task_modal'>Редакт.</button>
+             <button type="button" class="btn btn-secondary btn_list_job">Завершить</button>
+             <button type="button" class="btn btn-secondary btn_list_job">Удалить</button>
+          </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in
+                        
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+        <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        
+                                        
+     </div>
+      
+        
+        
+
+  
+  
+
+<!-- Modal -->
+<div class="modal fade" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+        <div class="modal-body">
+          <textarea class="form-control task_input_modal" type="text" placeholder="Описание задачи" rows="5" cols="40"></textarea>
+          <input class="form-control task_input" type="text" placeholder="Профессия">
+          <input class="form-control task_input" type="text" placeholder="Трудозатраты">
+
+          
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
