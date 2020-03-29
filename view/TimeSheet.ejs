@@ -1,0 +1,99 @@
+<% layout('layout/page') -%>
+
+<% block('title', 'Список задач'); -%>
+
+  <!--<script src="./js/task_load.js"></script>-->
+
+  
+  <h1>Табель учета рабочего времени</h1>
+  
+  
+
+  <button type='button' data-toggle='modal' data-target='#edit_task_modal' type="button" class="btn btn-primary">Добавить что-нибудь</button>
+          
+       
+      
+        
+        
+
+  
+  
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-xl" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
+               
+        
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+        <div class="modal-body">
+             <div class='container-fluid'>
+          
+                 <p>Дата создания задачи: YYYY-mm-ddTHH:MM:ss</p>
+          
+               <div class ='row'>
+                   
+                  <textarea class="form-control task_input_modal" type="text" placeholder="Имя задачи" rows="3" cols="40"></textarea>
+                 
+                  <div class='col'>
+                        <input class="form-control task_input" type="text" placeholder="Профессия">
+                  </div>
+                  <div class='col'>
+                       <input class="form-control task_input" type="text" placeholder="Трудозатраты">
+                              
+                  </div>
+                  
+                  
+               </div>
+          <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
+          <button type="button" class="btn btn-secondary btn-sm">Завершить</button>
+               
+          <div id='hiddenDiv'>
+          
+          <textarea class="form-control task_input_modal" type="text" placeholder="Описание задачи" rows="5" cols="40"></textarea>
+          <textarea class="form-control task_input_modal" type="text" placeholder="Требуемые ресурсы" rows="3" cols="40"></textarea>
+
+            <div class ='row'>
+                 <div class='col'>
+                     <input class="form-control task_input" type="text" placeholder="Тип задачи">
+                     <input class="form-control task_input" type="text" placeholder="Активная">
+                     <input class="form-control task_input" type="text" placeholder="Приоритет">
+                 </div>
+                <div class='col'>
+                    <input class="form-control task_input" type="text" placeholder="Дата изм. статуса">
+                    <input class="form-control task_input" type="text" placeholder="Ответственный">
+                    <input class="form-control task_input" type="text" placeholder="Автор задачи">
+                    
+                </div>
+                <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlFile1">Загрузить фото</label>
+                      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                      
+                    </div>
+                    <div id='foto-upload'>Загруженные фото</div>
+                </form>
+                
+          
+          </div>
+             </div>
+          
+          
+          
+
+      </div>
+      <div class="modal-footer">
+        <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>

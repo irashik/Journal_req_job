@@ -5,29 +5,21 @@
   <script src="./js/task_load.js"></script>
 
 
-  
+  <button type='button' data-toggle='modal' data-target='#edit_task_modal' type="button" class="btn btn-primary">Добавление задачи</button>
           
        
         
       
      <div class="list-group">
          <!--TODO: IF ACTIVE TO SHOW button-->
-        <a href="#" class="list-group-item list-group-item-action active">
+        <a type='button' data-toggle='modal' data-target='#edit_task_modal' class="list-group-item list-group-item-action">
           Cras justo odio
-          <div class="item_list">
-              Профессия
-              Трудозатраты
-          </div>
-          <div class="Item_List_right"> 
-             <button type="button" class="btn btn-secondary btn_list_job" data-toggle='modal' data-target='#edit_task_modal'>Редакт.</button>
-             <button type="button" class="btn btn-secondary btn_list_job">Завершить</button>
-             <button type="button" class="btn btn-secondary btn_list_job">Удалить</button>
-          </div>
+          
         </a>
-        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in
+        <a type='button' data-toggle='modal' data-target='#edit_task_modal' class="list-group-item list-group-item-action">Dapibus ac facilisis in
                         
         </a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="/JobList/save" class="list-group-item list-group-item-action">Morbi leo risus</a>
         <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
         <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
         <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
@@ -47,27 +39,82 @@
   
 
 <!-- Modal -->
-<div class="modal fade" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        
         <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               
+        
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
         <div class="modal-body">
-          <textarea class="form-control task_input_modal" type="text" placeholder="Описание задачи" rows="5" cols="40"></textarea>
-          <input class="form-control task_input" type="text" placeholder="Профессия">
-          <input class="form-control task_input" type="text" placeholder="Трудозатраты">
+             <div class='container-fluid'>
+          
+                 <div id='DateStart_main'>
+                     <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
+                 </div>
+          
+               <div class ='row'>
+                   
+                  <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
+                 
+                  <div class='col'>
+                        <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия">
+                  </div>
+                  <div class='col'>
+                       <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты">
+                              
+                  </div>
+                  
+                  
+               </div>
+          <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
+          <button type="button" class="btn btn-secondary btn-sm" id='TaskClose'>Завершить</button>
+               
+          <div id='hiddenDiv'>
+          
+          <textarea class="form-control task_input_modal" type="text" id='Descreption' placeholder="Описание задачи" rows="5" cols="40"></textarea>
+          <textarea class="form-control task_input_modal" type="text" id='Resource' placeholder="Требуемые ресурсы" rows="3" cols="40"></textarea>
 
+            <div class ='row'>
+                 <div class='col'>
+                     <input class="form-control task_input" type="text" id='TypeTask' placeholder="Тип задачи">
+                     <input class="form-control task_input" type="text" id='Status' placeholder="Активная">
+                     <input class="form-control task_input" type="text" id='Priority' placeholder="Приоритет">
+                 </div>
+                <div class='col'>
+                    <input class="form-control task_input" type="text" id='DateEnd' placeholder="Дата изм. статуса">
+                    <input class="form-control task_input" type="text" id='Responsible' placeholder="Ответственный">
+                    <input class="form-control task_input" type="text" id='Creator' placeholder="Автор задачи">
+                    
+                </div>
+                <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlFile1">Загрузить фото</label>
+                      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                      
+                    </div>
+                    <div id='foto-upload'>Загруженные фото</div>
+                </form>
+                
+          
+          </div>
+             </div>
+          
+          
           
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary">Сохранить</button>
+          <div id='my-flash-message'></div>
+          <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
       </div>
     </div>
   </div>

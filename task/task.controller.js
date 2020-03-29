@@ -29,52 +29,44 @@ exports.saved = function(req, res) {
 
 
 
-exports.add = function(req, res) {
+exports.add = async function(req, res) {
     log.debug("сработал вызов add в контроллере");
+    
+    // нужно взять информацию из запроса
+      let DateStart = req.body.DateStart;
+      let Name = req.body.Name;
+      let Profession = req.body.Profession;
+      let ExpenseTime = req.body.ExpenseTime;
+      let Description = req.body.Description;
+      let Resource = req.body.Resource;
+      let TypeTask = req.body.TypeTask;
+      let Status = req.body.Status;
+      let Priority = req.body.Priority;
+      let DateEnd = req.body.DateEnd;
+      let Responsible = req.body.Responsible;
+      let Creator = req.body.Creator;
+      let Foto = req.body.Foto; // как корре
+    
+    
+    const task = new Task();
+    
+    task.Name = Name;
+    task.validate();
+    await task.save();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 };
 
 
-//
-//
-//function Update_info_dom() {
-//    
-//   let firstName  = document.getElemetnById('FirstName');
-//   let lastName   = document.getElemetnById('LastName');
-//   let profession = document.getElemetnById('Profession');
-//   let quality    = document.getElemetnById('Quality');
-//   let status     = document.getElemetnById('Status');
-//   let comment    = document.getElemetnById('Comment');
-//   
-//   log.debug("update_info_dom runing");
-//   
-//   
-//     // через request.body.FirstName
-//     // bodyParser
-//
-//        // получаем данные из DOM
-//let worker_inf = {
-//         FirstName: firstName, 
-//         LastName: lastName
-//     };
-//
-//
-//}
-//
-//
-//// добавление данных в базу
-//function WorkerAdd() {
-//    
-//    // получи данные из dom
-//   Update_info_dom();
-//    
-//    
-//           
-//   worker = new Worker(worker_inf);     
-//           
-//    worker.save(function (err) {
-//        if (err) return handleError(err);
-//        log.info('saved');
-//    });
-//    
-//};

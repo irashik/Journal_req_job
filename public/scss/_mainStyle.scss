@@ -95,12 +95,15 @@ h4 {
 
 h5 {
   font-family: Poiret One;
-  font-size: 12px;
+  font-size: 16px;
   margin-bottom: 0em;
 }
 
 p {
 
+    font-family: Poiret One;
+    font-size: 12px;
+    
 }
 
 main {
@@ -181,4 +184,37 @@ div {
     
     
 }
-/// end
+
+
+.modal .fade {
+    width: 1000px;
+}
+
+
+#hiddenDiv {
+    display: none;
+}
+
+#my-flash-message {
+    font-family: Poiret One;
+    font-size: 14px;
+    color: darkgreen;
+    
+    
+}
+
+
+#DateStart_main {
+    font-family: Poiret One;
+    font-size: 14px;
+    display: flex;
+    
+    
+    
+    
+    
+    
+}
+
+
+

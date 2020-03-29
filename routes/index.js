@@ -25,6 +25,15 @@ router.get('/report', function(req, res) {
 });
 
 
+router.get('/timesheet', function(req, res) {
+     res.render('TimeSheet', {  });
+                          
+});
+
+
+
+
+
 
 
 

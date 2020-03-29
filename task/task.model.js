@@ -1,5 +1,5 @@
 /*
- * класс реализует работу с базой данных 
+ * класс реализует работу с базой данных в части задач
  * запись в базу денных
  * создание схемы
  * 
@@ -57,7 +57,7 @@ let Task = new Schema({
       type: String
   },
   Foto: {
-      type: 5 //binData
+      type: String // нужно тип binData но чет незнаю
   },
   Resource: {    // требуемые ресурсы
       type: String
@@ -68,7 +68,7 @@ let Task = new Schema({
              
 });
 
-
+ 
 
 module.exports = db.model('Task', Task);
 
