@@ -6,6 +6,8 @@
  * 
  */
 
+'use strrict';
+
 const Task                          = require('./task.model');
 const log                           = require('../utils/log')(module);
 
@@ -13,10 +15,21 @@ const log                           = require('../utils/log')(module);
 
 
 exports.index = function(req, res) {
-    res.render('JobList', { });
+    
     log.debug("сработал метод в контроллере ");
     
     
+    
+         /* // этот метод должен получать данные из БД
+          * и передавать данные на страницу через res
+          */
+    
+    Task.find(function (err, tasks) {
+        if (err) return log.error(err);
+        log.info(tasks);
+        
+        res.render('JobList', { tasks });
+    });
     
     
 };
@@ -48,11 +61,38 @@ exports.add = async function(req, res) {
       let Foto = req.body.Foto; // как корре
     
     
-    const task = new Task();
+    const task = new Task({
+                
+        Name: Name,
+        DateStart: DateStart,
+        Profession: Profession,
+        ExpenseTime: ExpenseTime,
+        Description: Description,
+        Resource: Resource,
+        TypeTask: TypeTask,
+        Status: Status,
+        Priority: Priority,
+        DateEnd: DateEnd,
+        Responsible: Responsible,
+        Creator: Creator,
+        Foto: Foto
+        
+        
+     });
     
-    task.Name = Name;
+    
     task.validate();
-    await task.save();
+    
+    
+    task.save()
+            .then(function(doc) {
+                log.info('mongodb object is saved: ' + doc);
+            })
+            .catch(function (err) {
+                log.error(err);
+            });    
+    
+    
     
     
     
