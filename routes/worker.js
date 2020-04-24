@@ -13,35 +13,17 @@ const log                           = require('../utils/log')(module);
 const workerController = require('../worker/worker.controller');
 
 
+// добавление работника в базу данных.
+workerRouter.post('/worker/add', workerController.created);
 
-workerRouter.post('/worker/add', workerController.saved);
+// обновление информации о работнике
+workerRouter.post('/worker/saved', workerController.saved);
 
-     // добавление работника в базу данных.
-     /*
-      * если работника еще нет в базе работаем, если есть передаем методу сохранения изменений.
-      * Получаем данные из полей FirstName LastName LastName2 profession quality status comment
-      * 
-      * 
-      */
-             //log.debug("get запрос /worker/add");
-
-     
-                          
-
-
-workerRouter.get('/worker/saved', function(req, res) {
-     // изменение данных работника в базе данных.
-     log.debug("get запрос /worker/saved");
-                          
-});
-
-
-
-
-// тут работает контроллер Worker.controller
+// получение данных по всем работникам.
 workerRouter.get('/worker', workerController.index);
 
-
+// получить данные по конкретному работнику
+workerRouter.get('/worker/open', workerController.open);
 
 
 

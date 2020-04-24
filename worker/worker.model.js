@@ -8,9 +8,10 @@
 'use strict';
 
 
-const db                      = require('../utils/mongoose');
-const mongoose                = require('mongoose');
-let Schema                    = mongoose.Schema;
+const db                            = require('../utils/mongoose');
+const mongoose                      = require('mongoose');
+const log                           = require('../utils/log')(module);
+const Schema                        = mongoose.Schema;
 
 
 
@@ -22,7 +23,6 @@ let Worker = new Schema({
   },
   LastName: {
     type: String
-    
     
   },
   LastName2: {
@@ -53,3 +53,88 @@ let Worker = new Schema({
 
 module.exports = db.model('Worker', Worker);
 
+
+
+
+
+// очистить базу данных - служебный метод.
+let Dropdb  = function() {
+         
+
+     Worker.collection.drop(function(err, result) {
+         if (err) {
+             return err;
+             log.error('drop collection err: ' + err);
+         }
+         log.info('collection droped!' + result);
+         result('database is dropped');
+
+     });
+
+
+    
+};
+
+
+
+
+
+// метод получения всех работников из базы
+let FindAllWorker = function(data, status) {
+  
+  
+     // todo
+     // мне на самом деле нужны ли прям все данные???
+     
+    Worker.find({}, function(err, worker) {
+        
+        if(err) return status(err);
+        data(worker);
+        
+    });
+    
+};
+
+module.exports.FindAllWorker = FindAllWorker;
+
+
+
+// создание работника
+let WorkerCreate = function(data, callback) {
+
+
+
+      const worker = new Worker({ data });
+      
+    
+    // проверяем данные
+    worker.validate()
+            .then(function() {
+                log.debug("user.validate - ok");
+    })
+            .catch(function(err) {
+                log.error("user.validate " + err);
+                return callback(err);
+    });
+
+
+
+     // сохраняем данные в базе
+     worker.save()
+            .then(function(doc) {
+                log.info('mongodb object is saved: ' + doc);
+                return(callback('ok'));
+                
+            })
+            .catch(function (err) {
+                log.error(err);
+                 return callbacr(err);
+            });    
+    
+    
+    
+
+};
+
+
+module.exports.WorkerCreate = WorkerCreate;

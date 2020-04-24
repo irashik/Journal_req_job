@@ -8,15 +8,14 @@
 
 'use strrict';
 
-const Task                          = require('./task.model');
+const task                          = require('./task.model');
 const log                           = require('../utils/log')(module);
 
 
-
-    // получение всех данных для списка.
+// получение всех данных для списка.
 exports.index = function(req, res) {
     
-    log.debug("сработал метод в контроллере ");
+    log.debug("сработал метод index в контроллере ");
     
     
     
@@ -24,7 +23,7 @@ exports.index = function(req, res) {
           * и передавать данные на страницу через res
           */
     
-    Task.find(function (err, tasks) {
+    task.find(function (err, tasks) {
         if (err) return log.error(err);
         log.info(tasks);
         
@@ -33,6 +32,7 @@ exports.index = function(req, res) {
     
     
 };
+
 
 // обновление данных в модели
 exports.saved = function(req, res) {
@@ -44,7 +44,8 @@ exports.saved = function(req, res) {
 
 
 // создать новую запись
-exports.created = async function(req, res) {
+exports.created = function(req, res) {
+    
     log.debug("сработал вызов created в контроллере");
     
     // нужно взять информацию из запроса
@@ -112,3 +113,13 @@ exports.created = async function(req, res) {
 };
 
 
+// открыть задачу
+exports.open = function(req, res) {
+    log.debug("сработал вызов open в контроллере");
+    
+    
+    
+    
+    
+    
+};
