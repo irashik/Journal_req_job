@@ -23,7 +23,7 @@ workerRouter.post('/worker/add', workerController.saved);
       * 
       * 
       */
-          log.debug("get запрос /worker/add");
+             //log.debug("get запрос /worker/add");
 
      
                           

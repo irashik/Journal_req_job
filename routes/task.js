@@ -14,11 +14,10 @@ const log                           = require('../utils/log')(module);
 const taskController = require('../task/task.controller');
 
 
-taskRouter.post('/JobList/add', taskController.add);
-
 taskRouter.get('/JobList/saved', taskController.saved);
 
 taskRouter.get('/JobList', taskController.index);
 
+taskRouter.get('/JobList/created', taskController.created);
 
 module.exports = taskRouter;

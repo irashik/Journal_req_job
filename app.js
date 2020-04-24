@@ -1,7 +1,7 @@
 /* 
  * основной входной файл приложения
  */
-
+'use strrict';
 
 const express                       = require('express');
 const router                        = require('./routes');
@@ -22,9 +22,9 @@ const livereload                    = require('livereload');
 const server                        = livereload.createServer();
 
 
-const mongoose                      = require('./utils/mongoose');
+//const mongoose                      = require('./utils/mongoose');
 const session                       = require('express-session');
-const connectMongo                  = require ('connect-mongo');
+//const connectMongo                  = require ('connect-mongo');
 
 const HttpError                     = require('./error').HttpError;
 

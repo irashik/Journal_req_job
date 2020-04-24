@@ -13,7 +13,7 @@ const log                           = require('../utils/log')(module);
 
 
 
-
+    // получение всех данных для списка.
 exports.index = function(req, res) {
     
     log.debug("сработал метод в контроллере ");
@@ -34,7 +34,7 @@ exports.index = function(req, res) {
     
 };
 
-
+// обновление данных в модели
 exports.saved = function(req, res) {
     log.debug("сработал вызов saved в контроллере");
     
@@ -42,8 +42,10 @@ exports.saved = function(req, res) {
 
 
 
-exports.add = async function(req, res) {
-    log.debug("сработал вызов add в контроллере");
+
+// создать новую запись
+exports.created = async function(req, res) {
+    log.debug("сработал вызов created в контроллере");
     
     // нужно взять информацию из запроса
       let DateStart = req.body.DateStart;

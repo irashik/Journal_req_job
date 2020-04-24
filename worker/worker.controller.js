@@ -13,6 +13,7 @@ const log                           = require('../utils/log')(module);
 
 
 exports.index = function(req, res) {
+    
     res.render('worker', { worker: "" });
     log.debug("сработал метод в контроллере ");
     
