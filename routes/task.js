@@ -15,7 +15,7 @@ const taskController                = require('../task/task.controller');
 
 taskRouter.get('/JobList', taskController.index);
 
-taskRouter.get('/JobList/open', taskController.open);
+taskRouter.get('/JobList/:id', taskController.open);
 
 taskRouter.get('/JobList/del', taskController.del);
 

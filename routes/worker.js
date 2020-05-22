@@ -23,7 +23,7 @@ workerRouter.post('/worker/saved', workerController.saved);
 workerRouter.get('/worker', workerController.index);
 
 // получить данные по конкретному работнику
-workerRouter.get('/worker/open', workerController.open);
+workerRouter.get('/worker/:id', workerController.open);
 
 
 

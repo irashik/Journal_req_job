@@ -10,6 +10,8 @@ const router                        = require('./routes');
 const workerRouter                  = require('./routes/worker');
 const taskRouter                    = require('./routes/task');
 const journalRouter                 = require('./routes/journal');
+const timesheetRouter               = require('./routes/timesheet');
+
 
 const engine                        = require('ejs-mate');
 const log                           = require('./utils/log')(module);
@@ -64,6 +66,8 @@ app.use(router);
 app.use(workerRouter);
 app.use(taskRouter);
 app.use(journalRouter);
+app.use(timesheetRouter);
+
 
 
 app.use(express.static(path.join(__dirname, './public')));

@@ -86,12 +86,48 @@ let FindAllWorker = function(data, status) {
      // todo
      // мне на самом деле нужны ли прям все данные???
      
+     
     Worker.find({}, function(err, worker) {
         
         if(err) return status(err);
         data(worker);
         
     });
+    
+    let cursor =  Worker.find({});
+    let cpromise = cursor.exec();
+    cpromise.addBack(function(err, docs) {
+       // doc it is cursor.? 
+    });
+    
+    
+    Worker.find({})
+            .then(doc => console.log(doc.name));
+    
+    Worker.find({})
+            .then(doc => {
+                log.debug(doc.name);
+    });
+    
+    
+    let query = Worker.find({});
+    let promise = query.exec();
+    
+    promise
+         .then((doc) => {
+             log.info(doc);
+        
+     })
+            .catch((err) => {
+                log.error(err);
+     });
+    
+    
+    
+    
+    
+    
+    
     
 };
 
@@ -128,8 +164,15 @@ let WorkerCreate = function(data, callback) {
             })
             .catch(function (err) {
                 log.error(err);
-                 return callbacr(err);
+                 return callback(err);
             });    
+    
+    
+    
+    
+    
+    
+    
     
     
     

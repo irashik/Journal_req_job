@@ -123,3 +123,15 @@ exports.open = function(req, res) {
     
     
 };
+
+
+// удалить задачу
+exports.del = function(req, res) {
+    log.debug("сработал вызов del в контроллере");
+    
+    
+    
+    
+    
+    
+};
