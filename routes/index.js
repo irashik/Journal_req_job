@@ -15,18 +15,13 @@ router.get('/', function(req, res) {
                           
 });
 
-    
+
+
+// отдельная страница Dashboard для отчетов. ))
 router.get('/report', function(req, res) {
      res.render('report', {  });
                           
 });
-
-
-router.get('/timesheet', function(req, res) {
-     res.render('TimeSheet', {  });
-                          
-});
-
 
 
 
