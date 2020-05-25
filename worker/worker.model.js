@@ -181,3 +181,47 @@ let WorkerCreate = function(data, callback) {
 
 
 module.exports.WorkerCreate = WorkerCreate;
+
+
+
+
+
+// обновление информации о работнике
+let WorkerSaved = function(worker, data, callback, err) {
+
+
+const options = { new: true, runValidators: true };
+
+
+     // обновляем данные в базе
+     worker.findOneAndUpdate(worker, data, options)
+     
+            .then(function(doc) {
+                
+                 log.debug('mongodb object is update: ' + doc);
+         
+                 return(callback(doc));
+                
+            })
+            .catch(function (error) {
+                
+                 log.error(error);
+
+                 return err(error);
+            });    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+};
+
+
+
+module.exports.WorkerSaved = WorkerSaved;

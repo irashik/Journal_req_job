@@ -16,30 +16,32 @@ const log                           = require('../utils/log')(module);
 exports.index = function(req, res) {
     
     log.debug("сработал метод  index в контроллере ");
-    
-    
-    
-   
-    
+        
     /*
      * обратись к модели за данными
      * проверь что вернулось не null, и не ошибка, и если что - отрази сообщение.
      * выполни рендер
-     * 
      */
     
      Worker.FindAllWorker((data, err) => {
-          
-         res.render('worker', { worker: data, status: err });
-
-          
+         
+          if (err) {
+        
+            log.error("Ошибка ответа от базы данных - callback: " + err);
+            
+            res.render('worker', { data: null, status: "Error response Database" }); 
+             
+        
+        } else {
+            
+             log.debug('сработал res render');
+             res.render('worker', { data: data, status: "ok" });
+         
+         
+        } 
+            
+        
       });     
-    
-    
-    
-    
-    
-    
     
     
     
@@ -57,10 +59,34 @@ exports.saved = function(req, res) {
      */
     log.debug("сработал вызов saved в контроллере");
     
+    const id = req.params.id;
+    const data = req.params.body;
+    
+    Worker.WorkerSaved(id, data, (callback, err) => {
+        
+        
+        if (err) {
+
+              log.error("Ошибка ответа от базы данных - callback: " + err);
+            
+              res.render('worker', { status: "Error response Database", info: err }); 
+              
+        } else {
+             
+             log.debug("запись в базе обновлена");
+            
+             res.render('worker', { status: 'Данный обновлены', info: callback });
+        
+        };
+        
+    });
     
     
     
 };
+
+
+
 
 // добавление данных в базу
 exports.created = function(req, res) { // next??
@@ -82,8 +108,8 @@ exports.created = function(req, res) { // next??
         if (callback !== null || undefined) {
             // здесь нужно передать данные через аякс в модальное окно.
             log.debug("запись создана в базе");
+            res.render('worker', { status: callback});
             
-             res.render('worker', { status: callback});
         } else {
             
              res.render('worker', { status: "Error response Database"}); 
@@ -127,7 +153,7 @@ exports.open = function(req, res, next) {
 
 
 
-let worker_Arr = ""; // массив данные работников.
+let worker_Arr = []; // массив данные работников.
 
 
 function Update_info_dom() {
