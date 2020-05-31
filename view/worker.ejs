@@ -1,4 +1,4 @@
-<% layout('layout/page') -%>
+ <% layout('layout/page') -%>
 
 <% block('title', 'Отчет'); -%>
 
@@ -16,9 +16,12 @@
 
 
 <div class="list_worker" id="worker_list_worker">
+    
+    <h3> Статус ответа от базы данных: <%= status %> </h3>
+    
 
  <!-- TODO: if ul li to enable-->   
-<% if (worker != "") { %>
+<% if (data != "") { %>
 <ul>
     <li>
         <button type="button" class="btn btn-secondary" data-toggle='modal' data-target='#WorkerEditModal'>Редактировать</button>

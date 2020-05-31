@@ -11,9 +11,8 @@ const should           = require('should');
 const chaiAsPromised   = require('chai-as-promised');
 const sinon            = require('sinon');
 const _                = require ('lodash');
-const log                           = require('../utils/log')(module);
-const request          = require('supertest');
 
+const log                           = require('../utils/log')(module);
 
 const controller       = require('./worker.controller');
 
@@ -25,6 +24,8 @@ chai.use(chaiAsPromised);
 
 
 describe("Test модуля worker.controller", function() {
+    
+    
     
      describe('Тестирование метода create', () => {
          
@@ -138,10 +139,9 @@ describe("Test модуля worker.controller", function() {
     });
      
     
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    describe('Тестирование метода index', () => {
+     describe('Тестирование метода index', () => {
         
              /*
               * обращаемся к методу
@@ -240,23 +240,9 @@ describe("Test модуля worker.controller", function() {
          });
          
     
-     
-          
-             
-             
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-     describe.only('Тестирование метода saved', () => {
+     describe('Тестирование метода saved', () => {
               
              /*
               * обращаемся к методу
@@ -272,7 +258,7 @@ describe("Test модуля worker.controller", function() {
              
              });
         
-          describe("Testing method 1 - return ok", () => {
+             describe("Testing method 1 - return ok", () => {
         
             before(() => {
                  
@@ -308,14 +294,12 @@ describe("Test модуля worker.controller", function() {
 
                  
                   let respond = {
-                                   status: 'Данный обновлены', info: 'ok' 
+                                   status: 'Данные обновлены', info: 'ok' 
                                };
 
-                      
-                  
                  
-                 let req = { 
-                             params: {
+                  let req = { 
+                              params: {
                                        id: 1,
                                        body: { 
                                            name: 'name' 
@@ -344,7 +328,7 @@ describe("Test модуля worker.controller", function() {
              });
          
 
-          describe("Testing create method 2", () => {
+             describe("Testing saved method 2", () => {
               
                     const err = 'error';
          
@@ -403,7 +387,75 @@ describe("Test модуля worker.controller", function() {
              
              
              controller.saved(req, res);
-                      
+          
+             should(res.render.calledOnce).be.true;
+             should(res.render.firstCall.args[1]).containDeep(respond);
+             
+
+                });
+           });
+           
+           
+           
+             describe("Testing saved method 3", () => {
+              
+                    const err = 'error';
+         
+             before(() => {
+                     
+                    
+                    const callback = '23984290$#%#sjwjewjr';
+                 
+                    let req = { 
+                         params: {
+                                 id: null,
+                                  body: { 
+                                        
+                                  }
+                        }
+                    };  
+                     
+                     
+                    
+                     const stub = sinon
+                            .stub(Worker, 'WorkerSaved')
+                            .withArgs(req.params.id, req.params.body)
+                            .yields(callback, err);
+                    
+             });
+         
+               it ('возвращается error  из БД - поведение', function() {
+             /*
+              * обращаемся к методу
+              * метод должен обратиться к базе данных
+              * и метод должен вернуть данные из базы -курсор и статус сообщения - ок или ошибка.
+              * 
+              */
+                 
+                 let respond = {
+                         status: 'Error response Database', info: err 
+                 };
+ 
+                 
+                 let req = { 
+                             params: {
+                                       id: null,
+                                       body: { 
+                                           
+                                       }
+                             }
+                          };
+                 
+                 
+                                                   
+                 
+                 let res = {
+                     render: sinon.spy()
+                 };
+                 
+             
+             
+             controller.saved(req, res);
           
              should(res.render.calledOnce).be.true;
              should(res.render.firstCall.args[1]).containDeep(respond);
@@ -412,14 +464,10 @@ describe("Test модуля worker.controller", function() {
                 });
            });
 
-       
-             
-             
+
              
          });
         
-
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
      describe('Тестирование метода open', () => {
@@ -427,16 +475,150 @@ describe("Test модуля worker.controller", function() {
              /*
               * обращаемся к методу
               * метод должен обратиться к базе данных
+              * и метод должен вернуть данные из базы -курсор или выдать ошибку.
+               */
+             
+             
+               afterEach(() => {
+              
+                 Worker.WorkerOpen.restore();
+                 
+             
+             });
+        
+          describe("Testing method 1 - return ok", () => {
+
+             const data = { id: 1, name: 'name', age: 36 };
+             const err = null;
+
+
+              before(() => {
+                 
+                 let req = { 
+                             params: {
+                                       id: 1
+                                      
+                             }
+                          };  
+
+                                
+                 const stub = sinon
+                            .stub(Worker, 'WorkerOpen')
+                            .withArgs(req.params.id)
+                            .yields(data, err);
+                           
+                   
+                 });
+
+
+                it ('Стандартное поведение', function() {
+                 /*
+                  * обращаемся к методу c аргументом id и данными
+                  * метод должен обратиться к базе данных и вернуть данные и статус сообщения - ок или ошибка.
+                  */
+                 
+                  let respond = {
+                                   status: 'Данные получены', info: data 
+                               };
+
+                 
+                  let req = { 
+                              params: {
+                                       id: 1
+                                      
+                             }
+                          };
+                 
+                 
+                                                   
+                                  
+                 let res = {
+                     render: sinon.spy()
+                 };
+                 
+                 controller.open(req, res);
+                 
+                 
+                 should(res.render.calledOnce).be.true;
+                 should(res.render.firstCall.args[1]).containDeep(respond);
+               
+                    
+                 });
+
+             });
+             
+   describe("Testing saved method 2", () => {
+             
+             
+              const err = 'error';
+              
+           
+
+         
+             before(() => {
+
+              const callback = null;
+
+              let req = { 
+                         params: {
+                                 id: '129384D34sfdf34'
+                                  
+                        }
+                    };           
+                 
+                    
+                     
+                     
+                    
+                     const stub = sinon
+                            .stub(Worker, 'WorkerOpen')
+                            .withArgs(req.params.id)
+                            .yields(callback, err);
+                    
+             });
+         
+               it ('поведение: возвращается ошибка из БД', function() {
+             /*
+              * обращаемся к методу
+              * метод должен обратиться к базе данных
               * и метод должен вернуть данные из базы -курсор и статус сообщения - ок или ошибка.
               * 
               */
+                 
+                 let respond = {
+                         status: 'Error response Database', info: err 
+                 };
+ 
+                                 
+                    let req = { 
+                         params: {
+                                 id: '129384D34sfdf34'
+                                  
+                        }
+                    };                                    
+                 
+                 let res = {
+                     render: sinon.spy()
+                 };
+                 
+             
+             
+             controller.open(req, res);
+          
+             should(res.render.calledOnce).be.true;
+             should(res.render.firstCall.args[1]).containDeep(respond);
+             
+
+                });
+           });
              
              
              
-             
-         });
+     });             
+         
    
     
  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 });
+
 

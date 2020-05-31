@@ -15,7 +15,7 @@ const Schema                        = mongoose.Schema;
 
 
 
-let Worker = new Schema({
+const WorkerSchema = new Schema({
   
   FirstName: {
     type: String,
@@ -51,71 +51,23 @@ let Worker = new Schema({
 });
 
 
-module.exports = db.model('Worker', Worker);
-
-
-
-
-
-// очистить базу данных - служебный метод.
-let Dropdb  = function() {
-         
-
-     Worker.collection.drop(function(err, result) {
-         if (err) {
-             return err;
-             log.error('drop collection err: ' + err);
-         }
-         log.info('collection droped!' + result);
-         result('database is dropped');
-
-     });
-
-
-    
-};
-
-
+const Worker = db.model('Worker', WorkerSchema);
 
 
 
 // метод получения всех работников из базы
 let FindAllWorker = function(data, status) {
   
-  
-     // todo
-     // мне на самом деле нужны ли прям все данные???
+      
+    // мне на самом деле нужны ли прям все данные???
      
-     
-    Worker.find({}, function(err, worker) {
-        
-        if(err) return status(err);
-        data(worker);
-        
-    });
-    
-    let cursor =  Worker.find({});
-    let cpromise = cursor.exec();
-    cpromise.addBack(function(err, docs) {
-       // doc it is cursor.? 
-    });
-    
-    
-    Worker.find({})
-            .then(doc => console.log(doc.name));
-    
-    Worker.find({})
-            .then(doc => {
-                log.debug(doc.name);
-    });
-    
     
     let query = Worker.find({});
     let promise = query.exec();
     
     promise
          .then((doc) => {
-             log.info(doc);
+                          log.info(doc);
         
      })
             .catch((err) => {
@@ -133,6 +85,9 @@ let FindAllWorker = function(data, status) {
 
 module.exports.FindAllWorker = FindAllWorker;
 
+FindAllWorker((callback) => {
+  log.info(callback);  
+});
 
 
 // создание работника
@@ -189,8 +144,7 @@ module.exports.WorkerCreate = WorkerCreate;
 // обновление информации о работнике
 let WorkerSaved = function(worker, data, callback, err) {
 
-
-const options = { new: true, runValidators: true };
+     const options = { new: true, runValidators: true };
 
 
      // обновляем данные в базе
@@ -211,12 +165,38 @@ const options = { new: true, runValidators: true };
             });    
     
     
-    
-    
-    
-    
-    
-    
+
+};
+
+
+
+module.exports.WorkerSaved = WorkerSaved;
+
+
+
+
+// получение информации о работнике
+let WorkerOpen = function(id, callback, err) {
+
+     const options = { };  //new: true, runValidators: true };
+
+
+     // обновляем данные в базе
+     worker.findById(id, options)
+     
+            .then(function(doc) {
+                
+                 log.debug('mongodb object is find: ' + doc);
+         
+                 return(callback(doc));
+                
+            })
+            .catch(function (error) {
+                
+                 log.error(error);
+
+                 return err(error);
+            });    
     
     
 
@@ -224,4 +204,8 @@ const options = { new: true, runValidators: true };
 
 
 
-module.exports.WorkerSaved = WorkerSaved;
+module.exports.WorkerOpen = WorkerOpen;
+
+
+
+module.exports.Worker = Worker;
