@@ -294,7 +294,7 @@ describe("Test модуля worker.controller", function() {
                             .stub(Worker, 'WorkerSaved')
                             .withArgs(req.params.id, req.params.body)
                             .yields(callback, err);
-                            //.yields(callback);
+                           
                    
                  });
 
@@ -345,13 +345,29 @@ describe("Test модуля worker.controller", function() {
          
 
           describe("Testing create method 2", () => {
+              
+                    const err = 'error';
          
              before(() => {
-                     const err = 'error';
-                     const data = {};
+                     
+                    
+                    const callback = '23984290$#%#sjwjewjr';
+                 
+                    let req = { 
+                         params: {
+                                 id: 1,
+                                  body: { 
+                                        name: 'name' 
+                                  }
+                        }
+                    };  
+                     
+                     
+                    
                      const stub = sinon
                             .stub(Worker, 'WorkerSaved')
-                            .yields(data, err);
+                            .withArgs(req.params.id, req.params.body)
+                            .yields(callback, err);
                     
              });
          
@@ -362,16 +378,31 @@ describe("Test модуля worker.controller", function() {
               * и метод должен вернуть данные из базы -курсор и статус сообщения - ок или ошибка.
               * 
               */
-                         
-                 let req = { };
+                 
+                 let respond = {
+                         status: 'Error response Database', info: err 
+                 };
+ 
+                 
+                 let req = { 
+                             params: {
+                                       id: 1,
+                                       body: { 
+                                           name: 'name' 
+                                       }
+                             }
+                          };
+                 
+                 
+                                                   
+                 
                  let res = {
                      render: sinon.spy()
                  };
                  
-                 const respond = { data: null, status: "Error response Database" };
              
              
-             controller.index(req, res);
+             controller.saved(req, res);
                       
           
              should(res.render.calledOnce).be.true;

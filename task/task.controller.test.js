@@ -6,12 +6,15 @@
 'use strict';
 
 
-const assert = require('assert');
+//const assert = require('assert');
 
-//const should = require('should');
+
+const should = require('should');
 
 const chai = require('chai');
-const should = chai.should();
+const assert = chai.assert();
+//const should = chai.should();
+
 const chaiAsPromised = require('chai-as-promised');
 const _ = require ('lodash');
 let log = console.log;
@@ -21,7 +24,7 @@ chai.use(chaiAsPromised);
 chai.should();
 
 
-const assert = require('assert');
+
 
 const { mockRequest, mockResponse } = require('../utils/interceptor');
 const controller = require('task.controller');

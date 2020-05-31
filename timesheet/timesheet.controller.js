@@ -30,7 +30,7 @@ exports.index = function(req, res) {
     
      Worker.FindAllWorker((data, err) => {
           
-         res.render('worker', { worker: data, status: err });
+         res.render('TimeSheet', {  });
 
           
       });     
