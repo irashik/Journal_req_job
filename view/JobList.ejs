@@ -8,7 +8,9 @@
   <button type='button' data-toggle='modal' data-target='#edit_task_modal' type="button" class="btn btn-primary">Добавление задачи</button>
           
        
-        
+     <h1>Status <%= status %></h1>   
+     <h1>Data <%= data %></h1>
+
       
      <div class="list-group">
          <!--TODO: IF ACTIVE TO SHOW button-->
@@ -19,7 +21,10 @@
         <a type='button' data-toggle='modal' data-target='#edit_task_modal' class="list-group-item list-group-item-action">Dapibus ac facilisis in
                         
         </a>
-        <a href="/JobList/save" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="/JobList/saved" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        
+        
+        
         <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
         <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
         <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
@@ -31,8 +36,11 @@
         
                                         
      </div>
+  
+  
       
-        
+    
+    
         
 
   
@@ -59,6 +67,12 @@
           
                  <div id='DateStart_main'>
                      <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
+                     
+                     <% if (id_task) { %>
+                       <p>ID задачи <%= id_task %></h1>
+                     <% } %>
+                         
+                         
                  </div>
           
                <div class ='row'>
@@ -80,7 +94,7 @@
                
           <div id='hiddenDiv'>
           
-          <textarea class="form-control task_input_modal" type="text" id='Descreption' placeholder="Описание задачи" rows="5" cols="40"></textarea>
+          <textarea class="form-control task_input_modal" type="text" id='Description' placeholder="Описание задачи" rows="5" cols="40"></textarea>
           <textarea class="form-control task_input_modal" type="text" id='Resource' placeholder="Требуемые ресурсы" rows="3" cols="40"></textarea>
 
             <div class ='row'>
@@ -119,3 +133,6 @@
     </div>
   </div>
 </div>
+    
+    
+  
