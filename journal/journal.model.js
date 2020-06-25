@@ -18,64 +18,11 @@ const log                     = require('../utils/log')(module);
 let Schema                    = mongoose.Schema;
 
 
-const Worker                          = require('../worker/worker.model');
+//const Worker                  = require('../worker/worker.model');
 
 
 
 //TODO  импорт схемы из worker.model
-
- // схема для записей журнала
-let JRecord = new Schema({
-   
-    Date: {
-        type: Date,
-        default: Date.now
-    },   
-    Task: [ JTask ],
-    Worker: [ Worker ],
-    
-    
-    
-    
-    
-    WorkingTime: {
-        type: Number
-    },
-    
-    VolumeWork: {  // объем работы штуки, кв.метры
-        unit: {   /// единицы измерения
-            type: String
-        },
-        quantity: {  // количество
-            type: Number
-        }
-      
-    },
-    StandartTime: {  //норматив времени на задачу чел*час
-        type: Number
-    },
-    deviation: {         // отклонение "норма/затраты времени" в целом можно вычислять
-        type: Number
-    },
-    indexKTU: {   // алгоритм вычисления???
-        type: Number
-    },
-    
-    
-    
-       
-    
-    
-    
-    
-    
-    
-});
-
-
-
-// схема для заданий в журнала (в идеале связь с коллекцией task)
-// TODO каким образом реализовать связь с task ?
 
 
 let JTask = new Schema({   
@@ -136,7 +83,71 @@ let JTask = new Schema({
              
 });
 
-       //todo подумай над реализацие очередности задач (список задач сначало это потом то, затем...)
+
+
+
+
+
+
+
+
+
+ // схема для записей журнала
+let JRecord = new Schema({
+   
+    Date: {
+        type: Date,
+        default: Date.now
+    },   
+    
+    Task: [ JTask ],
+    //Worker: [ Worker ],
+    
+    
+       
+    
+    WorkingTime: {
+        type: Number
+    },
+    
+    VolumeWork: {  // объем работы штуки, кв.метры
+        unit: {   /// единицы измерения
+            type: String
+        },
+        quantity: {  // количество
+            type: Number
+        }
+      
+    },
+    StandartTime: {  //норматив времени на задачу чел*час
+        type: Number
+    },
+    deviation: {         // отклонение "норма/затраты времени" в целом можно вычислять
+        type: Number
+    },
+    indexKTU: {   // алгоритм вычисления???
+        type: Number
+    }
+    
+    
+    
+       
+    
+    
+    
+    
+    
+    
+});
+
+
+
+// схема для заданий в журнала (в идеале связь с коллекцией task)
+// TODO каким образом реализовать связь с task ?
+
+
+
+//todo подумай над реализацие очередности задач (список задач сначало это потом то, затем...)
  
 
 module.exports = db.model('JRecord', JRecord);

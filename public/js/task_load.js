@@ -6,11 +6,11 @@
 
 $(document).ready(function() {
     
-     // cохранение изменений задачи при его редактировании
+     // cохранение задачи новой или редактирование.
     $("#task_save").click(function(callback) {
         alert("button click method save");
         
-        let url = "/JobList/save";
+        let url = "/JobList/saved";
         
         
         //  получаем данные
@@ -58,7 +58,7 @@ $(document).ready(function() {
     $("#task_add").click(function(callback) {
         alert("button click method task_add");
         
-        let url = "/JobList/add";
+        let url = "/JobList/created";
         
         let DateStart = $('#DateStart').value;
         let Name = $('#Name').value;
@@ -126,3 +126,12 @@ $(document).ready(function() {
       * При выборе элемента списка, появляются кнопки (изменить, удалить, завершить)
       * 
       */
+     
+     
+     
+        //todo
+        /*
+         * при открытии модального окна, должен проверяться параметр req.params.id
+         * если она присутствуюет то он отображается в карточке задачи
+         * если нет то "задача новая"
+         */

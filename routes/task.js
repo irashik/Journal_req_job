@@ -13,15 +13,16 @@ const taskController                = require('../task/task.controller');
 
 
 
-taskRouter.get('/JobList', taskController.index);
 
 taskRouter.get('/JobList/:id', taskController.open);
 
-taskRouter.get('/JobList/del', taskController.del);
+taskRouter.get('/JobList', taskController.index);
 
 taskRouter.post('/JobList/saved', taskController.saved);
 
-taskRouter.post('/JobList/created', taskController.created);
+taskRouter.get('/JobList/del', taskController.del);
+
+taskRouter.get('/JobList/close', taskController.close);
 
 
 module.exports = taskRouter;

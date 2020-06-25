@@ -16,12 +16,15 @@ const log                           = require('../utils/log')(module);
 const journalController = require('../journal/journal.controller');
 
 
-journalRouter.get('/JobList', journalController.index);
+journalRouter.get('/journal/:id', journalController.open);
 
-journalRouter.get('/JobList/saved', journalController.saved);
+journalRouter.get('/journal', journalController.index);
 
-journalRouter.get('/JobList/created', journalController.created);
+journalRouter.get('/journal/saved', journalController.saved);
 
+journalRouter.get('/journal/created', journalController.created);
+
+journalRouter.get('/journal/del', journalController.delete);
 
 
 

@@ -1,0 +1,53 @@
+<% layout('layout/page') -%>
+
+<% block('title', 'Задачи сегодня'); -%>
+
+
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+         changeMonth: true
+    });
+  });
+  </script>
+  
+  <p>Date: <input type="text" id="datepicker"></p>
+  
+  
+  <h2>Сегодня dd/mm/yy</h2> 
+
+  
+
+  
+  
+      <!--TODO: if else member & worker-->
+      <div class="member">Звено1
+         <button type="button" class="btn btn-secondary">Добавить звено</button>
+           
+          <div class="worker">Работник
+              <button type="button" class="btn btn-secondary">Добавить работника</button>
+              <ul class="list_worker">
+                  <li>Работник1</li>
+              </ul>
+             
+              
+             
+             <div class='task'>Задание 1
+                <button type="button" class="btn btn-secondary">Добавить задание</button>
+              
+                <div class='task2'>
+                    <input class="form-control task_input" type="text" placeholder="Выполняемая работа">
+                    <input class="form-control time_task_input" type="text" placeholder="Время выполнения">
+                </div>
+             
+             </div>
+          
+          
+          
+          </div>
+      
+        
+      
+      </div>
+      
+  

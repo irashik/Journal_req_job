@@ -83,38 +83,52 @@ const Task = db.model('Task', TaskSchema);
 //todo подумай над реализацие очередности задач (список задач сначало это потом то, затем...)
 
 
-function TaskCreate(data, callback) {
+function TaskCreate(data, callback, error) {
     // создай запись в базе данных, и верни подтверждение
     
     
-    const task = new Task(data);
-     
-            // {       
-            //         Name: 
-            //         Description:
-            //         DateStart: 
-            //         Status: 
-            //         DateEnd: 
-            //         Responsible: {  // ответственный работник 
-            //         Priority: 
-            //         TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
-            //         Creator: {   // создатель задачи (автор).
-            //         Profession: {  // профессия для которой задача
-            //         Foto: {
-            //         Resource: {    // требуемые ресурсы (материалы)
-            //         ExpenseTime: {  // затраты времени на задачу
-            // }
+//    const task = new Task(data);
+//     
+//            // {       
+//            //         Name: 
+//            //         Description:
+//            //         DateStart: 
+//            //         Status: 
+//            //         DateEnd: 
+//            //         Responsible: {  // ответственный работник 
+//            //         Priority: 
+//            //         TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
+//            //         Creator: {   // создатель задачи (автор).
+//            //         Profession: {  // профессия для которой задача
+//            //         Foto: {
+//            //         Resource: {    // требуемые ресурсы (материалы)
+//            //         ExpenseTime: {  // затраты времени на задачу
+//            // }
         
+        let promise = Task.create(data);
         
+        promise
+                .then((doc) => {
+                    log.info(doc);
+                    callback(doc);
+                })
+                
+                .catch((err) => {
+                    log.error(err);
+                    error(err);
+                });
     
-    task.create(function(err) {
-        if (err) return log.error(err);
-    });
     
     
     
     
 };
+
+
+module.exports.TaskCreate = TaskCreate;
+
+
+
 
 function TaskUpdate(id, data, callback) {
     
@@ -153,37 +167,60 @@ function TaskUpdate(id, data, callback) {
 };
 
 
-function TaskFindAll(cursor) {
+
+
+
+function TaskFindAll(data, error) {
+    
       // получи все данные из коллекции Task и верни callback
     
-   Task.find({}, function(err, cursor) {
-       if (err) return log.error(err);
-       return cursor;
-       
-   });
+    let query = Task.find({});
+    let promise = query.exec();
+    
+    promise
+            .then(function(doc) {
+                log.info("инфа от базы:" + doc);
+                
+                data(doc);
+                
+    })
+            .catch(function(err) {
+                log.error(err);
+                error(err);
+    });
+    
+    
    
 };
 
 
 
 
+module.exports.TaskFindAll = TaskFindAll;
 
 
 
 
 
 
-
+//открыть конкретную запись.
 let TaskFindById = function(id) {
-    
-    
+        
     Task.findById(id, function(err, task) {
+        
         if(err) return log.error(err);
+        
         log.debug(task);
+        
+        
     });
+    
+    
+    
 };
 
 
+module.exports.TaskFindById = TaskFindById;
 
 
 
@@ -200,8 +237,44 @@ let TaskDel = function(id) {
     
     
 };
- 
+
+
+module.exports.TaskDel = TaskDel;
+
+
+
+// метод присваивает определенной задачи статус - завершена + ставит дату завершения.
+let TaskClose = function(id) {
+    
+  
+    
+    
+    
+    
+    
+};
+
+
+module.exports.TaskClose = TaskClose;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports.Task = Task;
         
+
+
 

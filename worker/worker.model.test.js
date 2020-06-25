@@ -31,24 +31,87 @@ chai.use(chaiAsPromised);
 
 describe("Test модуля worker.model Test1", function() {
     
-    it ('проверка подключения к бд', function() {
+       
+       
+    it.only('Тестирование метода WorkerCreate', () => {
         
-        //todo:
-    });
+        const data = { 
+
+                            FirstName: "Юферов",
+                            LastName: "Александр",
+                            LastName2: "Олегович",
+                            profession: "Электрогазосварщик",
+                            quality: 3,
+                            status: null,
+                            comment: null,
+                            dismissal: null
+            };
+        
+       
+    Worker.WorkerCreate(data, (callback) => {
+       
+                   should(callback).be.true;
+                   log.info(callback);
+            
+     });
+            
+            
+            
+            
+    });    
     
+    
+    
+     
     
     it('Тестирование метода FindAllWorker', () => {
        
     Worker.FindAllWorker((data, status) => {
        
-            
+            log.info(data);
             should(data).be.true;
             
             
+            
+            
     });    
-        
-        
-        
-    });
     
+    
+    
+    
+   
+    
+    
+});
+
+        it('Method WorkerSaved', () => {
+            
+            //Обновление данных о работнике
+            
+            const worker = null; // id работника
+            
+            const data = { 
+
+                            FirstName: "Юферов",
+                            LastName: "Александр",
+                            LastName2: "Олегович",
+                            profession: "Сварщик",
+                            quality: 5,     
+                            status: null,
+                            comment: null,
+                            dismissal: null
+            };
+            
+            
+            Worker.WorkerSaved(worker, data, (callback, err) => {
+                
+                        log.info(callback);
+                        should(data).be.true;
+                        should(err).be.false;
+                        
+                        
+                        
+            });
+        });
+
 });

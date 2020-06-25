@@ -8,14 +8,59 @@
 
 'use strrict';
 
-const task                          = require('./task.model');
+const Task                          = require('./task.model');
 const log                           = require('../utils/log')(module);
+
+
+
+
+
+// получи данные по конкретному работнику
+exports.open = function(req, res, next) {
+    
+     log.debug("сработал вызов open в контроллере");
+ 
+    
+    
+    
+     let id = req.params.id;
+    
+//     if (id) {
+//    
+//        
+//         Worker.WorkerOpen(id, (callback, err) => {
+//            
+//              if (err) {
+//
+//                 log.error("Ошибка ответа от базы данных - callback: " + err);
+//                 res.render('worker', { status: "Error response Database", info: err }); 
+//              
+//        } else {
+//             
+//             log.debug("id найден");
+//             res.render('worker', { status: 'Данные получены', info: callback });
+//        
+//        };
+//            
+//        });
+//        
+//    } else {
+//        
+//        // todo
+//        // кому передаем управление?? наверное /worker/ index.
+//        next();
+//        
+//    }
+//    
+    
+};
+
 
 
 // получение всех данных для списка.
 exports.index = function(req, res) {
     
-    log.debug("сработал метод index в контроллере ");
+    log.debug("сработал метод index");
     
     
     
@@ -23,32 +68,41 @@ exports.index = function(req, res) {
           * и передавать данные на страницу через res
           */
     
-    task.find(function (err, tasks) {
-        if (err) return log.error(err);
-        log.info(tasks);
+    Task.TaskFindAll((data, err) => {
         
-        res.render('JobList', { tasks });
+        if (err) {
+            log.error(err);
+            log.debug('taskfindall - error');
+            res.render('JobList', {data: null, status: 'Error respond'});
+        
+        } else {
+   
+           log.info('task controller-TaskFindAll' + JSON.stringify(data));
+        
+           res.render('JobList', { data: data, status: 'ok' });
+           
+        }
+        
+        
     });
     
     
 };
 
 
+
+
 // обновление данных в модели
 exports.saved = function(req, res) {
+    
     log.debug("сработал вызов saved в контроллере");
     
-};
-
-
-
-
-// создать новую запись
-exports.created = function(req, res) {
     
-    log.debug("сработал вызов created в контроллере");
+    // нужно реализовать меток created && saved в данном методе.
     
-    // нужно взять информацию из запроса
+     // если id нет то создать запись если есть, то найти и обновить.
+     
+     // нужно взять информацию из запроса
       let DateStart = req.body.DateStart;
       let Name = req.body.Name;
       let Profession = req.body.Profession;
@@ -61,7 +115,43 @@ exports.created = function(req, res) {
       let DateEnd = req.body.DateEnd;
       let Responsible = req.body.Responsible;
       let Creator = req.body.Creator;
-      let Foto = req.body.Foto; // как корре
+            //TODO доработай чтобы можно загрузить фото.
+      let Foto = req.body.Foto; 
+     
+     
+     // если передается id
+     if(req.params.id) {
+         // обновление данных
+         
+         
+         
+     } else {
+         //создание записи
+         
+         Task.TaskCreate((data, callback, error) => {
+             
+             if (error) {
+                
+                 log.error(err);
+                 res.render('JobList', {data: null, status: 'Error respond'});
+                
+             } else {
+             
+                 log.info('task controller-Task.saved --> create' + JSON.stringify(data));
+                 
+                 // тут наверное обновить информацию в окне без перезагрузки.
+                 res.render('JobList', { data: data, status: 'ok' });
+                
+             }
+             
+             
+         });
+         
+         
+     }
+     
+    
+    
     
     
     const task = new Task({
@@ -84,16 +174,7 @@ exports.created = function(req, res) {
      });
     
     
-    task.validate();
-    
-    
-    task.save()
-            .then(function(doc) {
-                log.info('mongodb object is saved: ' + doc);
-            })
-            .catch(function (err) {
-                log.error(err);
-            });    
+   
     
     
     
@@ -106,28 +187,36 @@ exports.created = function(req, res) {
     
     
     
-    
-    
+
+
     
     
 };
 
 
-// открыть задачу
-exports.open = function(req, res) {
-    log.debug("сработал вызов open в контроллере");
-    
-    
-    
-    
-    
-    
-};
+
 
 
 // удалить задачу
 exports.del = function(req, res) {
+    
     log.debug("сработал вызов del в контроллере");
+    
+    
+    
+    
+    
+    
+};
+
+
+
+// завершить задачу
+exports.close = function(req, res) {
+    
+    log.debug("сработал вызов close в контроллере");
+    
+    // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
     
     
     

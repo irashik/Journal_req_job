@@ -12,12 +12,9 @@ const log                           = require('../utils/log')(module);
 const timesheetController                = require('../timesheet/timesheet.controller');
 
 
-
-timesheetRouter.get('/timesheet', timesheetController.index);
-
 timesheetRouter.get('/timesheet/:id', timesheetController.open);
 
-timesheetRouter.get('/timesheet/del', timesheetController.del);
+timesheetRouter.get('/timesheet', timesheetController.index);
 
 timesheetRouter.post('/timesheet/saved', timesheetController.saved);
 

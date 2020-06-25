@@ -8,8 +8,29 @@
 
 'use strrict';
 
-//const journal                       = require('./journal.model');
+const Journal                       = require('./journal.model');
 const log                           = require('../utils/log')(module);
+
+
+
+
+
+
+
+
+
+
+exports.open = function(req, res, next) {
+    
+    log.debug("метод journal.open");
+    
+    
+    
+};
+
+
+
+
 
 
 
@@ -17,8 +38,7 @@ const log                           = require('../utils/log')(module);
 exports.index = function(req, res) {
     
     log.debug("сработал метод index в контроллере ");
-    
-    
+       
     
          /* // этот метод должен получать данные из БД
           * и передавать данные на страницу через res
@@ -40,14 +60,13 @@ exports.saved = function(req, res) {
 
 
 // создать новую запись
-exports.created = async function(req, res) {
+exports.created = function(req, res) {
     
     log.debug("сработал вызов created в контроллере");
     
   
     
-    
-    
+      
     
     
     
@@ -56,6 +75,15 @@ exports.created = async function(req, res) {
     
     
 };
+
+exports.delete = function(req, res) {
+    
+    log.debuug('method delete');
+    
+    
+};
+
+
 
 
 

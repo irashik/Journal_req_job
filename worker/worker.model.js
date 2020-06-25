@@ -19,8 +19,9 @@ const WorkerSchema = new Schema({
   
   FirstName: {
     type: String,
-    required: true
+    //required: true
   },
+  
   LastName: {
     type: String
     
@@ -35,7 +36,7 @@ const WorkerSchema = new Schema({
   quality: {
       type: Number
   },
-  status: {
+  status: {            // статус работника???
       type: String
       
   },
@@ -56,7 +57,7 @@ const Worker = db.model('Worker', WorkerSchema);
 
 
 // метод получения всех работников из базы
-let FindAllWorker = function(data, status) {
+let FindAllWorker = function(data, error) {
   
       
     // мне на самом деле нужны ли прям все данные???
@@ -68,10 +69,14 @@ let FindAllWorker = function(data, status) {
     promise
          .then((doc) => {
                           log.info(doc);
+                           data(doc);
+                           
         
      })
             .catch((err) => {
                 log.error(err);
+                error(err);
+                
      });
     
     
@@ -85,9 +90,6 @@ let FindAllWorker = function(data, status) {
 
 module.exports.FindAllWorker = FindAllWorker;
 
-FindAllWorker((callback) => {
-  log.info(callback);  
-});
 
 
 // создание работника
@@ -99,26 +101,27 @@ let WorkerCreate = function(data, callback) {
       
     
     // проверяем данные
-    worker.validate()
-            .then(function() {
-                log.debug("user.validate - ok");
-    })
-            .catch(function(err) {
-                log.error("user.validate " + err);
-                return callback(err);
-    });
+//    worker.validate()
+//            .then(function() {
+//                
+//                //log.debug("user.validate - ok");
+//    })
+//            .catch(function(err) {
+//                //log.error("user.validate " + err);
+//                return callback(err);
+//    });
 
 
 
      // сохраняем данные в базе
      worker.save()
             .then(function(doc) {
-                log.info('mongodb object is saved: ' + doc);
+              //  log.info('mongodb object is saved: ' + doc);
                 return(callback('ok'));
                 
             })
             .catch(function (err) {
-                log.error(err);
+               // log.error(err);
                  return callback(err);
             });    
     
@@ -182,7 +185,7 @@ let WorkerOpen = function(id, callback, err) {
 
 
      // обновляем данные в базе
-     worker.findById(id, options)
+     Worker.findById(id, options)
      
             .then(function(doc) {
                 
