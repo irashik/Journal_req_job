@@ -20,10 +20,7 @@ exports.open = function(req, res, next) {
     
      log.debug("сработал вызов open в контроллере");
  
-    
-    
-    
-     let id = req.params.id;
+     //let id = req.params.id;
     
 //     if (id) {
 //    
@@ -52,7 +49,7 @@ exports.open = function(req, res, next) {
 //        
 //    }
 //    
-    
+    next();
 };
 
 
@@ -62,6 +59,10 @@ exports.index = function(req, res) {
     
     log.debug("сработал метод index");
     
+//    
+//    log.debug(req);
+//    log.debug(res);
+//    
     
     
          /* // этот метод должен получать данные из БД
@@ -77,9 +78,9 @@ exports.index = function(req, res) {
         
         } else {
    
-           log.info('task controller-TaskFindAll' + JSON.stringify(data));
+           //log.info('task controller-TaskFindAll' + JSON.stringify(data));
         
-           res.render('JobList', { data: data, status: 'ok' });
+           res.render('JobList', { data: data, status: 'ok', id_task: null });
            
         }
         
@@ -91,104 +92,137 @@ exports.index = function(req, res) {
 
 
 
-
 // обновление данных в модели
 exports.saved = function(req, res) {
     
     log.debug("сработал вызов saved в контроллере");
-    
-    
+        
     // нужно реализовать меток created && saved в данном методе.
     
      // если id нет то создать запись если есть, то найти и обновить.
      
      // нужно взять информацию из запроса
-      let DateStart = req.body.DateStart;
-      let Name = req.body.Name;
-      let Profession = req.body.Profession;
-      let ExpenseTime = req.body.ExpenseTime;
-      let Description = req.body.Description;
-      let Resource = req.body.Resource;
-      let TypeTask = req.body.TypeTask;
-      let Status = req.body.Status;
-      let Priority = req.body.Priority;
-      let DateEnd = req.body.DateEnd;
-      let Responsible = req.body.Responsible;
-      let Creator = req.body.Creator;
-            //TODO доработай чтобы можно загрузить фото.
-      let Foto = req.body.Foto; 
      
+//      let DateStart = req.body.DateStart;
+//      let Name = req.body.Name;
+//      let Profession = req.body.Profession;
+//      let ExpenseTime = req.body.ExpenseTime;
+//      let Description = req.body.Description;
+//      let Resource = req.body.Resource;
+//      let TypeTask = req.body.TypeTask;
+//      let Status = req.body.Status;
+//      let Priority = req.body.Priority;
+//      let DateEnd = req.body.DateEnd;
+//      let Responsible = req.body.Responsible;
+//      let Creator = req.body.Creator;
+//            //TODO доработай чтобы можно загрузить фото.
+//      let Foto = req.body.Foto; 
      
+    
+    
+    
+      let data = req.body;  // todo
+
+    
+    
      // если передается id
      if(req.params.id) {
          // обновление данных
          
+         let id = req.params.id;
+                           
+         Task.TaskUpdate(id, data, (callback) => {
+           
+           if (callback !== 1) {
+                log.error(callback);
+                //res.render('JobList', {data: null, status: 'Error respond'});
+                //
+                // // вернуть ошибку и
+                
+                
+                   //index(); // запустить контроллек index.
+                
+                   
+           } else {
+               
+               
+               
+               // здесь нужно получить успешные данные, но вернуть index ??
+               // отобразить сообщение при помощи ajax ++ timeout
+               
+               //res.render('JobList', {data: callback, status: 'ok'});
+               
+               return (callback);
+               
+               
+               
+               
+           }
+            
+            
+            
+         });
+         
          
          
      } else {
-         //создание записи
+         //иначе создание записи
+        log.debug('controller create run');
          
-         Task.TaskCreate((data, callback, error) => {
+        //log.debug('req.body :   ' + JSON.stringify(req.body));
+        
+         
+         Task.TaskCreate(data, (error, callback) => {
              
-             if (error) {
+            if (error) {
                 
-                 log.error(err);
-                 res.render('JobList', {data: null, status: 'Error respond'});
+                 log.error(error);
+                 
+                 //throw new Error ('получена ошибка');
+                 
+                 res.status(500).send('ошибка от базы данных ' + error);
+                               
+                 //res.render('JobList', {data: null, status: 'Error respond'});
                 
              } else {
              
-                 log.info('task controller-Task.saved --> create' + JSON.stringify(data));
+                 log.debug('task create if not error');
                  
-                 // тут наверное обновить информацию в окне без перезагрузки.
-                 res.render('JobList', { data: data, status: 'ok' });
+                //тут наверное обновить информацию в окне без перезагрузки.
+                res.status(200).send('запись создана успешно ' + callback);
+                
+                // как передать параметр во view??? 
+                
+                res.send()
+                //res.send('/JobList/index');
                 
              }
-             
              
          });
          
          
-     }
-     
-    
-    
-    
-    
-    const task = new Task({
-                
-        Name: Name,
-        DateStart: DateStart,
-        Profession: Profession,
-        ExpenseTime: ExpenseTime,
-        Description: Description,
-        Resource: Resource,
-        TypeTask: TypeTask,
-        Status: Status,
-        Priority: Priority,
-        DateEnd: DateEnd,
-        Responsible: Responsible,
-        Creator: Creator,
-        Foto: Foto
-        
-        
-     });
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-
+//                  const task = new Task(req.body);
+//                  
+//                  task.save((err) => {
+//                      if (err) {
+//                          log.error(err);
+//                          res.send('error database');
+//                      } else {
+//                          log.info('data saved');
+//                          res.send('/Task/index');
+//
+//                      }
+//                      
+//               
+//
+//
+//         
+//     });
+//     
+    
+    
+     };
     
     
 };
@@ -202,7 +236,10 @@ exports.del = function(req, res) {
     
     log.debug("сработал вызов del в контроллере");
     
-    
+      log.debug('req.body :   ' + req.body);
+      
+      res.send("hello world");
+
     
     
     
@@ -217,8 +254,10 @@ exports.close = function(req, res) {
     log.debug("сработал вызов close в контроллере");
     
     // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
+    //log.debug(req.body);
     
     
+    //res.send('blablabla');
     
     
     

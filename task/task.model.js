@@ -83,40 +83,84 @@ const Task = db.model('Task', TaskSchema);
 //todo подумай над реализацие очередности задач (список задач сначало это потом то, затем...)
 
 
-function TaskCreate(data, callback, error) {
+function TaskCreate(data, callback) {
     // создай запись в базе данных, и верни подтверждение
     
-    
-//    const task = new Task(data);
-//     
-//            // {       
-//            //         Name: 
-//            //         Description:
-//            //         DateStart: 
-//            //         Status: 
-//            //         DateEnd: 
-//            //         Responsible: {  // ответственный работник 
-//            //         Priority: 
-//            //         TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
-//            //         Creator: {   // создатель задачи (автор).
-//            //         Profession: {  // профессия для которой задача
-//            //         Foto: {
-//            //         Resource: {    // требуемые ресурсы (материалы)
-//            //         ExpenseTime: {  // затраты времени на задачу
-//            // }
+      //log.debug(JSON.stringify(data));
+      //log.debug(JSON.parse(data));
+      log.debug(data);
+      
+      
+      
+    const task = new Task(data);
+     
+            // {       
+            //         Name: 
+            //         Description:
+            //         DateStart: 
+            //         Status: 
+            //         DateEnd: 
+            //         Responsible: {  // ответственный работник 
+            //         Priority: 
+            //         TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
+            //         Creator: {   // создатель задачи (автор).
+            //         Profession: {  // профессия для которой задача
+            //         Foto: {
+            //         Resource: {    // требуемые ресурсы (материалы)
+            //         ExpenseTime: {  // затраты времени на задачу
+            // }
         
-        let promise = Task.create(data);
+        let promise = Task.create(task);
         
         promise
-                .then((doc) => {
-                    log.info(doc);
-                    callback(doc);
+                .then(result => {
+                    
+                    log.debug(result);
+                    
+                    callback(null, result);
+                    
                 })
                 
-                .catch((err) => {
+                .catch(err => {
+                    
                     log.error(err);
-                    error(err);
+                    callback(err, null);
+                    
                 });
+    
+//    Task.create(data, function (err, result) {
+//       
+//        if (err) {
+//            
+//            error(err);
+//            
+//        } else {
+//            
+//               
+//              callback(result); 
+//       
+//        }
+//    });
+//    
+//    
+//    task.save(function(err) {
+//        
+//        if (err) {
+//            
+//          //  error(err);
+//            log.error(err);
+////            throw new Error('ошибка при сохранении');
+//              callback(err, null);
+//            
+//            
+//        } else {
+//          log.debug('saved');
+//           // callback();
+//           callback(null, 1);
+//        }
+//        
+//    });
+    
     
     
     
@@ -130,7 +174,7 @@ module.exports.TaskCreate = TaskCreate;
 
 
 
-function TaskUpdate(id, data, callback) {
+function TaskUpdate(id, data, callback, error) {
     
     // найди запись по id , и поменяй там данные, и подтверди//
     
@@ -158,7 +202,20 @@ function TaskUpdate(id, data, callback) {
         
     
     task.findByIdAndUpdate(id, data, option, function(err) {
-        if (err) return log.error(err);
+        
+        if (err) {
+            log.error(err);
+            error(err);
+            
+        } else {
+    
+    
+    
+        callback();
+            
+        }
+        
+        
         
     });
     
@@ -179,7 +236,7 @@ function TaskFindAll(data, error) {
     
     promise
             .then(function(doc) {
-                log.info("инфа от базы:" + doc);
+                //log.debug("инфа от базы:" + doc);
                 
                 data(doc);
                 

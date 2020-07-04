@@ -54,7 +54,6 @@
       <div class="modal-header">
         
         <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
-               
         
         
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -64,31 +63,24 @@
       
         <div class="modal-body">
              <div class='container-fluid'>
-          
+                 
                  <div id='DateStart_main'>
                      <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
                      
-                     <% if (id_task) { %>
-                       <p>ID задачи <%= id_task %></h1>
-                     <% } %>
-                         
                          
                  </div>
           
-               <div class ='row'>
-                   
-                  <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
+             <div class ='row'>
+                 <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
                  
                   <div class='col'>
-                        <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия">
-                  </div>
+                     <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия"></div>
                   <div class='col'>
-                       <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты">
-                              
-                  </div>
+                       <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты"></div>
                   
                   
-               </div>
+             </div>
+          
           <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
           <button type="button" class="btn btn-secondary btn-sm" id='TaskClose'>Завершить</button>
                

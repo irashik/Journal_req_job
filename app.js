@@ -62,6 +62,19 @@ app.set('view engine', 'ejs');
 
 
 
+app.use(bodyParser.urlencoded({ 
+    extended: false
+}));
+
+app.use(bodyParser.json());
+
+
+app.use(require('./middleware/sendHttpError'));
+
+
+app.use(flash());
+
+
 app.use(router);
 app.use(workerRouter);
 app.use(taskRouter);
@@ -93,19 +106,6 @@ app.use(session({
     
 }));
 
-
-
-app.use(bodyParser.urlencoded({ 
-    extended: false
-}));
-
-app.use(bodyParser.json());
-
-
-app.use(require('./middleware/sendHttpError'));
-
-
-app.use(flash());
 
 
 
