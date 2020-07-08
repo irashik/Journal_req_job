@@ -20,36 +20,42 @@ exports.open = function(req, res, next) {
     
      log.debug("сработал вызов open в контроллере");
  
-     //let id = req.params.id;
+     let id = req.params["id"];
+         
+     if (id) {
+         
+         log.debug('id==  ' + id);
+         
+        
+        Task.TaskFindById(id, (err, callback) => {
+            
+            if (err) {
+
+                //log.error("Ошибка ответа от базы данных - callback: " + err);
+                 
+                res.status(204).send('Ошибка от базы данных ' + err);
+
+                 
+              
+            } else {
+                
+                log.debug(callback);
+             
+                res.status(200).send(callback);
+
+             
+            
+        
+            };
+            
+        });
+        
+    } else {
+        
+            next();
+        
+    }
     
-//     if (id) {
-//    
-//        
-//         Worker.WorkerOpen(id, (callback, err) => {
-//            
-//              if (err) {
-//
-//                 log.error("Ошибка ответа от базы данных - callback: " + err);
-//                 res.render('worker', { status: "Error response Database", info: err }); 
-//              
-//        } else {
-//             
-//             log.debug("id найден");
-//             res.render('worker', { status: 'Данные получены', info: callback });
-//        
-//        };
-//            
-//        });
-//        
-//    } else {
-//        
-//        // todo
-//        // кому передаем управление?? наверное /worker/ index.
-//        next();
-//        
-//    }
-//    
-    next();
 };
 
 
@@ -59,7 +65,17 @@ exports.index = function(req, res) {
     
     log.debug("сработал метод index");
     
-//    
+    // берем опции из запроса если есть
+    if (req.params.option) {
+        
+        let option = req.params.option;
+    }    
+        // если нет то по умолчанию
+        // все записи кроме закрытых работ status:closed или dateEnd = true
+        
+      let option = { status: { $ne: "closed" }, dateEnd: { $ne: true }};
+      
+        
 //    log.debug(req);
 //    log.debug(res);
 //    
@@ -69,16 +85,17 @@ exports.index = function(req, res) {
           * и передавать данные на страницу через res
           */
     
-    Task.TaskFindAll((data, err) => {
+    Task.TaskFindAll(option, (err, data) => {
         
         if (err) {
+            
             log.error(err);
             log.debug('taskfindall - error');
             res.render('JobList', {data: null, status: 'Error respond'});
         
         } else {
    
-           //log.info('task controller-TaskFindAll' + JSON.stringify(data));
+           log.info('task controller-TaskFindAll' );
         
            res.render('JobList', { data: data, status: 'ok', id_task: null });
            
@@ -103,76 +120,83 @@ exports.saved = function(req, res) {
      
      // нужно взять информацию из запроса
      
-//      let DateStart = req.body.DateStart;
-//      let Name = req.body.Name;
-//      let Profession = req.body.Profession;
-//      let ExpenseTime = req.body.ExpenseTime;
-//      let Description = req.body.Description;
-//      let Resource = req.body.Resource;
-//      let TypeTask = req.body.TypeTask;
-//      let Status = req.body.Status;
-//      let Priority = req.body.Priority;
-//      let DateEnd = req.body.DateEnd;
-//      let Responsible = req.body.Responsible;
-//      let Creator = req.body.Creator;
-//            //TODO доработай чтобы можно загрузить фото.
-//      let Foto = req.body.Foto; 
+      let DateStart = req.body.DateStart;
+      let Name = req.body.Name;
+      let Profession = req.body.Profession;
+      let ExpenseTime = req.body.ExpenseTime;
+      let Description = req.body.Description;
+      let Resource = req.body.Resource;
+      let TypeTask = req.body.TypeTask;
+      let Status = req.body.Status;
+      let Priority = req.body.Priority;
+      let DateEnd = req.body.DateEnd;
+      let Responsible = req.body.Responsible;
+      let Creator = req.body.Creator;
+            //TODO доработай чтобы можно загрузить фото.
+      let Foto = req.body.Foto; 
      
-    
-    
-    
-      let data = req.body;  // todo
+      
+       let task = {
+            DateStart: DateStart,
+            Name: Name,
+            Profession: Profession,
+            ExpenseTime: ExpenseTime,
+            Description: Description,
+            Resource: Resource,
+            TypeTask: TypeTask,
+            Status: Status,
+            Priority: Priority,
+            DateEnd: DateEnd,
+            Responsible: Responsible,
+            Creator: Creator,
+            Foto: Foto
+            
+        };
+      
+      
+      let id = req.body.id;
+      
+      log.info('id request' + id);
+      
+        // нужно разделить id и основные данные.
+        
+        
+        
+        
 
-    
-    
+
      // если передается id
-     if(req.params.id) {
-         // обновление данных
+     if (id) {
          
-         let id = req.params.id;
+        
+        // обновление данных
+         log.info('controller update task');
                            
-         Task.TaskUpdate(id, data, (callback) => {
-           
-           if (callback !== 1) {
-                log.error(callback);
-                //res.render('JobList', {data: null, status: 'Error respond'});
-                //
-                // // вернуть ошибку и
-                
-                
-                   //index(); // запустить контроллек index.
+                           
+         Task.TaskUpdate(id, task, (err, callback) => {
+
+           if (err) {
+
+                log.error(err);
+                res.status(500).send('ошибка от базы данных ' + err);
                 
                    
            } else {
-               
-               
-               
                // здесь нужно получить успешные данные, но вернуть index ??
                // отобразить сообщение при помощи ajax ++ timeout
-               
                //res.render('JobList', {data: callback, status: 'ok'});
                
-               return (callback);
-               
-               
-               
-               
+                res.status(200).send('запись успешно изменена' + callback);               
            }
-            
-            
             
          });
          
-         
-         
      } else {
          //иначе создание записи
-        log.debug('controller create run');
-         
-        //log.debug('req.body :   ' + JSON.stringify(req.body));
+        log.debug('controller create task');
+
         
-         
-         Task.TaskCreate(data, (error, callback) => {
+        Task.TaskCreate(task, (error, callback) => {
              
             if (error) {
                 
@@ -193,35 +217,13 @@ exports.saved = function(req, res) {
                 
                 // как передать параметр во view??? 
                 
-                res.send()
+                
                 //res.send('/JobList/index');
                 
              }
              
          });
          
-         
-
-//                  const task = new Task(req.body);
-//                  
-//                  task.save((err) => {
-//                      if (err) {
-//                          log.error(err);
-//                          res.send('error database');
-//                      } else {
-//                          log.info('data saved');
-//                          res.send('/Task/index');
-//
-//                      }
-//                      
-//               
-//
-//
-//         
-//     });
-//     
-    
-    
      };
     
     
@@ -254,10 +256,9 @@ exports.close = function(req, res) {
     log.debug("сработал вызов close в контроллере");
     
     // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
-    //log.debug(req.body);
     
     
-    //res.send('blablabla');
+
     
     
     

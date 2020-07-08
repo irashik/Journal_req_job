@@ -8,7 +8,8 @@
             "useNewUrlParser": true, 
             "useUnifiedTopology": true, 
             "keepAlive": 1,
-            "useCreateIndex": true
+            "useCreateIndex": true,
+            "useFindAndModify": false
             
                 
             

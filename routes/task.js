@@ -18,7 +18,16 @@ taskRouter.get('/JobList/:id', taskController.open);
 
 taskRouter.get('/JobList', taskController.index);
 
+
+//добавление новой задачи
 taskRouter.post('/JobList/saved', taskController.saved);
+
+
+  // изменение задачи
+//taskRouter.put('/JobList/saved', taskController.update);
+
+
+
 
 taskRouter.get('/JobList/del', taskController.del);
 

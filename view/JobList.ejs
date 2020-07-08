@@ -6,36 +6,40 @@
 
 
   <button type='button' data-toggle='modal' data-target='#edit_task_modal' type="button" class="btn btn-primary">Добавление задачи</button>
-          
        
-     <h1>Status <%= status %></h1>   
-     <h1>Data <%= data %></h1>
-
       
-     <div class="list-group">
-         <!--TODO: IF ACTIVE TO SHOW button-->
-        <a type='button' data-toggle='modal' data-target='#edit_task_modal' class="list-group-item list-group-item-action">
-          Cras justo odio
-          
-        </a>
-        <a type='button' data-toggle='modal' data-target='#edit_task_modal' class="list-group-item list-group-item-action">Dapibus ac facilisis in
+    <div class="list-group">
+    <!--TODO: IF ACTIVE TO SHOW button-->
+        <% data.forEach(datai => { %>
+         
+        <button type='button' id="<%= datai._id %>" data-toggle='modal' data-target='edit_task_modal2' class="list-group-item list-group-item-action">
+         
+        
+        <span id="<%= datai._id %>" class="card-name"><%= datai.Name %></span>
+            
+        
+        <% if (datai.Resource && datai.Creator && datai.TypeTask) { %>
+            <span id="<%= datai._id %>" class="card">
+                
+                        <% if (datai.Resource) { %>
+                            Тип задачи:<%= datai.TypeTask %>
+                        <% } %>
                         
-        </a>
-        <a href="/JobList/saved" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                        <% if (datai.Resource) { %>
+                            Автор задачи: <%= datai.Creator %>
+                        <% } %>
+                        <% if (datai.Resource) { %>
+                            Ресурсы для исполнения: <%= datai.Resource %>
+                        <% } %>
+            </span>
+                            
+                
         
+        <% } %>
+        </button>
         
-        
-        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-        <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        
-                                        
-     </div>
+        <% }) %>
+    </div>
   
   
       
@@ -46,29 +50,26 @@
   
   
 
-<!-- Modal -->
+<!-- Modal Create-->
 <div class="modal fade bd-example-modal-xl" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        
-        <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
-        
-        
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    
+        <div class="modal-header">
+            <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
       
         <div class="modal-body">
-             <div class='container-fluid'>
-                 
-                 <div id='DateStart_main'>
-                     <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
-                     
-                         
-                 </div>
+            <div class='container-fluid'>
+                <!-- здесь встраивается task-id -->
+                
+                <div id='DateStart_main'>
+                    <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
+                </div>
           
              <div class ='row'>
                  <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
@@ -83,6 +84,7 @@
           
           <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
           <button type="button" class="btn btn-secondary btn-sm" id='TaskClose'>Завершить</button>
+          
                
           <div id='hiddenDiv'>
           
@@ -109,6 +111,9 @@
                     </div>
                     <div id='foto-upload'>Загруженные фото</div>
                 </form>
+
+                <button type="button" class="btn btn-secondary btn-sm" id='TaskDel'>Удалить</button>
+
                 
           
           </div>
@@ -121,10 +126,13 @@
       <div class="modal-footer">
           <div id='my-flash-message'></div>
           <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
+          
+          
+          
+          
       </div>
     </div>
   </div>
 </div>
+</div>
     
-    
-  

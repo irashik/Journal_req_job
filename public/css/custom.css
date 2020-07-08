@@ -3,6 +3,7 @@
 @import 'https://fonts.googleapis.com/css?family=PT+Sans';
 @import 'https://fonts.googleapis.com/css?family=Arimo:400,700|Poiret+One';
 @import 'https://fonts.googleapis.com/css?family=Jura';
+@import 'https://fonts.googleapis.com/css?family=Arimo:400,700|Poiret+One';
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -9958,7 +9959,7 @@ nav, main, header, footer {
 }
 
 div {
-  margin: 5px;
+  margin: 1px;
 }
 
 .time_task {
@@ -10024,6 +10025,23 @@ div {
 */
 /* Экраны маленьго размера */
 /* Экраны среднего размера */
+/*
+*  Стили для раздела JobList
+*/
+.card {
+  font-size: 10px;
+  font-family: Poiret One;
+}
+
+.card-name {
+  font-size: 14px;
+  font-family: Arimo;
+}
+
+.list-group-item {
+  padding: 0.35rem;
+}
+
 /* Ovveride Styles */
 
 /*# sourceMappingURL=custom.css.map */

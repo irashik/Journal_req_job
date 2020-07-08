@@ -11,10 +11,13 @@
     "test",
     "tests"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery-ui": "jqueryui#^1.12.1",
+    "jquery": "^3.4.1"
+  },
   "devDependencies": {},
   "homepage": "https://github.com/irashik/Journal_req_job",
-  
   "authors": [
     "Dmitrii Irashin <irashin.dim@gmail.com>"
   ],

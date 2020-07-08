@@ -19,23 +19,23 @@ let Schema                    = mongoose.Schema;
 
 let TaskSchema = new Schema({
   
-  Name: {
+  Name: {          // имя задачи - краткое описание.
     type: String,
     required: true,
     maxlength: 100
   },
   
-  Description: {
+  Description: {  // более подробное описание задачи
     type: String,
     maxlength: 600
     
   },
-  DateStart: {
+  DateStart: {     // дата создания задачи
     type: Date,
     default: Date.now
     
   },
-  Status: {     // статус задачи [активная, в процессе, завершена, отложена,]
+  Status: {     // статус задачи [активная, в процессе, завершена (закрыта closed), отложена,]
       type: String,
       default: "Активная"
       
@@ -89,8 +89,7 @@ function TaskCreate(data, callback) {
       //log.debug(JSON.stringify(data));
       //log.debug(JSON.parse(data));
       log.debug(data);
-      
-      
+            
       
     const task = new Task(data);
      
@@ -128,42 +127,6 @@ function TaskCreate(data, callback) {
                     
                 });
     
-//    Task.create(data, function (err, result) {
-//       
-//        if (err) {
-//            
-//            error(err);
-//            
-//        } else {
-//            
-//               
-//              callback(result); 
-//       
-//        }
-//    });
-//    
-//    
-//    task.save(function(err) {
-//        
-//        if (err) {
-//            
-//          //  error(err);
-//            log.error(err);
-////            throw new Error('ошибка при сохранении');
-//              callback(err, null);
-//            
-//            
-//        } else {
-//          log.debug('saved');
-//           // callback();
-//           callback(null, 1);
-//        }
-//        
-//    });
-    
-    
-    
-    
     
     
 };
@@ -174,11 +137,17 @@ module.exports.TaskCreate = TaskCreate;
 
 
 
-function TaskUpdate(id, data, callback, error) {
+function TaskUpdate(id, data, callback) {
     
     // найди запись по id , и поменяй там данные, и подтверди//
     
     const option = { new: true };  // вернуть обновленный документ.
+    
+    
+    log.debug('входные данные' + data);
+    
+    
+    
     
     
     const task = new Task(data);
@@ -201,76 +170,118 @@ function TaskUpdate(id, data, callback, error) {
         
         
     
-    task.findByIdAndUpdate(id, data, option, function(err) {
+//    task.findByIdAndUpdate(id, data, option, function(err) {
+//        if (err) {
+//            log.error(err);
+//            error(err);
+//        } else {
+    //        callback();
+//            
+//        }
+//        
+//    });
+    
+    
+    
+    let promise = Task.findByIdAndUpdate(id, data, option);
         
-        if (err) {
-            log.error(err);
-            error(err);
+        promise
+                .then(result => {
+                    
+                    log.debug(result);
+                    
+                    callback(null, result);
+                    
+                })
+                
+                .catch(err => {
+                    
+                    log.error(err);
             
-        } else {
+                    callback(err, null);
+                    
+                });
     
-    
-    
-        callback();
-            
-        }
-        
-        
-        
-    });
     
     
     
 };
 
 
+module.exports.TaskUpdate = TaskUpdate;
 
 
 
-function TaskFindAll(data, error) {
+function TaskFindAll(options, callback) {
     
       // получи все данные из коллекции Task и верни callback
     
-    let query = Task.find({});
-    let promise = query.exec();
+    
+    
+    let promise = Task.find(options);
     
     promise
-            .then(function(doc) {
-                //log.debug("инфа от базы:" + doc);
-                
-                data(doc);
+            .then(result => {
+        
+                //log.debug(result);
+        
+                callback(null, result);
                 
     })
-            .catch(function(err) {
+            .catch(err => {
+                
                 log.error(err);
-                error(err);
+        
+                callback(err, null);
     });
-    
-    
    
 };
-
-
 
 
 module.exports.TaskFindAll = TaskFindAll;
 
 
-
-
-
-
 //открыть конкретную запись.
-let TaskFindById = function(id) {
+function TaskFindById(id, callback)  {
+    
+    
         
-    Task.findById(id, function(err, task) {
+//    Task.findById(id, function(err, task) {
+//        
+//        if(err) {
+//            log.error(err);
+//            
+//            callback(err, null);
+//            
+//            
+//        }
+//        
+//        log.debug(task);
+//        
+//        callback(null, task);
+//        
+//    });
+
+
+
+    
+    let promise = Task.findById(id);
+    
+    promise
+            .then(result => {
         
-        if(err) return log.error(err);
+                log.debug(result);
         
-        log.debug(task);
+                return callback(null, result);
+                
+    })
+            .catch(err => {
+                
+                log.error(err);
         
-        
+                return callback(err, null);
     });
+        
     
     
     
@@ -297,35 +308,6 @@ let TaskDel = function(id) {
 
 
 module.exports.TaskDel = TaskDel;
-
-
-
-// метод присваивает определенной задачи статус - завершена + ставит дату завершения.
-let TaskClose = function(id) {
-    
-  
-    
-    
-    
-    
-    
-};
-
-
-module.exports.TaskClose = TaskClose;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

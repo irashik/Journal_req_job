@@ -2,7 +2,34 @@
 *  Стили для раздела JobList
 */
 
+@import 'https://fonts.googleapis.com/css?family=Arimo:400,700|Poiret+One';
 
 // настрой прокрутку списка на мобильгном экране
+
+
+.card {
+    
+    font-size: 10px;
+    font-family: Poiret One;
+    
+        
+}
+
+
+.card-name {
+    
+    font-size: 14px;
+    font-family: Arimo;
+    
+        
+}
+
+
+.list-group-item {
+    padding: 0.35rem;
+    
+}
+
+
 
 

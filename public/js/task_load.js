@@ -6,14 +6,25 @@
 
 $(document).ready(function() {
     
-     // cохранение задачи новой или редактирование.
+    // cохранение задачи новой 
     $("#task_save").click(function() {
         
-        //alert("button click method save");
+        /*
+         * @type jQuery
+         * создаем курсор ожидания пока происходит запрос
+         * после получения ответа от контроллера:
+         *      ставим таймаут на полсекунды
+         *      выводим сообщение в блок модального окна
+         *      если ошибка то не закрываем окно
+         *      если нормально то закрываем окно и редирект на /task/JobList
+         *      
+         */
+        
+        $('#DateStart_main').after("<div class=\"spinner-border\" "+ 
+                "role=\"status\"><span class=\"sr-only\"> "+
+                "Loading...</span></div>");        
         
         // получим данные из полей
-         
-        
         let DateStart = $('#DateStart').val();
         let Name = $('#Name').val();
         let Profession = $('#Profession').val();
@@ -26,9 +37,14 @@ $(document).ready(function() {
         let DateEnd = $('#DateEnd').val();
         let Responsible = $('#Responsible').val();
         let Creator = $('#Creator').val();
-       
         let Foto = $('#foto-upload').val(); // как корректно передать???
-
+        
+        
+        let id = $('p#task-id.text-warning').text();
+        
+        console.log(id);
+        
+        
         
         //  подготавливаем json в соответствии со схемой mongodb
         let task = {
@@ -44,20 +60,17 @@ $(document).ready(function() {
             DateEnd: DateEnd,
             Responsible: Responsible,
             Creator: Creator,
-            Foto: Foto
-            
+            Foto: Foto,
+            id: id
         };
         
         // отладка - корректность взятия данных
-        //console.log(JSON.stringify(task));
-               
+        console.log(JSON.stringify(task));
+        
+        
         let url = '/JobList/saved';
-        
-        
-        
-        
             
-            fetch(url, {
+        fetch(url, {
                     method: 'POST',
                     mode: 'cors',
                     cache: 'no-cache',
@@ -69,49 +82,48 @@ $(document).ready(function() {
                             "Content-Type": "application/json; charset=utf-8"
                         
                         
-                    },
+        },
                     
                     body: JSON.stringify(task)
                     
 
-            })
+        })
                     // получение ответа 
-              .then(result => {
+            .then(result => {
 
-                     console.log('fetch result  ' + result.status);
-                     console.log('result' + JSON.stringify(result));
-                     
+            // добавить надпись в модальном окне о результате выполнения
+            $('#DateStart_main').after("<p class=text-warning> Task Added" + result + " </p>");
+
             
-                     $('#DateStart_main').after("<p id=flash_info>Task Added</p>");
-                                         
-                     //  window.location.href = '/JobList';
-                   
-                     
-                     setTimeout(() => {
-                        window.location.href = '/JobList';
-                      }, 500);
+
+
+            // редирект на список задач.    
+            window.location.href = '/JobList';
+        
                        
                     
 
-            })
-                    .catch(err => {
-                       // alert('task_load   ' + err);
-                        console.log('catch error ' + err);
-                        
-                           $('#DateStart_main').after("<p id=flash_error>Ошибка</p>");
+        })
+            .catch(err => {
+                $('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
 
-                        //$('#status_msg').innerHTML = err;
-            });
+                       
+        });
 
     });
     
     
+    //################################################
     
     
     
     
     
-    // открытие подробного перечня полей
+    
+    
+    
+    
+// открытие подробного перечня полей #########################
     $('#hidden').click(function() { 
        
          $('#hiddenDiv').css('display', "block");
@@ -123,83 +135,15 @@ $(document).ready(function() {
     
     
     
-    // закрытие задачи - завершить - поменять статус
-        $('#TaskClose').click(function() { 
+// закрытие задачи - завершить - поменять статус     ####################
+    $('#TaskClose').click(function() { 
                
-         
-         //let a = $('#status_msg');
-         
-         
-         //a.append("<p>Hello world</p>");
-         
-         $('#DateStart_main').after("<p id=flash_info>Task Added</p>");
-         
-         
-         
-         
-         
-         //a.insertAdjacentText('afterEnd', '<p>Hello World</p>');
-                 
-
-         //console.log('innerHtmL');
-         
-         
-         
-         
-         
-        // let Status = $('#Status').val();
+       /*
+        * взять id задачи
+        * вызвать метод close контроллера и передать id
+        * 
+        */  
        
-       //и записать в базу данных
-       
-//       let url = '/JobList/close';
-//        
-//        fetch(url)
-//                
-//        
-//            .then(data => {
-//                 console.log(data);
-//        
-//        });
-//        
-//        
-        
-        
-       
-//            let response = await fetch(url, {
-////                    method: 'get',
-////                    mode: 'cors',
-////                    cache: 'no-cache',
-////                    credentials: 'same-origin',
-////                    headers: {
-////                        "Content-Type": 'application/json; charset=utf-8'
-////                    },
-////                    redirect: 'follow',
-////                    referrerPolicy: 'origin-when-cross-origin',
-//                    //body: JSON.stringify(task)
-//
-//            });
-            
-        //let result = response.json();
-            
-                    // получение ответа 
-                     //.then(response => response.json())
-            //обработка результата
-                    
-//                    .then(response => response.json())
-//            
-//                    .then(result => {
-//
-//                     console.log(response);
-//                     console.log(result);
-//                     console.log(result.status);
-//                     
-//                     // присвоить ответ блоку статус
-//                     // 
-//                     
-//       
-//       
-//                    });
-//        
 
         
     });
@@ -212,73 +156,170 @@ $(document).ready(function() {
     
     
     
-    // добавление новой задачи
-    $("#task_add").click(function(callback) {
+// добавление новой задачи
+    $("#task_add").click(function() {
        
-        alert("button click method task_add");
-        
-        let url = "/JobList/created";
-        
-        let DateStart = $('#DateStart').val();
-        let Name = $('#Name').val();
-        let Profession = $('#Profession').val();
-        let ExpenseTime = $('#ExpenseTime').val();
-        
-        let Description = $('#Description').val();
-        let Resource = $('#Resource').val();
-        let TypeTask = $('#TypeTask').val();
-        let Status = $('#Status').val();
-        let Priority = $('#Priority').val();
-        let DateEnd = $('#DateEnd').val();
-        let Responsible = $('#Responsible').val();
-        let Creator = $('#Creator').val();
-       
-        let Foto = $('#foto-upload').val(); // как корректно передать???
-
-        
-        //  получаем данные
-        let task = {
-            DateStart: DateStart,
-            Name: Name,
-            Profession: Profession,
-            ExpenseTime: ExpenseTime,
-            Description: Description,
-            Resource: Resource,
-            TypeTask: TypeTask,
-            Status: Status,
-            Priority: Priority,
-            DateEnd: DateEnd,
-            Responsible: Responsible,
-            Creator: Creator,
-            Foto: Foto
-            
-        };
+    
         
         
-           
-        // запрос на сервер - передаем параметры
-        $.ajax({
-            url: url,
-            type: 'POST',
-            accepts: 'application/json',    
-            data: task,
-            success: function() {
-                $('#my-flash-message').innerHTML = 'Данные записаны';
-                
-            },
-            error: function() {
-                alert('что-то пошло не так и данные не переданы');
-                $('#my-flash-message').innerHTML = 'Какая-то ошибка';
-
-            }
-            
-        });
         
-    });
+        
     
 });
 
 
+
+
+
+
+
+// открытие отдельной задачи
+    $('button[data-target="edit_task_modal2"]').click((e) => {
+
+        //console.log('open task');
+        
+        /*
+         * открыть модальное окно
+         * взять id из выбранного блока
+         * получить значения из базы 
+         * вставить значения в модальное окно
+         * 
+         */
+        
+        
+        // удали предыдушую запись об id из модального окна
+            $('#task-id').remove();
+        
+        // открыть модальное окно
+        $('[data-target|="#edit_task_modal"]').trigger('click');
+        
+        //e.stopPropagation();
+        e.preventDefault();
+        
+        //console.log('e.target:  ' + e.target);
+        
+        let id;
+       
+        try {
+       
+            if (e.target.id) {
+           
+               id = e.target.id;
+       
+            } else if (e.target instanceof HTMLSpanElement) {
+           
+               console.log('span element');
+           
+                //todo реализуй тут нормально 
+                // сейчас просто во всех элементах id вставляю
+           
+        }
+
+        } catch (e) {
+           
+           alert('попробуйте еще раз. Error: ' + e);
+           console.log('Ошибка: ' + e);
+
+                
+        }
+            
+        
+        console.log('this id: ' + id);
+        
+        
+        //взять данные из базы данных --- 
+        
+         let url = '/JobList/' + id;
+         
+        //делаем запрос get на контроллер task.open
+        //
+            
+        fetch(url, {
+            method: 'GET'
+         
+        })
+                    // получение ответа - данные из базы по id
+                       // сначала распарсим stream object
+        .then(response => response.json())  
+        
+        .then(result => {
+                     
+                    //теперь берем данные из ответа и подставляем в поля модального окна 
+                    //console.log(result);
+                    
+                    $('#DateStart').val(result.DateStart);
+                    $('#Name').val(result.Name);
+                    $('#Profession').val(result.Profession);
+                    $('#ExpenseTime').val(result.ExpenseTime);
+                    $('#Description').val(result.Desctiption);
+                    $('#Resource').val(result.Resource);
+                    $('#TypeTask').val(result.TypeTask);
+                    $('#Status').val(result.Status);
+                    $('#Priority').val(result.Priority);
+                    $('#DateEnd').val(result.DateEnd);
+                    $('#Responsible').val(result.Responsible);
+                    $('#Creator').val(result.Creator);
+                    
+                    $('#foto-upload').val(result.Foto); // как корректно ??? отдельный запрос?
+
+                      //покажем id задачи
+                    $('#DateStart_main').before('<p class=text-success id=task-id>' + result._id + '</p>');
+        
+                    
+
+        })
+            .catch(err => {
+                //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
+                console.log(err);
+                
+                       
+        });
+
+    
+        
+        
+//        let DateStart = $('#DateStart').val();
+//        let Name = $('#Name').val();
+//        let Profession = $('#Profession').val();
+//        let ExpenseTime = $('#ExpenseTime').val();
+//        let Description = $('#Description').val();
+//        let Resource = $('#Resource').val();
+//        let TypeTask = $('#TypeTask').val();
+//        let Status = $('#Status').val();
+//        let Priority = $('#Priority').val();
+//        let DateEnd = $('#DateEnd').val();
+//        let Responsible = $('#Responsible').val();
+//        let Creator = $('#Creator').val();
+//        let Foto = $('#foto-upload').val(); // как корректно 
+//        
+//        
+        
+        
+        
+        
+        
+        
+        
+        
+        });
+    
+    
+    
+    
+    
+    
+    $('button[data-target="#edit_task_modal"]').click((e) => {
+        
+        
+        console.log('нажатие на кнопку вызова модального');
+        
+        
+        
+    });
+
+    
+    
+    
     // todo:
      /*
       * реализуй динамическое изменение:
@@ -294,3 +335,25 @@ $(document).ready(function() {
          * если она присутствуюет то он отображается в карточке задачи
          * если нет то "задача новая"
          */
+        
+        
+
+    // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // end ready document
+});
