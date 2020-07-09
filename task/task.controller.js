@@ -236,11 +236,32 @@ exports.saved = function(req, res) {
 // удалить задачу
 exports.del = function(req, res) {
     
+    /*
+     * получить id удаляемой задачи
+     * передать ее в функцию модели
+     * вернуть результат
+     */
+    
     log.debug("сработал вызов del в контроллере");
     
-      log.debug('req.body :   ' + req.body);
-      
-      res.send("hello world");
+    let id = req.body.id;
+
+    
+    
+    Task.TaskDel(id, (err, callback) => {
+
+        if (err) {
+
+            log.error(err);
+            res.status(500).send('ошибка от базы данных ' + err);
+                
+                   
+        } else {
+                             
+                res.status(200).send('запись успешно удалена' + callback);               
+        }
+            
+    });
 
     
     

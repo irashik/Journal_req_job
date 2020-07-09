@@ -245,26 +245,6 @@ module.exports.TaskFindAll = TaskFindAll;
 function TaskFindById(id, callback)  {
     
     
-        
-//    Task.findById(id, function(err, task) {
-//        
-//        if(err) {
-//            log.error(err);
-//            
-//            callback(err, null);
-//            
-//            
-//        }
-//        
-//        log.debug(task);
-//        
-//        callback(null, task);
-//        
-//    });
-
-
-
-    
     let promise = Task.findById(id);
     
     promise
@@ -295,14 +275,25 @@ module.exports.TaskFindById = TaskFindById;
 
 
 // удалить задачу
-let TaskDel = function(id) {
+function TaskDel(id, callback) {
     
+    let promise = Task.remove(id);
     
-    Task.remove({ id: id }, function (err, result) {
-        if(err) return log.debug(err);
+    promise
+            .then(result => {
+        
                 log.debug(result);
+        
+                return callback(null, result);
+                
+    })
+            .catch(err => {
+                
+                log.error(err);
+        
+                return callback(err, null);
     });
-    
+        
     
 };
 

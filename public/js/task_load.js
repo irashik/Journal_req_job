@@ -40,7 +40,7 @@ $(document).ready(function() {
         let Foto = $('#foto-upload').val(); // как корректно передать???
         
         
-        let id = $('p#task-id.text-warning').text();
+        let id = $('p#task-id.text-success').text();
         
         console.log(id);
         
@@ -92,7 +92,7 @@ $(document).ready(function() {
             .then(result => {
 
             // добавить надпись в модальном окне о результате выполнения
-            $('#DateStart_main').after("<p class=text-warning> Task Added" + result + " </p>");
+            $('#DateStart_main').after("<p class=text-success> Task Added" + result + " </p>");
 
             
 
@@ -232,8 +232,7 @@ $(document).ready(function() {
          let url = '/JobList/' + id;
          
         //делаем запрос get на контроллер task.open
-        //
-            
+                    
         fetch(url, {
             method: 'GET'
          
@@ -308,17 +307,6 @@ $(document).ready(function() {
     
     
     
-    $('button[data-target="#edit_task_modal"]').click((e) => {
-        
-        
-        console.log('нажатие на кнопку вызова модального');
-        
-        
-        
-    });
-
-    
-    
     
     // todo:
      /*
@@ -344,15 +332,88 @@ $(document).ready(function() {
     
     
     
+// обработка скрытия окна    
+    $('#edit_task_modal').on('hide.bs.modal', function () {
+
+    // нужно удалить все предыдущие записи из полей. (очистить)
+                  
+        $('#DateStart').val('');
+        $('#Name').val('');
+        $('#Profession').val('');
+        $('#ExpenseTime').val('');
+        $('#Description').val('');
+        $('#Resource').val('');
+        $('#TypeTask').val('');
+        $('#Status').val('');
+        $('#Priority').val('');
+        $('#DateEnd').val('');
+        $('#Responsible').val('');
+        $('#Creator').val('');
+        $('#foto-upload').val('');
+
+        $('p#task-id.text-success').remove();
+
+    
+});
+
+
+
+
+
+
+
+
     
     
+// удаление задачи
+    $("#task-del").click((e) => {
+       
+       /*
+        * получить id задачи
+        * передать контроллеру
+        * 
+        */
     
+        let url = '/JobList/' + id;
+
     
+        fetch(url, {
+            method: 'DEL'
+         
+        })
+                    // получение ответа - данные из базы по id
+                    // сначала распарсим stream object
+        .then(response => response.json())  
+        
+        .then(result => {
+            
+            console.log(result);
     
+        // добавить надпись в модальном окне о результате выполнения
+            $('#DateStart_main').after("<p class=text-success> Task Added" + result + " </p>");
+
+            
+
+
+            // редирект на список задач.    
+            window.location.href = '/JobList';
+        
+                     
+                   
+                    
+
+        })
+            .catch(err => {
+                
+                console.log(err);
+                
+                       
+        });
+        
+        
+        
     
-    
-    
-    
+    });
     
     
     // end ready document

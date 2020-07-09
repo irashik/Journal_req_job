@@ -16,6 +16,10 @@ const taskController                = require('../task/task.controller');
 
 taskRouter.get('/JobList/:id', taskController.open);
 
+// удаление задачи
+taskRouter.del('/JobList/:id', taskController.del);
+
+
 taskRouter.get('/JobList', taskController.index);
 
 
@@ -28,8 +32,6 @@ taskRouter.post('/JobList/saved', taskController.saved);
 
 
 
-
-taskRouter.get('/JobList/del', taskController.del);
 
 taskRouter.get('/JobList/close', taskController.close);
 
