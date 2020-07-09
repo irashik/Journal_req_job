@@ -242,10 +242,10 @@ module.exports.TaskFindAll = TaskFindAll;
 
 
 //открыть конкретную запись.
-function TaskFindById(id, callback)  {
+function TaskFindById(id, option, callback)  {
     
     
-    let promise = Task.findById(id);
+    let promise = Task.findById(id, option);
     
     promise
             .then(result => {
@@ -277,7 +277,13 @@ module.exports.TaskFindById = TaskFindById;
 // удалить задачу
 function TaskDel(id, callback) {
     
-    let promise = Task.remove(id);
+    
+    log.debug('id request: ' + id);
+        
+    
+    
+    
+    let promise = Task.findByIdAndRemove(id);
     
     promise
             .then(result => {

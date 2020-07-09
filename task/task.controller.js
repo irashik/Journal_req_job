@@ -26,8 +26,10 @@ exports.open = function(req, res, next) {
          
          log.debug('id==  ' + id);
          
+        let options = { };
         
-        Task.TaskFindById(id, (err, callback) => {
+        
+        Task.TaskFindById(id, options, (err, callback) => {
             
             if (err) {
 
@@ -244,8 +246,11 @@ exports.del = function(req, res) {
     
     log.debug("сработал вызов del в контроллере");
     
-    let id = req.body.id;
+    
+    
+    let id = req.params["id"];
 
+    log.info('request id' + id);
     
     
     Task.TaskDel(id, (err, callback) => {
@@ -258,7 +263,9 @@ exports.del = function(req, res) {
                    
         } else {
                              
-                res.status(200).send('запись успешно удалена' + callback);               
+                             
+            log.debug('запись удалена:  ' + callback);
+            res.status(200).send('запись успешно удалена' + callback);               
         }
             
     });
