@@ -187,9 +187,7 @@ $(document).ready(function() {
          */
         
         
-        // удали предыдушую запись об id из модального окна
-            $('#task-id').remove();
-        
+              
         // открыть модальное окно
         $('[data-target|="#edit_task_modal"]').trigger('click');
         
@@ -366,34 +364,40 @@ $(document).ready(function() {
     
     
 // удаление задачи
-    $("#task-del").click((e) => {
+    $("#task-del").click(() => {
        
        /*
         * получить id задачи
         * передать контроллеру
+        * получить ответ, сообщить что все ОК (или не сообщать?)
+        * редирект на список задач
         * 
         */
+       
+       
+        let id = $('p#task-id.text-success').text();
+        
+        console.log(id);
+
     
         let url = '/JobList/' + id;
 
     
         fetch(url, {
-            method: 'DEL'
+            method: 'DELETE'
          
         })
                     // получение ответа - данные из базы по id
                     // сначала распарсим stream object
-        .then(response => response.json())  
+       // .then(response => response.json())  
         
         .then(result => {
             
             console.log(result);
     
-        // добавить надпись в модальном окне о результате выполнения
-            $('#DateStart_main').after("<p class=text-success> Task Added" + result + " </p>");
-
+            // сообщить что задача удалена
+            alert('Задача id ' + id + ' успешно удалена');
             
-
 
             // редирект на список задач.    
             window.location.href = '/JobList';

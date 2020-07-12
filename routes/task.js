@@ -17,7 +17,7 @@ const taskController                = require('../task/task.controller');
 taskRouter.get('/JobList/:id', taskController.open);
 
 // удаление задачи
-taskRouter.del('/JobList/:id', taskController.del);
+taskRouter.delete('/JobList/:id', taskController.del);
 
 
 taskRouter.get('/JobList', taskController.index);

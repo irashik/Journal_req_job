@@ -23,31 +23,16 @@ exports.open = function(req, res, next) {
      let id = req.params["id"];
          
      if (id) {
-         
-         log.debug('id==  ' + id);
-         
-        let options = { };
+            log.debug('id==  ' + id);
         
-        
-        Task.TaskFindById(id, options, (err, callback) => {
-            
+        Task.TaskFindById(id, (err, callback) => {
             if (err) {
-
                 //log.error("Ошибка ответа от базы данных - callback: " + err);
-                 
                 res.status(204).send('Ошибка от базы данных ' + err);
-
-                 
               
             } else {
-                
                 log.debug(callback);
-             
                 res.status(200).send(callback);
-
-             
-            
-        
             };
             
         });
