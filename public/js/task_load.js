@@ -139,10 +139,47 @@ $(document).ready(function() {
     $('#TaskClose').click(function() { 
                
        /*
-        * взять id задачи
+        * взять id задачи из модульного окна открытого
         * вызвать метод close контроллера и передать id
         * 
         */  
+       
+        let id = $('p#task-id.text-success').text();
+        console.log(id);
+        
+        let url = '/JobList/close/' + id;
+
+                   
+        fetch(url, {
+            method: 'GET'
+         
+        })
+                    
+       // .then(response => response.json())  
+        
+        .then(result => {
+                     /*
+                      * По получению ответа от сервера
+                      * сообщим в окошке
+                      * редирект на главную и обновляем записи.
+                      */
+                   
+                    //$('#DateStart_main').before('<p class=text-success id=task-id>' + result._id + '</p>');
+        
+                    $('#DateStart_main').after("<p class=text-success> Task Closed" + result + " </p>");
+                    window.location.href = '/JobList';
+
+
+        })
+            .catch(err => {
+                //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
+                console.log(err);
+                
+                
+                       
+        });
+       
+       
        
 
         

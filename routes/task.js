@@ -33,7 +33,7 @@ taskRouter.post('/JobList/saved', taskController.saved);
 
 
 
-taskRouter.get('/JobList/close', taskController.close);
+taskRouter.get('/JobList/close/:id', taskController.close);
 
 
 module.exports = taskRouter;
