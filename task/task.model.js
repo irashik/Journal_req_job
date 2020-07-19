@@ -17,6 +17,11 @@ const log                           = require('../utils/log')(module);
 let Schema                    = mongoose.Schema;
 
 
+
+const chai             = require('chai');
+const assert           = chai.assert;
+
+
 let TaskSchema = new Schema({
   
   Name: {          // имя задачи - краткое описание.
@@ -110,6 +115,7 @@ function TaskCreate(data, callback) {
             // }
         
         let promise = Task.create(task);
+        
         
         promise
             .then(result => {
@@ -206,24 +212,34 @@ module.exports.TaskFindAll = TaskFindAll;
 //открыть конкретную запись.
 function TaskFindById(id, option, callback)  {
     
-    
+//    
     let promise = Task.findById(id, option);
+    
+    
     
     promise
             .then(result => {
-        
-                log.debug(result);
-        
-                return callback(null, result);
+                //log.debug(result);
+                callback(null, result);
                 
     })
             .catch(err => {
-                
                 log.error(err);
-        
-                return callback(err, null);
+                callback(err, null);
     });
         
+//        
+//      Task.findById(id, option, (err, data) => {
+//      
+//        if (err) {
+//            callback(err, null);
+//        } else {
+//            callback (null, data);
+//        }
+//    
+//        }); 
+          
+      
     
     
     
@@ -239,27 +255,19 @@ module.exports.TaskFindById = TaskFindById;
 // удалить задачу
 function TaskDel(id, callback) {
     
-    
     log.debug('id request: ' + id);
-        
-    
-    
     
     let promise = Task.findByIdAndRemove(id);
     
     promise
             .then(result => {
-        
                 log.debug(result);
-        
-                return callback(null, result);
+                callback(null, result);
                 
     })
             .catch(err => {
-                
                 log.error(err);
-        
-                return callback(err, null);
+                callback(err, null);
     });
         
     
@@ -267,9 +275,6 @@ function TaskDel(id, callback) {
 
 
 module.exports.TaskDel = TaskDel;
-
-
-
 
 
 

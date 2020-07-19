@@ -23,17 +23,14 @@ taskRouter.delete('/JobList/:id', taskController.del);
 taskRouter.get('/JobList', taskController.index);
 
 
-//добавление новой задачи
+//добавление новой задачи + изменение существующей
 taskRouter.post('/JobList/saved', taskController.saved);
 
 
-  // изменение задачи
+//todo   // изменение задачи
 //taskRouter.put('/JobList/saved', taskController.update);
 
 
-
-
-taskRouter.get('/JobList/close/:id', taskController.close);
 
 
 module.exports = taskRouter;

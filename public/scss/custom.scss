@@ -56,8 +56,191 @@
 
 @import "./JobList";
 
+@import 'mediascreen';
 
 
 /* Ovveride Styles */
 
 
+html {
+  //-webkit-text-size-adjust: 250%; // 4
+
+
+
+  
+}
+
+.container-fluid {
+    
+}
+
+.modal-xl {
+
+    //    -webkit-width: 100%;
+    //-webkit-text-size-adjust: 250%; // 4
+
+    //-webkit-text-size-adjust: 100%; // 4
+    
+    //background-color: $grey;
+    //width: 1500px;
+    
+   
+    
+    
+}
+
+.modal-dialog {
+   // width: 1500px;
+    //background-color: $grey;
+    //color: red;
+    //background: $grey;
+    
+    
+    
+    
+    
+}
+
+.modal-content {
+    //widht: 1500px;
+    
+}
+
+
+/*
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+    //margin: 5px;
+    
+  }
+}*/
+
+
+
+
+
+@media (min-width: 576px) {
+
+    .form-control  {
+        flex-grow:2;
+    
+    }
+    
+   
+}
+
+ .form-inline {
+        flex-flow: nowrap;
+        
+    }
+    
+    
+/*    
+@media 	only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-resolution: 1.5dppx),
+only screen and (min-resolution: 144dpi)  {
+   
+   
+   
+html {
+  -webkit-text-size-adjust: 100%; // 4
+
+
+
+} 
+}*/
+  
+
+
+
+    
+
+
+
+/*@media screen and (max-width: 380px) {
+
+    html {
+        -webkit-text-size-adjust: none; // 4
+    } 
+}
+
+
+@media screen and (min-width: 380px) and (max-width: 680px) {
+
+    html {
+        -webkit-text-size-adjust: none; // 4
+    } 
+
+
+}*/
+
+
+
+/*
+@media screen and (-webkit-min-device-pixel-ratio: 2) { 
+   //эта настройка срабатывает.
+    
+    html {
+        color: red;
+        -webkit-text-size-adjust: none;
+        
+    }
+
+
+    body {
+            background-color: $grey;
+            //color: red;
+        }
+    
+     Экраны маленьго размера 
+    @media (max-device-width: 380px) {
+
+        html {
+              -webkit-text-size-adjust: 200%; // 4
+        }
+   
+        body {
+           color: red;
+        }
+    
+    }
+
+    
+    
+    
+    
+
+}*/
+
+
+ 
+@include device(iPhone6, landscape) {
+    
+    body {
+        background-color: green;
+        
+    }
+    
+     html {
+              -webkit-text-size-adjust: 150%; // 4
+    }
+    
+    
+}
+ 
+
+@include device(iPhone6, portrait) {
+    
+    html {
+              -webkit-text-size-adjust: 300%; // 4
+    }
+        
+    body {
+        background-color: yellow;
+        
+    }
+}

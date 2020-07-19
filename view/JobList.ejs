@@ -5,8 +5,21 @@
   <script src="./js/task_load.js"></script>
 
 
-  <button type='button' data-toggle='modal' data-target='#edit_task_modal' type="button" class="btn btn-primary">Добавление задачи</button>
-       
+    <button type='button' data-toggle='modal' data-target='#edit_task_modal'
+                   class="btn btn-primary my-2">Добавление задачи
+    </button>
+  
+  
+    <form class="form-inline my-3 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" 
+                aria-label="Search">
+      
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+          
+          
+  
+  
       
     <div class="list-group">
     <!--TODO: IF ACTIVE TO SHOW button-->
@@ -18,14 +31,14 @@
         <span id="<%= datai._id %>" class="card-name"><%= datai.Name %></span>
             
         
-        <% if (datai.Resource && datai.Creator && datai.TypeTask) { %>
+        <% if (datai.Resource || datai.Creator || datai.TypeTask) { %>
             <span id="<%= datai._id %>" class="card">
                 
-                        <% if (datai.Resource) { %>
+                        <% if (datai.TypeTask) { %>
                             Тип задачи:<%= datai.TypeTask %>
                         <% } %>
                         
-                        <% if (datai.Resource) { %>
+                        <% if (datai.Creator) { %>
                             Автор задачи: <%= datai.Creator %>
                         <% } %>
                         <% if (datai.Resource) { %>
@@ -64,38 +77,64 @@
         </div>
       
         <div class="modal-body">
-            <div class='container-fluid'>
-                <!-- здесь встраивается task-id -->
+            <!-- здесь встраивается task-id -->
                 
                 <div id='DateStart_main'>
                     <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
                 </div>
           
              <div class ='row'>
-                 <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
-                 
+                 <div class='col'>
+                    <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
+                 </div>
+             </div>
+            <div class="row">     
                   <div class='col'>
                      <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия"></div>
                   <div class='col'>
                        <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты"></div>
+            </div>
                   
-                  
-             </div>
+             
           
-          <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
-          <button type="button" class="btn btn-secondary btn-sm" id='TaskClose'>Завершить</button>
+            <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
+            
           
                
           <div id='hiddenDiv'>
-          
+                    
           <textarea class="form-control task_input_modal" type="text" id='Description' placeholder="Описание задачи" rows="5" cols="40"></textarea>
           <textarea class="form-control task_input_modal" type="text" id='Resource' placeholder="Требуемые ресурсы" rows="3" cols="40"></textarea>
 
             <div class ='row'>
                  <div class='col'>
-                     <input class="form-control task_input" type="text" id='TypeTask' placeholder="Тип задачи">
-                     <input class="form-control task_input" type="text" id='Status' placeholder="Активная">
-                     <input class="form-control task_input" type="text" id='Priority' placeholder="Приоритет">
+                     <!--<input class="form-control task_input" type="text" id='TypeTask' placeholder="Тип задачи">-->
+                     <select class="custom-select" id='TypeTask' title="Тип задачи">
+                        <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
+                        <option value="1">Хоз.работы</option>
+                        <option value="2">Срочный ремонт</option>
+                        <option value="3">Ремонт локом.</option>
+                        <option value="4">Плановый ремонт</option>
+                    </select>
+                     
+                     <!--<input class="form-control task_input" type="text" id='Status' placeholder="Активная">-->
+                     <select class="custom-select" id='Status' title="Статус задачи">
+                        <option data-hidden='true' value="" selected disable hidden>Статус задачи</option>
+                        <option value="1">Активная</option>
+                        <option value="2">Выполнено</option>
+                        <option value="3">Отложено</option>
+                        <option value="4">Закрыта</option>
+                    </select>
+                     
+                     <!--<input class="form-control task_input" type="text" id='Priority' placeholder="Приоритет">-->
+                     <select class="custom-select" id='Priority' title="Приоритет">
+                        <option data-hidden='true' value="" selected disable hidden>Выберите приоритет</option>
+                        <option value="1">Срочная важная</option>
+                        <option value="2">Несрочная важная</option>
+                        <option value="3">Срочная неважная</option>
+                        <option value="4">Несрочная неважная</option>
+                    </select>
+                     
                  </div>
                 <div class='col'>
                     <input class="form-control task_input" type="text" id='DateEnd' placeholder="Дата изм. статуса">
@@ -103,34 +142,48 @@
                     <input class="form-control task_input" type="text" id='Creator' placeholder="Автор задачи">
                     
                 </div>
-                <form>
-                    <div class="form-group">
-                      <label for="exampleFormControlFile1">Загрузить фото</label>
-                      <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                      
-                    </div>
-                    <div id='foto-upload'>Загруженные фото</div>
-                </form>
+                
+               
 
-                <button type="button" class="btn btn-secondary btn-sm" id='task-del'>Удалить</button>
-
+                 
                 
           
           </div>
+          
+<!--        <form>
+            <div class="form-group inline">
+                <label for="exampleFormControlFile1">Загрузить фото</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <div id='foto-upload'>Загруженные фото</div>
+        </form>-->
+          
+           <div class ='row'>
+                        <div class='col'>
+                         
+                            <button type="button" class="btn btn-secondary btn-sm" id='task-del'>Удалить</button>
+                        </div>
+                  </div>
+
+          
+          
+          
              </div>
           
           
           
 
       </div>
-      <div class="modal-footer">
-          <div id='my-flash-message'></div>
+      
+        <div class="modal-footer">
+          
+
           <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
           
           
           
           
-      </div>
+      
     </div>
   </div>
 </div>

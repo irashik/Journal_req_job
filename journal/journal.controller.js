@@ -17,12 +17,35 @@ const log                           = require('../utils/log')(module);
 
 
 
-
-
-
 exports.open = function(req, res, next) {
     
     log.debug("метод journal.open");
+        
+     let id = req.params["id"];
+         
+     if (id) {
+            
+//        
+////        Task.TaskFindById(id, (err, callback) => {
+////            if (err) {
+////                //log.error("Ошибка ответа от базы данных - callback: " + err);
+//                res.status(500).send('Ошибка от базы данных ' + err);
+//                
+//                //todo наверное другой код ошибки
+//                
+//              
+//            } else {
+//                //log.debug(callback);
+                res.status(200).send('callback');
+//            };
+            
+        
+        
+    } else {
+        
+            next();
+        
+    }
     
     
     
@@ -44,6 +67,9 @@ exports.index = function(req, res) {
           * и передавать данные на страницу через res
           */
     
+    
+        res.render('journal');
+
    
     
     

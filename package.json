@@ -32,6 +32,7 @@
         "morgan": "^1.10.0",
         "nconf": "^0.10.0",
         "path": "^0.12.7",
+        "sass-mediascreen": "^1.0.3",
         "sinon": "^9.0.2",
         "util": "^0.12.3",
         "winston": "^3.3.3"

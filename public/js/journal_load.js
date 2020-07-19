@@ -6,6 +6,26 @@
 
 $(document).ready(function() {
     
+    $( function() {
+    $( "#datepicker" ).datepicker({
+         changeMonth: true
+    });
+  });
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // cохранение задачи новой 
     $("#task_save").click(function() {
         
@@ -135,6 +155,61 @@ $(document).ready(function() {
     
     
     
+// закрытие задачи - завершить - поменять статус     ####################
+    $('#TaskClose').click(function() { 
+               
+       /*
+        * взять id задачи из модульного окна открытого
+        * вызвать метод close контроллера и передать id
+        * 
+        */  
+       
+        let id = $('p#task-id.text-success').text();
+        console.log(id);
+        
+        let url = '/JobList/close/' + id;
+
+                   
+        fetch(url, {
+            method: 'GET'
+         
+        })
+                    
+       // .then(response => response.json())  
+        
+        .then(result => {
+                     /*
+                      * По получению ответа от сервера
+                      * сообщим в окошке
+                      * редирект на главную и обновляем записи.
+                      */
+                   
+                    //$('#DateStart_main').before('<p class=text-success id=task-id>' + result._id + '</p>');
+        
+                    $('#DateStart_main').after("<p class=text-success> Task Closed" + result + " </p>");
+                    window.location.href = '/JobList';
+
+
+        })
+            .catch(err => {
+                //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
+                console.log(err);
+                
+                
+                       
+        });
+       
+       
+       
+
+        
+    });
+    
+    
+    
+    
+    
+    
     
     
     
@@ -150,28 +225,8 @@ $(document).ready(function() {
 });
 
 
-    
-    
-    $('[data-target|="#edit_task_modal"]').click(() => {
-        console.log('modal window opened');
-        
-        
-        
-        
-    });
-    
-    
-    
-    // по открытию модального окна поместить курсор в поле ввода названия задачи.
-    
-  $('#edit_task_modal').on('shown.bs.modal', function () {
 
-      
-        $('#Name').trigger('focus');
-        //$('#Name').trigger('click');
 
-                 
-  });
 
 
 

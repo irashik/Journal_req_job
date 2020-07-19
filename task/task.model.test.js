@@ -29,6 +29,34 @@ const model             =require('./task.model.js');
 
 
 
+let TestSchema = new Schema({
+  
+  Name: {          // имя задачи - краткое описание.
+    type: String,
+    required: true,
+    maxlength: 100
+  },
+  
+  Description: {  // более подробное описание задачи
+    type: String,
+    maxlength: 600
+    
+  },
+  DateStart: {     // дата создания задачи
+    type: Date,
+    default: Date.now
+    
+  }
+  
+             
+});
+
+
+const Test = db.model('Test', TestSchema);
+
+
+
+
 
 
 chai.use(chaiAsPromised);
@@ -63,15 +91,19 @@ describe("Test модуля task.module", function() {
                      Status: 'test'
                 };
                
+                let promise = model.TaskCreate(data);
+                
+                assert.ok(promise instanceof Promise);
+                
                 
                  
-                model.TaskCreate(data, (err, callback) => {
-                   
-                    should.exist(callback._id);
-                
-                });
-                
-                  
+//                model.TaskCreate(data, (err, callback) => {
+//                   
+//                    should.exist(callback._id);
+//                
+//                });
+//                
+//                  
                 
         });
 
@@ -83,7 +115,7 @@ describe("Test модуля task.module", function() {
          
         ///////~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
-     describe.only("method TaskFindAll", () => {
+    describe("method TaskFindAll", () => {
         
         
         it('Стандартное поведение', function() {
@@ -105,18 +137,24 @@ describe("Test модуля task.module", function() {
                 
                 
                  
-                model.TaskFindAll(options, (err, callback) => {
-                                
-                    log.info(callback);
-                    log.error(err);
-                    
-                    //err.should.never.CalledWith();
-                    callback.should.calledOnce();
-                    callback.should.have.callCount();
-                    
-                
-            });
-                
+//                model.TaskFindAll(options, (err, callback) => {
+//                                
+//                    log.info(callback);
+//                    log.error(err);
+//                    
+//                    //err.should.never.CalledWith();
+//                    callback.should.calledOnce();
+//                    callback.should.have.callCount();
+//                    
+//                
+//            });
+
+//                let promise = Test.find();
+//                
+//                assert.ok(promise instanceof Promise);
+//                
+//                
+//                
                 
                 
                                 
@@ -135,8 +173,71 @@ describe("Test модуля task.module", function() {
 //        });
          
     });
-             
+    
+    describe.only('testing mongodb', () => {
+       
         
+        it('test1', () => {
+            
+            
+              const data = {       
+                     Name: "Test Task2",
+                     Description: "Test Task1 Description",
+                     DateStart: new Date(),
+                     Status: 'test'
+                };
+                
+           
+            let promise2 = Test.create(data);
+            
+            promise2.then(result => {
+               
+                log.info(result);
+                
+            });
+                       
+            
+             should.ok(promise2 instanceof Promise);
+             
+        });
+
+           
+           
+            
+            
+            it('test3', () => {
+                             
+                 const data = {       
+                     Name: "Test Task2",
+                     Description: "Test Task1 Description",
+                     DateStart: new Date(),
+                     Status: 'test'
+                };                             
+                          
+            
+            let a = new Test(data);
+            
+            let b = a.save();
+            
+            
+            
+            should.ok(b instanceof Promise);
+            
+            
+                
+                
+                
+                
+            });
+            
+         
+            
+            
+            
+        });
+        
+        
+      
         
         
         

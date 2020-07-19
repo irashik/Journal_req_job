@@ -9,7 +9,7 @@
 
 .card {
     
-    font-size: 10px;
+    font-size: 0.775rem; //todo поменяй
     font-family: Poiret One;
     
         
@@ -18,7 +18,7 @@
 
 .card-name {
     
-    font-size: 14px;
+    font-size: 0.875rem;
     font-family: Arimo;
     
         
@@ -31,5 +31,9 @@
 }
 
 
+.modal-content {
+    //width: 100vw;
+    
+}
 
 

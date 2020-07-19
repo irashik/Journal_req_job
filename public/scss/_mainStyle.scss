@@ -33,6 +33,8 @@ body {
  display: flex;
  flex-direction: column;
  justify-content: space-between;
+ min-width: 330px;
+ 
 
   // DEBUG:
    // margin: 10px;
@@ -222,5 +224,10 @@ div {
 h1 {
     
     color: none;
+    
+}
+
+header {
+    height: 5rem;
     
 }

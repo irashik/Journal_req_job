@@ -226,37 +226,3 @@ exports.del = function(req, res) {
 
 
 
-// завершить задачу
-exports.close = function(req, res) {
-    
-    log.debug("сработал вызов close в контроллере");
-    
-    // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
-
-    let id = req.params["id"];
-
-     let DateEnd = new Date();
-         
-     let task = {
-            Status: "Выполнена",
-            DateEnd: DateEnd
-        };
-
-    
-    Task.TaskUpdate(id, task, (err, callback) => {
-            if (err) {
-                log.error(err);
-                res.status(500).send('ошибка от базы данных ' + err);
-                                   
-            } else {
-                res.status(200).send('задача закрыта' + callback);               
-            }
-            
-        });
-    
-
-    
-    
-    
-    
-};
