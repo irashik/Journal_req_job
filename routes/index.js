@@ -33,6 +33,25 @@ router.post('/request', function(req, res) {
     
 });
 
+ 
+router.get('/login', function(req, res) {
+     
+    res.render('login', {  });
+     
+     log.info('get login');
+     
+                          
+});
+
+
+router.get('/register', function(req, res) {
+     
+    res.render('register', {  });
+     
+     log.info('get register');
+     
+                          
+});
 
 
 

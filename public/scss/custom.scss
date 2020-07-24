@@ -244,3 +244,19 @@ html {
         
     }
 }
+
+
+
+
+// для всех мобильных экранов. мой Vertex Luck 854x480
+@include device(mobile, portrait) {
+    
+    html {
+              -webkit-text-size-adjust: 300%; // 4
+    }
+        
+    body {
+        background-color: yellow;
+        
+    }
+}

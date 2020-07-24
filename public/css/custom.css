@@ -9933,7 +9933,7 @@ body {
 
 h1 {
   font-family: Poiret One;
-  font-size: 25px;
+  font-size: 1.9rem;
 }
 
 h2 {
@@ -9980,7 +9980,7 @@ h5 {
 
 p {
   font-family: Poiret One;
-  font-size: 12px;
+  font-size: 0.9rem;
 }
 
 main {
@@ -10068,11 +10068,6 @@ header {
 */
 /* Экраны маленьго размера */
 /* Экраны среднего размера */
-@media (max-width: 1030px) {
-  html {
-    -webkit-text-size-adjust: 250%;
-  }
-}
 /*
 *  Стили для раздела JobList
 */

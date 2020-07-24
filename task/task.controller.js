@@ -13,8 +13,6 @@ const log                           = require('../utils/log')(module);
 
 
 
-
-
 // получи данные по конкретному работнику
 exports.open = function(req, res, next) {
     

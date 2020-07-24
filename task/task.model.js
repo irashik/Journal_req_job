@@ -36,11 +36,11 @@ let TaskSchema = new Schema({
     
   },
   DateStart: {     // дата создания задачи
-    type: Date,
-    default: Date.now
+    type: Date
+    
     
   },
-  Status: {     // статус задачи [активная, в процессе, завершена (закрыта closed), отложена,]
+  Status: {     // статус задачи [активная, в процессе, завершена (закрыта closed), отложена, заявка, выполнена, ]
       type: String,
       default: "Активная"
       
@@ -61,7 +61,8 @@ let TaskSchema = new Schema({
   TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
       type: String
   },
-  Creator: {   // создатель задачи (автор).
+  Creator: {   // создатель задачи (автор). 
+      // тут ссылка на id коллекции из пользователей
       type: String   
   },
   Profession: {  // профессия для которой задача
@@ -71,8 +72,8 @@ let TaskSchema = new Schema({
       type: String // нужно тип binData но чет незнаю
   },
   Resource: {    // требуемые ресурсы (материалы)
-      type: String,
-      default: null
+      type: String
+      
   },
   ExpenseTime: {  // затраты времени на задачу
       type: String 
