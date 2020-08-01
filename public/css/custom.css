@@ -10049,9 +10049,8 @@ div {
   color: darkgreen;
 }
 
-#DateStart_main {
+#DateStart {
   font-family: Poiret One;
-  font-size: 14px;
   display: flex;
 }
 
@@ -10086,6 +10085,13 @@ header {
 }
 
 /* Ovveride Styles */
+/*
+* переопределение стилей jquery
+*/
+.ui-selectmenu-button.ui-button {
+  width: auto;
+}
+
 /*
 @media (min-width: 576px) {
   .modal-dialog {
@@ -10172,12 +10178,12 @@ html {
 
 }*/
 @media only screen and (width: 667px) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2), only screen and (width: 667px) and (device-width: 375px) and (device-height: 667px) and (resolution: 2dppx), only screen and (orientation: landscape) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2), only screen and (orientation: landscape) and (device-width: 375px) and (device-height: 667px) and (resolution: 2dppx), only screen and (width: 667px) and (device-width: 667px) and (device-height: 375px) and (-webkit-device-pixel-ratio: 2), only screen and (width: 667px) and (device-width: 667px) and (device-height: 375px) and (resolution: 2dppx), only screen and (orientation: landscape) and (device-width: 667px) and (device-height: 375px) and (-webkit-device-pixel-ratio: 2), only screen and (orientation: landscape) and (device-width: 667px) and (device-height: 375px) and (resolution: 2dppx) {
-  body {
-    background-color: green;
-  }
-
   html {
     -webkit-text-size-adjust: 150%;
+  }
+
+  .modal-dialog {
+    max-width: 200%;
   }
 }
 @media only screen and (width: 375px) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2), only screen and (width: 375px) and (device-width: 375px) and (device-height: 667px) and (resolution: 2dppx), only screen and (orientation: portrait) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2), only screen and (orientation: portrait) and (device-width: 375px) and (device-height: 667px) and (resolution: 2dppx) {
@@ -10185,8 +10191,26 @@ html {
     -webkit-text-size-adjust: 300%;
   }
 
-  body {
-    background-color: yellow;
+  .modal-dialog {
+    max-width: 200%;
+  }
+}
+@media only screen and (orientation: portrait) and (min-device-width: 320px) and (max-device-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 300%;
+  }
+
+  .modal-dialog {
+    max-width: 200%;
+  }
+}
+@media only screen and (orientation: landscape) and (min-device-width: 320px) and (max-device-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 150%;
+  }
+
+  .modal-dialog {
+    max-width: 200%;
   }
 }
 

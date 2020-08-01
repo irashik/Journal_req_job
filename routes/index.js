@@ -7,11 +7,17 @@ const express        = require('express');
 const router         = express.Router();
 const log                           = require('../utils/log')(module);
 
+
+
+
+
+
     
 router.get('/', function(req, res) {
-     res.render('index', {  });
      
-     //log.info(req.headers);
+    res.render('index', {  });
+     
+    //log.info(req.headers);
      
                           
 });
@@ -24,39 +30,11 @@ router.get('/report', function(req, res) {
 });
 
 
-
-router.post('/request', function(req, res) {
+router.get('/about', function(req, res) {
     
-    
-    log.debug('request content:  ' + JSON.stringify(req.body));
-    res.send('request received');
-    
+    log.info('get about router');
+    res.render('about', {  });
+                               
 });
-
- 
-router.get('/login', function(req, res) {
-     
-    res.render('login', {  });
-     
-     log.info('get login');
-     
-                          
-});
-
-
-router.get('/register', function(req, res) {
-     
-    res.render('register', {  });
-     
-     log.info('get register');
-     
-                          
-});
-
-
-
-
-
-
 
 module.exports = router;

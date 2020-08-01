@@ -25,7 +25,6 @@ $(document).ready(function() {
                 "Loading...</span></div>");        
         
         // получим данные из полей
-        let DateStart = $('#DateStart').val();
         let Name = $('#Name').val();
         let Profession = $('#Profession').val();
         let ExpenseTime = $('#ExpenseTime').val();
@@ -39,16 +38,11 @@ $(document).ready(function() {
         let Creator = $('#Creator').val();
         let Foto = $('#foto-upload').val(); // как корректно передать???
         
-        
         let id = $('p#task-id.text-success').text();
-        
-        console.log(id);
-        
-        
+       
         
         //  подготавливаем json в соответствии со схемой mongodb
         let task = {
-            DateStart: DateStart,
             Name: Name,
             Profession: Profession,
             ExpenseTime: ExpenseTime,
@@ -96,10 +90,24 @@ $(document).ready(function() {
 
             
 
+            // если присутсвует значение строки поиска то перейти по ссылке с параметром
+               let search_str = $('#input-search').val();
 
-            // редирект на список задач.    
-            window.location.href = '/JobList';
+               if (search_str) {
+                   // создаю URL с параметром
+                    let url ='/Joblist'+ '?' + 'search=' + search_str;
+                
+                    //отправляю запрос на сервер для перезагрузки страницы.
+                    location.href = url;
+                   
+               } else {
+                        // редирект на список задач.    
+                        window.location.href = '/JobList';
+               
+               }
+            
         
+            
                        
                     
 
@@ -123,130 +131,98 @@ $(document).ready(function() {
     
     
     
-// открытие подробного перечня полей #########################
+    // открытие подробного перечня полей #########################
     $('#hidden').click(function() { 
-       
-         $('#hiddenDiv').css('display', "block");
-                      
+        $('#hiddenDiv').css('display', "block");
         // нужно чтобы блок hiddenDiv стал видимым
-                
     });
        
-    
-    
-    
-    
-    
-    
-// добавление новой задачи
+    // добавление новой задачи
     $("#task_add").click(function() {
-       
-    
-        
-        
-        
         
     
-});
+    });
 
-
-    
     
     $('[data-target|="#edit_task_modal"]').click(() => {
         console.log('modal window opened');
-        
-        
-        
         
     });
     
     
     
     // по открытию модального окна поместить курсор в поле ввода названия задачи.
-    
-  $('#edit_task_modal').on('shown.bs.modal', function () {
-
-      
+    $('#edit_task_modal').on('shown.bs.modal', function () {
         $('#Name').trigger('focus');
-        //$('#Name').trigger('click');
-
-                 
-  });
+             
+    });
 
 
-
-// открытие отдельной задачи
+    // открытие отдельной задачи
     $('button[data-target="edit_task_modal2"]').click((e) => {
-
-        //console.log('open task');
-        
         /*
          * открыть модальное окно
          * взять id из выбранного блока
          * получить значения из базы 
          * вставить значения в модальное окно
-         * 
          */
-        
-        
               
         // открыть модальное окно
         $('[data-target|="#edit_task_modal"]').trigger('click');
-        
         //e.stopPropagation();
         e.preventDefault();
-        
-        //console.log('e.target:  ' + e.target);
-        
-        let id;
-       
-        try {
-       
-            if (e.target.id) {
-           
-               id = e.target.id;
-       
-            } else if (e.target instanceof HTMLSpanElement) {
-           
-               console.log('span element');
-           
-                //todo реализуй тут нормально 
-                // сейчас просто во всех элементах id вставляю
-           
-        }
 
+        let id;
+        try {
+            if (e.target.id) {
+               id = e.target.id;
+            } else if (e.target instanceof HTMLSpanElement) {
+                 console.log('span element');
+                 //todo реализуй тут нормально 
+                 // сейчас просто во всех элементах id вставляю
+        }
         } catch (e) {
-           
            alert('попробуйте еще раз. Error: ' + e);
            console.log('Ошибка: ' + e);
-
-                
         }
             
-        
         console.log('this id: ' + id);
-        
-        
         //взять данные из базы данных --- 
-        
          let url = '/JobList/' + id;
-         
         //делаем запрос get на контроллер task.open
                     
         fetch(url, {
             method: 'GET'
-         
         })
-                    // получение ответа - данные из базы по id
-                       // сначала распарсим stream object
+                // получение ответа - данные из базы по id
+                // сначала распарсим stream object
         .then(response => response.json())  
-        
         .then(result => {
                      
                     //теперь берем данные из ответа и подставляем в поля модального окна 
                     //console.log(result);
                     
-                    $('#DateStart').val(result.DateStart);
+                   // преобразовать дату
+                    let date = new Date(result.DateStart);
+                    
+                    console.log('result.DateStart=== ' + date);
+                    
+                    let options = {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        second: 'numeric'
+                    };
+
+                    let DateStart = date.toLocaleString('ru', options);
+
+                    console.log('input string data= ' + DateStart);
+                    
+                    
+                    $('#DateStart').text('Дата создания задачи: ' + DateStart);
+                    
                     $('#Name').val(result.Name);
                     $('#Profession').val(result.Profession);
                     $('#ExpenseTime').val(result.ExpenseTime);
@@ -262,48 +238,16 @@ $(document).ready(function() {
                     $('#foto-upload').val(result.Foto); // как корректно ??? отдельный запрос?
 
                       //покажем id задачи
-                    $('#DateStart_main').before('<p class=text-success id=task-id>' + result._id + '</p>');
+                    $('#DateStart').before('<p class=text-success id=task-id>' + result._id + '</p>');
         
-                    
-
         })
             .catch(err => {
                 //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
                 console.log(err);
-                
                        
         });
 
-    
-        
-        
-//        let DateStart = $('#DateStart').val();
-//        let Name = $('#Name').val();
-//        let Profession = $('#Profession').val();
-//        let ExpenseTime = $('#ExpenseTime').val();
-//        let Description = $('#Description').val();
-//        let Resource = $('#Resource').val();
-//        let TypeTask = $('#TypeTask').val();
-//        let Status = $('#Status').val();
-//        let Priority = $('#Priority').val();
-//        let DateEnd = $('#DateEnd').val();
-//        let Responsible = $('#Responsible').val();
-//        let Creator = $('#Creator').val();
-//        let Foto = $('#foto-upload').val(); // как корректно 
-//        
-//        
-        
-        
-        
-        
-        
-        
-        
-        
         });
-    
-    
-    
     
     
     
@@ -315,29 +259,12 @@ $(document).ready(function() {
       * 
       */
      
-     
-     
-        //todo
-        /*
-         * при открытии модального окна, должен проверяться параметр req.params.id
-         * если она присутствуюет то он отображается в карточке задачи
-         * если нет то "задача новая"
-         */
-        
-        
-
-    // метод присваивает определенной задачи статус - завершена + ставит дату завершения.
     
     
-    
-    
-    
-// обработка скрытия окна    
+    // обработка скрытия окна    
     $('#edit_task_modal').on('hide.bs.modal', function () {
-
     // нужно удалить все предыдущие записи из полей. (очистить)
-                  
-        $('#DateStart').val('');
+        $('#DateStart').text('');
         $('#Name').val('');
         $('#Profession').val('');
         $('#ExpenseTime').val('');
@@ -350,76 +277,75 @@ $(document).ready(function() {
         $('#Responsible').val('');
         $('#Creator').val('');
         $('#foto-upload').val('');
-
         $('p#task-id.text-success').remove();
-
-    
-});
-
+   
+    });
 
 
-
-
-
-
-
-    
-    
-// удаление задачи
+    // удаление задачи
     $("#task-del").click(() => {
-       
-       /*
-        * получить id задачи
+       /* получить id задачи
         * передать контроллеру
         * получить ответ, сообщить что все ОК (или не сообщать?)
         * редирект на список задач
-        * 
         */
-       
-       
         let id = $('p#task-id.text-success').text();
-        
         console.log(id);
-
-    
         let url = '/JobList/' + id;
 
-    
         fetch(url, {
             method: 'DELETE'
          
         })
                     // получение ответа - данные из базы по id
                     // сначала распарсим stream object
-       // .then(response => response.json())  
+                    // .then(response => response.json())  
         
         .then(result => {
-            
             console.log(result);
-    
             // сообщить что задача удалена
             alert('Задача id ' + id + ' успешно удалена');
-            
-
             // редирект на список задач.    
             window.location.href = '/JobList';
-        
-                     
-                   
-                    
-
         })
             .catch(err => {
-                
                 console.log(err);
-                
-                       
         });
-        
-        
-        
-    
     });
+
+    
+    
+    // кнопка поиск
+    $('#btn-search').click((e) => {
+         /*
+          * берем значение из поля ввода
+          * делаем запрос на сервер
+          * получаем запрос, обрабатываем 
+          * 
+          */
+        
+        e.preventDefault();
+        
+        // беру строку поискового запроса из поля инпут
+        let search_str = $('#input-search').val();
+                
+        // создаю URL с параметром
+        let url ='/Joblist'+ '?' + 'search=' + search_str;
+                
+        //отправляю запрос на сервер для перезагрузки страницы.
+        location.href = url;
+
+
+        // вернуть значение поискового запроса обратно в строку
+        //$('#input-search').val(search_str);
+
+        
+        
+        
+    });
+    
+    
+    
     
     
     // end ready document

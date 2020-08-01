@@ -1,69 +1,196 @@
 <% layout('layout/page') -%>
 
-<% block('title', 'Отчет'); -%>
+<% block('title', 'Отчеты по задачам'); -%>
+
+<script src="./js/report_load.js"></script>
+
+<h1>Отчеты по задачам</h1>
 
 
-<h1>Отчеты по выполненным работам</h1>
+<div class='container-fluid'>
+    
+    <div class='row'>
+        <div class='col'>
+            <label for="from">Выберите период: от</label>
+            <input type="text" id="from" name="from">
+            <label for="to">до</label>
+            <input type="text" id="to" name="to">
+        </div>
+   </div>
+       
 
-
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker({
-        changeMonth: true
-    });
-  });
-  </script>
+    <div class='row'>
+        
+        
+        <div class='col'>
+            <p>bla bla bla</p>
+        </div>
+           
+        <div class='col'>
+            <label for="number">Select a number</label>
+            <select name="number" id="number">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+            </select>
+        
+        </div>
+           
+        <div class='col'>
+               <label for="number">Select a number</label>
+                <select name="number" id="number2">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                </select>
+               
+        </div>
+           
+        <div class='col'>
+               <label for="number">Select a number</label>
+                <select name="number" id="number">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                </select>
+               
+        </div>
+        
+        
+        
+        <div class='col'>
+               <label for="number">Select a number</label>
+                <select name="number" id="number">
+                  <option>1</option>
+                  <option selected="selected">2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                </select>
+               
+        </div>
+           
+        <div class='col'>
+               <label for="number">Select a number</label>
+                <select name="number" id="number">
+                  <option>1</option>
+                  <option selected="selected">2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                </select>
+               
+           </div>
+           
+       </div>
   
+</div>
 
- <p>Выберите дату: <input type="text" id="datepicker"></p>
+<br>
+<br>
 
- 
- 
- 
- 
- 
+
+
+
+
+    
+    
+
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Username</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
   
- <p>Выберите период</p>
-
-
-
-  <script>
-  $( function() {
-    var dateFormat = "mm/dd/yy",
-      from = $( "#from" )
-        .datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 1
-        })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-        }),
-      to = $( "#to" ).datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-      });
- 
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
-        date = null;
-      }
- 
-      return date;
-    }
-  } );
-  </script>
   
-  
-   
-<label for="from">From</label>
-<input type="text" id="from" name="from">
-<label for="to">to</label>
-<input type="text" id="to" name="to">
+ 

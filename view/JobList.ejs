@@ -10,11 +10,23 @@
     </button>
   
   
-    <form class="form-inline my-3 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" 
-                aria-label="Search">
+    <form class="form-inline my-3 my-lg-2">
+        
+        
+        <!--если передан параметр search-->
+        <% if (search) { %>
+        <!--добавляем значение параметра-->
+                <input class="form-control mr-sm-2" id='input-search' type="search" placeholder="Search" 
+                       aria-label="Search" value= "<%= search %>" >
+                       
+                       
+         <% } else { %>
+                <input class="form-control mr-sm-2" id='input-search' type="search" placeholder="Search" 
+                       aria-label="Search" value="">
+        <% } %>
+        
       
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" id='btn-search' type="submit">Search</button>
     </form>
           
           
@@ -67,6 +79,7 @@
 <div class="modal fade bd-example-modal-xl" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     
   <div class="modal-dialog modal-xl" role="document">
+      
     <div class="modal-content">
     
         <div class="modal-header">
@@ -78,25 +91,29 @@
       
         <div class="modal-body">
             <!-- здесь встраивается task-id -->
-                
-                <div id='DateStart_main'>
-                    <div>Дата создания задачи: </div><div id='DateStart'>YYYY-mm-ddTHH:MM:ss</div>
-                </div>
-          
+                                
+            <div id='DateStart'></div>
+                      
              <div class ='row'>
                  <div class='col'>
                     <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
                  </div>
-             </div>
+            </div>
             <div class="row">     
                   <div class='col'>
-                     <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия"></div>
+                        <input class="form-control task_input" type="text" id='Creator' placeholder="Автор задачи">
+                  </div>
                   <div class='col'>
-                       <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты"></div>
+                    <select class="custom-select" id='TypeTask' title="Тип задачи">
+                        <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
+                        <option value="Хоз.работы">Хоз.работы</option>
+                        <option value="Срочный ремонт">Срочный ремонт</option>
+                        <option value="Ремонт локом.">Ремонт локом.</option>
+                        <option value="Плановый ремонт">Плановый ремонт</option>
+                    </select>
+                  </div>
             </div>
                   
-             
-          
             <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
             
           
@@ -108,47 +125,42 @@
 
             <div class ='row'>
                  <div class='col'>
-                     <!--<input class="form-control task_input" type="text" id='TypeTask' placeholder="Тип задачи">-->
-                     <select class="custom-select" id='TypeTask' title="Тип задачи">
-                        <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
-                        <option value="1">Хоз.работы</option>
-                        <option value="2">Срочный ремонт</option>
-                        <option value="3">Ремонт локом.</option>
-                        <option value="4">Плановый ремонт</option>
-                    </select>
                      
-                     <!--<input class="form-control task_input" type="text" id='Status' placeholder="Активная">-->
+                    <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты">
+                     
+                     
                      <select class="custom-select" id='Status' title="Статус задачи">
                         <option data-hidden='true' value="" selected disable hidden>Статус задачи</option>
-                        <option value="1">Активная</option>
-                        <option value="2">Выполнено</option>
-                        <option value="3">Отложено</option>
-                        <option value="4">Закрыта</option>
+                        <option value="Активная">Активная</option>
+                        <option value="Выполнено">Выполнено</option>
+                        <option value="Отложено">Отложено</option>
+                        <option value="Заявка">Заявка</option>-->
                     </select>
                      
-                     <!--<input class="form-control task_input" type="text" id='Priority' placeholder="Приоритет">-->
+                     
                      <select class="custom-select" id='Priority' title="Приоритет">
                         <option data-hidden='true' value="" selected disable hidden>Выберите приоритет</option>
-                        <option value="1">Срочная важная</option>
-                        <option value="2">Несрочная важная</option>
-                        <option value="3">Срочная неважная</option>
-                        <option value="4">Несрочная неважная</option>
+                        <option value="Срочная важная">Срочная важная</option>
+                        <option value="Несрочная важная">Несрочная важная</option>
+                        <option value="Срочная неважная">Срочная неважная</option>
+                        <option value="Несрочная неважная">Несрочная неважная</option>
                     </select>
                      
                  </div>
+            
                 <div class='col'>
-                    <input class="form-control task_input" type="text" id='DateEnd' placeholder="Дата изм. статуса">
+                    <!-- <input class="form-control task_input" type="text" id='DateEnd' placeholder="Дата изм. статуса">-->
                     <input class="form-control task_input" type="text" id='Responsible' placeholder="Ответственный">
-                    <input class="form-control task_input" type="text" id='Creator' placeholder="Автор задачи">
-                    
+                    <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия">
                 </div>
+            </div>
                 
-               
+            <div class ='row'>
+                <div class='col'>
+                    <button type="button" class="btn btn-secondary btn-sm" id='task-del'>Удалить</button>
+                </div>
+            </div>
 
-                 
-                
-          
-          </div>
           
 <!--        <form>
             <div class="form-group inline">
@@ -158,17 +170,18 @@
             <div id='foto-upload'>Загруженные фото</div>
         </form>-->
           
-           <div class ='row'>
-                        <div class='col'>
-                         
-                            <button type="button" class="btn btn-secondary btn-sm" id='task-del'>Удалить</button>
-                        </div>
-                  </div>
+           
+            
+          
+          
+                
+          
+          </div>
 
           
           
           
-             </div>
+            
           
           
           
@@ -176,16 +189,10 @@
       </div>
       
         <div class="modal-footer">
-          
-
-          <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
-          
-          
-          
-          
-      
-    </div>
+            <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
+       </div>
+  
   </div>
 </div>
-</div>
+
     

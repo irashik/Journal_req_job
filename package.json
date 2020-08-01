@@ -2,7 +2,7 @@
     "name": "Journal_registration_job",
     "version": "1.0.0",
     "scripts": {
-        "start": "node server.js",
+        "start": "nodemon server.js",
         "test": "mocha *.test.js"
     },
     "keywords": [
@@ -15,6 +15,7 @@
     "author": "dmitrii",
     "contributors": [],
     "dependencies": {
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
         "connect-flash": "^0.1.1",
         "connect-mongo": "^3.2.0",
@@ -32,6 +33,9 @@
         "morgan": "^1.10.0",
         "nconf": "^0.10.0",
         "passport": "^0.4.1",
+        "passport-google-oauth20": "^2.0.0",
+        "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^6.0.1",
         "passport-oauth": "^1.0.0",
         "path": "^0.12.7",
         "sass-mediascreen": "^1.0.3",

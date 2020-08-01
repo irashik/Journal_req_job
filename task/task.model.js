@@ -29,21 +29,16 @@ let TaskSchema = new Schema({
     required: true,
     maxlength: 100
   },
-  
   Description: {  // более подробное описание задачи
     type: String,
     maxlength: 600
-    
   },
   DateStart: {     // дата создания задачи
     type: Date
-    
-    
   },
   Status: {     // статус задачи [активная, в процессе, завершена (закрыта closed), отложена, заявка, выполнена, ]
       type: String,
       default: "Активная"
-      
   },
   DateEnd: {      // дата выполнения
       type: Date
@@ -51,12 +46,9 @@ let TaskSchema = new Schema({
   Responsible: {  // ответственный работник 
       type: String,
       default: 'бригадир Ирашин'
-      
-      
   },
   Priority: {   // приоритет срочное важное, несрочное важное, срочное неважное, несрочное неважное
       type: String
-      
   },
   TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
       type: String
@@ -73,7 +65,6 @@ let TaskSchema = new Schema({
   },
   Resource: {    // требуемые ресурсы (материалы)
       type: String
-      
   },
   ExpenseTime: {  // затраты времени на задачу
       type: String 
@@ -175,7 +166,7 @@ function TaskFindAll(options, callback) {
     
     if(options) {
         
-        let promise = Task.find(options);
+        let promise = Task.find(options).sort({_id: -1 });
         
         promise
             .then(result => {

@@ -61,6 +61,9 @@
 
 /* Ovveride Styles */
 
+@import "./myJquery";  // переопределение jquery стилей
+
+
 
 html {
   //-webkit-text-size-adjust: 250%; // 4
@@ -221,13 +224,20 @@ html {
 @include device(iPhone6, landscape) {
     
     body {
-        background-color: green;
+        //background-color: green;
         
     }
     
      html {
               -webkit-text-size-adjust: 150%; // 4
     }
+    
+     .modal-dialog {
+        max-width: 200%;
+        
+    }
+    
+    
     
     
 }
@@ -240,9 +250,16 @@ html {
     }
         
     body {
-        background-color: yellow;
+        //background-color: yellow;
         
     }
+    
+     .modal-dialog {
+        max-width: 200%;
+        
+    }
+    
+    
 }
 
 
@@ -256,7 +273,30 @@ html {
     }
         
     body {
-        background-color: yellow;
+        //background-color: yellow;
+        
+    }
+    
+    .modal-dialog {
+        max-width: 200%;
+        
+    }
+}
+
+
+@include device(mobile, landscape) {
+    
+    html {
+              -webkit-text-size-adjust: 150%; // 4
+    }
+        
+    body {
+       // background-color: $grey;
+        
+    }
+    
+    .modal-dialog {
+        max-width: 200%;
         
     }
 }

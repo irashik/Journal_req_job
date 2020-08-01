@@ -56,9 +56,34 @@ exports.index = function(req, res) {
     let option;
     // берем опции из запроса если есть
     
-    if (req.params.option) {
-        log.info('req.params.option: ' + req.params.option);
-         option = req.params.option;
+    log.debug('search== ' + req.query.search);
+    
+    let search_str = null;
+    
+    
+    if (req.query.search) {
+    
+         search_str = req.query.search;
+         
+         option = {
+             // объект для запроса mongodb
+              /*
+               * ищу по полям
+               * { Name: , TypeTask: , Creator, Resource
+               * 
+               * должны быть созданы индексы.
+               * 
+               * добавить score & sort
+               db.messages.find({$text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}})* $text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}
+               */
+              
+              $text: { $search: search_str }
+             
+         };
+         
+         
+         
+         
     } else {
         option = { 
             Status: { $ne: "Выполнена" }
@@ -70,7 +95,7 @@ exports.index = function(req, res) {
         // если нет то по умолчанию
         // все записи кроме закрытых работ status:closed или 
         
-        log.debug('option:  ' + option);
+        log.debug('option:  ' + JSON.stringify(option));
                          
          /* // этот метод должен получать данные из БД
           * и передавать данные на страницу через res
@@ -84,8 +109,10 @@ exports.index = function(req, res) {
             res.render('JobList', {data: null, status: 'Error respond'});
         
         } else {
+            
             log.debug('task controller-TaskFindAll' );
-            res.render('JobList', { data: data, status: 'ok', id_task: null });
+            
+            res.render('JobList', { data: data, status: 'ok', id_task: null, search: search_str });
            
         }
         
@@ -109,7 +136,7 @@ exports.saved = function(req, res) {
      // нужно взять информацию из запроса
              // потому что нужно разделить id и основные данные.
 
-        let DateStart = req.body.DateStart;
+        
         let Name = req.body.Name;
         let Profession = req.body.Profession;
         let ExpenseTime = req.body.ExpenseTime;
@@ -125,9 +152,12 @@ exports.saved = function(req, res) {
         let Foto = req.body.Foto; 
 
         let id = req.body.id;
-     
-      
-        let task = {
+        
+        let DateStart = new Date();
+        
+        
+       
+        let task_create = {
             DateStart: DateStart,
             Name: Name,
             Profession: Profession,
@@ -143,19 +173,31 @@ exports.saved = function(req, res) {
             Foto: Foto
             
         };
-      
-      
+        
+         let task_update = {
+            Name: Name,
+            Profession: Profession,
+            ExpenseTime: ExpenseTime,
+            Description: Description,
+            Resource: Resource,
+            TypeTask: TypeTask,
+            Status: Status,
+            Priority: Priority,
+            DateEnd: DateEnd,
+            Responsible: Responsible,
+            Creator: Creator,
+            Foto: Foto
+            
+        };
       
         log.info('id request:  ' + id);
       
-
-
      // если передается id
      if (id) {
         // обновление данных
         log.info('controller update task');
                            
-        Task.TaskUpdate(id, task, (err, callback) => {
+        Task.TaskUpdate(id, task_update, (err, callback) => {
             if (err) {
                 log.error(err);
                 res.status(500).send('ошибка от базы данных ' + err);
@@ -170,7 +212,7 @@ exports.saved = function(req, res) {
          //иначе создание записи
         log.debug('controller create task');
         
-        Task.TaskCreate(task, (error, callback) => {
+        Task.TaskCreate(task_create, (error, callback) => {
             if (error) {
                  log.error(error);
                  res.status(500).send('ошибка от базы данных ' + error);

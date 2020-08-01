@@ -13,6 +13,8 @@ const mongoose                      = require('mongoose');
 const log                           = require('../utils/log')(module);
 const Schema                        = mongoose.Schema;
 
+const bcrypt                        = require('bcrypt');
+const passportLocalMongoose         = require('passport-local-mongoose');
 
 
 const UserSchema = new Schema({
@@ -20,6 +22,7 @@ const UserSchema = new Schema({
   Email: {
     type: String,
     required: true
+    
   },
   Password: {
       type: String,
@@ -30,179 +33,189 @@ const UserSchema = new Schema({
       
   },
   Name: {      // имя и фамилия
-    type: String
-    //required: true
+    type: String,
+    required: true
   },
   Position: { // должность.
       type: String
   },
   Departament: {   // цех, участок
       type: String
-  }
+  },
+  admin: {
+      type: Boolean
+  },
+  created: {
+      type: Date
+  },
+  verify: {
+      type: Boolean
+  },
+  
+  
   
 });
+
+
+UserSchema.plugin(passportLocalMongoose, {
+   // usernameField: 'email'
+    //passwordField: 'passwd'
+    
+});
+
+
+
+
+
+
+//
+//
+//
+//bcrypt.compare(password, user.passwordHash, (err, isValid) => {
+//    if (err) {
+//        return done(err)
+//    }
+//    if (!isValid) {
+//        return done(null, false);
+//    }
+//    return done(null, user);
+//
+//});
+
+
+
+
+UserSchema.methods.setPassword = function (password, callback) {
+    log.info("function setPassword is started");
+    // берет пароль и генерирует хеш.
+    let pass = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+    log.debug('pass = ' + pass);
+    callback(pass);
+ };
+
+
+//
+//
+//UserSchema.statics.verifyPassword = function(password, hash, callback) {
+//    
+//    log.info('verifyPassword start methods');
+//    bcrypt.compare(password, hash, function(err, res) {
+//
+//           if (err) {
+//               next(err);
+//           }
+//          if (res) {
+//            log.info('verify password - password true');
+//            callback(res);
+//          
+//          } else {
+//            log.info('verify password - password false');
+//            callback(res);
+//          }
+//        
+//    });
+ 
+
+//};
+
+
+
+
+
+
+
+
+
+
+
+//Account.virtual('password')
+//  .set(function(password) {
+//    this._plainPassword = password;
+//    this.salt = Math.random() + '';
+//    this.hashedPassword = this.encryptPassword(password);
+//  })
+//  .get(function() { return this._plainPassword; });
+
+
+
+
+//Account.methods.encryptPassword = function(password) {
+//  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+//};
+
+
+
+
+
+//schema.methods.checkPassword = function(password) {
+//  return this.encryptPassword(password) === this.hashedPassword;
+//};
+
+//schema.statics.authorize = function(username, password, callback) {
+//    var User = this;
+//    
+//    
+//    async.waterfall([
+//        function(callback) {
+//            User.findOne({username: username}, callback);
+//        }, 
+//        function(user, callback) {
+//            if (user) {
+//                if (user.checkPassword(password)) {
+//                    callback(null, user);
+//                } else {
+//                    callback(new AuthError("Пароль неверен"));
+//                }
+//            } else {
+//                var user = new User({username: username, password: password});
+//                user.save(function(err) {
+//                    if (err) return callback(err);
+//                    callback(null, user);
+//                });
+//            }
+//            
+//        }
+//    ], callback);
+//};
+
+
+//
+//
+//
+//
+//// обработчик ошибки авторизации
+//function AuthError(message) {
+//    Error.apply(this, arguments);
+//    Error.captureStackTrace(this, AuthError);
+//    
+//    this.message = message;
+//}
+//
+//util.inherits(AuthError, Error);
+//
+//AuthError.prototype.name = 'AuthError';
+//
+//exports.AuthError = AuthError;
+
+
+
 
 
 const User = db.model('User', UserSchema);
 
 
-
-// дальше не правил.
-
-
-// метод получения всех работников из базы
-let FindAllWorker = function(data, error) {
-  
-      
-    // мне на самом деле нужны ли прям все данные???
-     
-    
-    let query = Worker.find({});
-    let promise = query.exec();
-    
-    promise
-         .then((doc) => {
-                          log.info(doc);
-                           data(doc);
-                           
-        
-     })
-            .catch((err) => {
-                log.error(err);
-                error(err);
-                
-     });
-    
-    
-    
-    
-    
-    
-    
-    
-};
-
-module.exports.FindAllWorker = FindAllWorker;
-
-
-
-// создание работника
-let WorkerCreate = function(data, callback) {
-
-
-
-      const worker = new Worker({ data });
-      
-    
-    // проверяем данные
-//    worker.validate()
-//            .then(function() {
-//                
-//                //log.debug("user.validate - ok");
-//    })
-//            .catch(function(err) {
-//                //log.error("user.validate " + err);
-//                return callback(err);
-//    });
-
-
-
-     // сохраняем данные в базе
-     worker.save()
-            .then(function(doc) {
-              //  log.info('mongodb object is saved: ' + doc);
-                return(callback('ok'));
-                
-            })
-            .catch(function (err) {
-               // log.error(err);
-                 return callback(err);
-            });    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-};
-
-
-module.exports.WorkerCreate = WorkerCreate;
+//
+//User.statics.setPassword = function(password, callback) {
+//    log.info("function setPassword is started");
+//    // берет пароль и генерирует хеш.
+//    let pass = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+//    log.debug('pass = ' + pass);
+//    callback(pass);
+// };
 
 
 
 
 
-// обновление информации о работнике
-let WorkerSaved = function(worker, data, callback, err) {
-
-     const options = { new: true, runValidators: true };
-
-
-     // обновляем данные в базе
-     worker.findOneAndUpdate(worker, data, options)
-     
-            .then(function(doc) {
-                
-                 log.debug('mongodb object is update: ' + doc);
-         
-                 return(callback(doc));
-                
-            })
-            .catch(function (error) {
-                
-                 log.error(error);
-
-                 return err(error);
-            });    
-    
-    
-
-};
-
-
-
-module.exports.WorkerSaved = WorkerSaved;
-
-
-
-
-// получение информации о работнике
-let WorkerOpen = function(id, callback, err) {
-
-     const options = { };  //new: true, runValidators: true };
-
-
-     // обновляем данные в базе
-     Worker.findById(id, options)
-     
-            .then(function(doc) {
-                
-                 log.debug('mongodb object is find: ' + doc);
-         
-                 return(callback(doc));
-                
-            })
-            .catch(function (error) {
-                
-                 log.error(error);
-
-                 return err(error);
-            });    
-    
-    
-
-};
-
-
-
-module.exports.WorkerOpen = WorkerOpen;
-
-
-
-module.exports.Worker = Worker;
+/// export module User
+module.exports = User;

@@ -11,6 +11,7 @@ const workerRouter                  = require('./routes/worker');
 const taskRouter                    = require('./routes/task');
 const journalRouter                 = require('./routes/journal');
 const timesheetRouter               = require('./routes/timesheet');
+const userRouter                    = require('./routes/user');
 
 
 const engine                        = require('ejs-mate');
@@ -33,9 +34,16 @@ const session                       = require('express-session');
 
 const HttpError                     = require('./error').HttpError;
 
-//const passport                      = require('passport');
-//const LocalStrategy                 = require('passport-local').Strategy;
+const passport                      = require('passport');
+const LocalStrategy                 = require('passport-local').Strategy;
+const GoogleStrategy                =require('passport-google-oauth20');
 
+
+// подключение стратегии passport
+require('./middleware/passport');
+
+
+const sessionStore                  = require('./utils/sessionStore');
 const flash                         = require('connect-flash');
 const cors                          = require('cors');
 //const Account                       = require('./models/user');
@@ -72,26 +80,35 @@ app.use(bodyParser.json());
 app.use(require('./middleware/sendHttpError'));
 
 
-app.use(flash());
+//app.use(require('./middleware/auth'));  // так не хочет подключать.
 
+
+
+
+ 
+
+
+app.use(flash());
 
 app.use(router);
 app.use(workerRouter);
 app.use(taskRouter);
 app.use(journalRouter);
 app.use(timesheetRouter);
+app.use(userRouter);
+
 
 
 
 app.use(express.static(path.join(__dirname, './public')));
 
+//todo найди какой ни будь значек для приложения
 //app.use(express.favicon('public/images/favicon.ico'));
 
 
 
 app.use(cookieParser());
 
-const sessionStore = require('./utils/sessionStore');
 
 
 app.use(session({
@@ -105,6 +122,32 @@ app.use(session({
     
     
 }));
+
+
+
+// настройка стратегии Google
+//passport.use(new GoogleStrategy({
+//    clientID: GOOGLE_CLIENT_ID,
+//    clientSecret: GOOGLE_CLIENT_SECRET,
+//    callbackURL: "http://www.ptz-cargo/Journal/auth/google/callback"
+//},
+//    function(accessToken, refreshToken, profile, cb) {
+//        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//            return cb(err, user);
+//    });
+//    }
+//));
+//
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+
+
+
+
 
 
 
