@@ -28,7 +28,7 @@ const UserSchema = new Schema({
       type: String,
       required: true
   },
-  salt: {
+  Salt: {
       type: String
       
   },
@@ -50,7 +50,7 @@ const UserSchema = new Schema({
   },
   verify: {
       type: Boolean
-  },
+  }
   
   
   
@@ -85,13 +85,7 @@ UserSchema.plugin(passportLocalMongoose, {
 
 
 
-UserSchema.methods.setPassword = function (password, callback) {
-    log.info("function setPassword is started");
-    // берет пароль и генерирует хеш.
-    let pass = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-    log.debug('pass = ' + pass);
-    callback(pass);
- };
+
 
 
 //
@@ -202,6 +196,78 @@ UserSchema.methods.setPassword = function (password, callback) {
 
 
 const User = db.model('User', UserSchema);
+
+
+
+// генерация пароля и возврат хеша и соли
+User.static.setPassword = function (password, callback) {
+    
+    log.info("function setPassword is started");
+    // берет пароль и генерирует хеш и соль
+    
+    const saltRounds = 10;
+    
+    bcrypt.getSalt(saltRounds, function(err, salt) {
+        
+        if(err) return callback(err, null);
+        
+        bcrypt.hash(password, salt)
+                
+            .then(function(err, hash) {
+                if(err) return callback(salt, null);
+                
+                callback(hash, salt);
+                log.debug('pass = ' + hash + '|||salt==' + salt);
+                
+            })
+            
+                .catch(err => {
+                    callback(err, salt);
+                    log.error(err);
+                    
+                });
+                        
+        
+    });
+    
+    
+ };
+
+
+
+
+
+
+
+
+// запись данных пользователя в базу данных
+function Register(data, callback) {
+  
+  const user = new User(data);
+  
+  let promise = User.create(user);
+  
+  promise
+          .then(result => {
+              log.debug(result);
+              callback(null, result);
+  })
+          .catch(err => {
+                log.error(err);
+                callback(err, null);
+  });
+  
+    
+    
+    
+    
+    
+};
+
+
+module.exports.Register = Register;
+
+
 
 
 //
