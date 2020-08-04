@@ -57,11 +57,14 @@ const UserSchema = new Schema({
 });
 
 
+
+
 UserSchema.plugin(passportLocalMongoose, {
    // usernameField: 'email'
     //passwordField: 'passwd'
     
 });
+
 
 
 
@@ -195,37 +198,43 @@ UserSchema.plugin(passportLocalMongoose, {
 
 
 
-const User = db.model('User', UserSchema);
 
 
 
 // генерация пароля и возврат хеша и соли
-User.static.setPassword = function (password, callback) {
+UserSchema.statics.setPassword = function (password, callback) {
     
     log.info("function setPassword is started");
     // берет пароль и генерирует хеш и соль
     
     const saltRounds = 10;
     
-    bcrypt.getSalt(saltRounds, function(err, salt) {
+    bcrypt.genSalt(saltRounds, function(err, salt) {
         
-        if(err) return callback(err, null);
+        if(err) { 
+            log.error(err);
+            return callback(err, null);
+        
+        }
+        
+        
+        log.debug('salt==' + salt);
         
         bcrypt.hash(password, salt)
+            
+            .then(function (hash) {
+                       
+                    callback(hash, salt);
+                    log.debug('pass = ' + hash + '|||salt==' + salt);
                 
-            .then(function(err, hash) {
-                if(err) return callback(salt, null);
-                
-                callback(hash, salt);
-                log.debug('pass = ' + hash + '|||salt==' + salt);
                 
             })
             
-                .catch(err => {
-                    callback(err, salt);
+            .catch(err => {
+                    callback(err, null);
                     log.error(err);
                     
-                });
+            });
                         
         
     });
@@ -235,13 +244,12 @@ User.static.setPassword = function (password, callback) {
 
 
 
-
-
+const User = db.model('User', UserSchema);
 
 
 
 // запись данных пользователя в базу данных
-function Register(data, callback) {
+function Register (data, callback) {
   
   const user = new User(data);
   
@@ -270,18 +278,12 @@ module.exports.Register = Register;
 
 
 
-//
-//User.statics.setPassword = function(password, callback) {
-//    log.info("function setPassword is started");
-//    // берет пароль и генерирует хеш.
-//    let pass = bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-//    log.debug('pass = ' + pass);
-//    callback(pass);
-// };
 
 
 
 
+// export module User
 
-/// export module User
-module.exports = User;
+module.exports.User = User;
+
+//module.exports = User;

@@ -42,6 +42,7 @@ passport.deserializeUser(User.deserializeUser());
     
 
 
+
 module.exports = passport;
 
 //образец из чата.

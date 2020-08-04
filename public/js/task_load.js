@@ -316,6 +316,7 @@ $(document).ready(function() {
     
     
     // кнопка поиск
+    // todo реализуй через submit form - меньше кода.
     $('#btn-search').click((e) => {
          /*
           * берем значение из поля ввода

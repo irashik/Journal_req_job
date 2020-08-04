@@ -13,7 +13,7 @@ const chaiHttp         = require('chai-http');
 const httpMocks        = require('node-mocks-http');
 const sinon            = require('sinon');
 const _                = require ('lodash');
-const log                           = require('../utils/log')(module);
+const log              = require('../utils/log')(module);
 
 //const shouldSinon       =
         require('should-sinon');
@@ -23,7 +23,7 @@ const mongoose                = require('mongoose');
 let Schema                    = mongoose.Schema;
 
 
-const model             =require('./user.model.js');
+const User                    = require('./user.model.js');
 
 
 
@@ -77,14 +77,16 @@ describe("Test модуля user.model", function() {
                   * 
                   */
 
-                  model.setPassword('testpassword', (hash, salt) => {
+                  User.setPassword('testpassword', (hash, salt) => {
                      
                      // проверим что возвращаемые данные не null
                      
+//                     log.warn(hash);
+//                     log.warn(salt);
+//                   
                      expect(hash).to.be.true;
                      expect(salt).to.be.true;
-                     
-                     
+
                 
                 
                   });
@@ -92,6 +94,8 @@ describe("Test модуля user.model", function() {
       
                 
         });
+        
+        
         
         it('передаем пустой пароль ', function() {
                  /*
@@ -101,7 +105,7 @@ describe("Test модуля user.model", function() {
                   * 
                   */
 
-                  model.setPassword('', (hash, salt) => {
+                  User.setPassword('', (hash, salt) => {
                      
                      // проверим что возвращаемые данные не null
                      
@@ -126,7 +130,37 @@ describe("Test модуля user.model", function() {
     
     
     
-    
+    describe('Testing Register method', () => {
+       
+        it('standart behavior', () => {
+           
+           let data = {
+               Name: "test",
+               Email: "123@gsdf.ru",
+               Password: '123'
+               
+           };
+           
+           
+           User.Register(data, (err, data) => {
+              
+               if(err) {
+                   log.error(err);
+               } else {
+                   log.info(data);
+               }
+                
+           });
+            
+            
+            
+            
+            
+            
+        });
+        
+        
+    });
     
     
     

@@ -6,8 +6,8 @@
 
 'use strict';
 
-const User          =require('./user.model');
-const log             = require('../utils/log')(module);
+const User              = require('./user.model');
+const log               = require('../utils/log')(module);
 
 
 //  Регистрация пользователя
@@ -62,15 +62,13 @@ exports.register_post = function(req, res) {
         // если удачно, то редиректим на логин
         
         
-        if(hash === true && salt === true) {
-            
+        if (hash !== null && salt !== null) {
+                    
             register_data.hash = hash;
             register_data.salt = salt;
-            
-            
+                        
               User.Register(register_data, (err, data) => {
-            
-                    if(err) {
+                    if (err) {
                         log.error(err);
 
         //                res.render('register', { message: req.flash('error')});
@@ -82,6 +80,8 @@ exports.register_post = function(req, res) {
 
                     } else {
                         log.info('успешно');
+                        log.warn(data);
+                        
                         res.status(200).send('запись успешно зарегистрирована' + data);     
                         res.render('/login', { message: 'Вы успешно зарегистрированы'});
                         //res.render('login', { user: req.body.username, message: req.flash('error') });
@@ -92,6 +92,7 @@ exports.register_post = function(req, res) {
               });
             
         } else {
+            
             res.status(500).send('ошибка от при генерации хеша ' + hash + '\n' + salt);
 
         }
