@@ -35,11 +35,28 @@ passport.use(new LocalStrategy ({
         }));
         
         
-        
-        
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+//        
+//        
+//passport.serializeUser(User.serializeUser());
+//passport.deserializeUser(User.deserializeUser());
+//
+
+passport.serializeUser((user, done) => {
     
+  done(null, user.id);
+  
+});
+
+
+passport.deserializeUser((id, done) => {
+    
+  User.findOne({where: {id}})
+          .then((user) => {
+                done(null, user);
+                return null;
+        });
+
+});
 
 
 

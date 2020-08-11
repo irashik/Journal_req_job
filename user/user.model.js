@@ -273,7 +273,7 @@ function Register (data, callback) {
 };
 
 
-module.exports.Register = Register;
+export { Register };
 
 
 
@@ -284,6 +284,7 @@ module.exports.Register = Register;
 
 // export module User
 
-module.exports.User = User;
+//module.exports.User = User;
 
 //module.exports = User;
+export { User };

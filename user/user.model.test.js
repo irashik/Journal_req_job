@@ -136,7 +136,7 @@ describe("Test модуля user.model", function() {
            
            let data = {
                Name: "test",
-               Email: "123@gsdf.ru",
+               Email: "1234@gsdf.ru",
                Password: '123'
                
            };
