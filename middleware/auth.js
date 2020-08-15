@@ -1,7 +1,7 @@
 'use strict';
 
 // midellware проверяет аутентификацию
-module.exports = function authenticationMiddleware() {
+function authenticationMiddleware() {
          
     return function(req, res, next) {
         
@@ -16,3 +16,4 @@ module.exports = function authenticationMiddleware() {
     
 };
 
+module.exports = authenticationMiddleware;

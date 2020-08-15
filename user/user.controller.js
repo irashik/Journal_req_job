@@ -1,4 +1,3 @@
-
 /*
  * контроллер для обработки запросов аутентификации и авторизации
  * 
@@ -9,24 +8,19 @@
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
 
-
 //  Регистрация пользователя
 exports.register = function(req, res) {
 
     log.info('get register');
-     
     res.render('login/register', {  });
      
      
                           
 };
 
-
 exports.register_post = function(req, res) {
-     
-     log.info('post register');
-     
-     
+    log.info('post register');
+         
      /*
       * получаем данные от view из полей для регистрации
       * передаем в модель для записи в базу данных и создания хеша пароля
@@ -42,7 +36,7 @@ exports.register_post = function(req, res) {
      let password = req.body.Password;
      let name = req.body.Name;
      let position = req.body.Position;
-     let departament = req.body.departament;
+     let departament = req.body.Departament;
      
      const register_data = {
             Email: email,
@@ -64,7 +58,7 @@ exports.register_post = function(req, res) {
         
         if (hash !== null && salt !== null) {
                     
-            register_data.hash = hash;
+            register_data.Password = hash;
             register_data.salt = salt;
                         
               User.Register(register_data, (err, data) => {
@@ -80,11 +74,15 @@ exports.register_post = function(req, res) {
 
                     } else {
                         log.info('успешно');
+                        
                         log.warn(data);
                         
                         res.status(200).send('запись успешно зарегистрирована' + data);     
-                        res.render('/login', { message: 'Вы успешно зарегистрированы'});
-                        //res.render('login', { user: req.body.username, message: req.flash('error') });
+                        
+                        //res.redirect('login');
+                        //, { message: 'Вы успешно зарегистрированы'});
+                        
+                        //res.render('/login/login', { user: req.body.username, message: req.flash('error') });
 
 
                     };
@@ -110,26 +108,32 @@ exports.register_post = function(req, res) {
 exports.login = function(req, res) {
      
     log.info('get login');
-    
-    res.render('login/login', {  });
-     
-     
-                          
+    res.render('login/login', { user: req.body.username, message: req.flash('passport')  });
+
+                      
 };
 
 
-
-exports.login_post = function(req, res) {
-     
-     log.info('posrt login');
-     
-     
-     
-     
-     
-                          
-};
-
+// потому что используется пасспорт как контроллер
+//exports.login_post = function(req, res) {
+//     
+//     log.info('post login');
+//     
+//          
+//     log.warn(req.body);
+//         
+//     let email = req.body.Email;
+//     let password = req.body.Password;
+//     
+//     let user = req.body.Name;
+//     
+//     
+//     
+//     res.send("hello login post");
+//     
+//                          
+//};
+//
 
 
 
@@ -141,8 +145,7 @@ exports.login_post = function(req, res) {
 exports.logout = function(req, res) {
      
     log.info('get logout');
-    
-       
+    req.logout();
     
    
     // сессии уже не должно быть. // не самая лучшая реализация.
@@ -155,13 +158,6 @@ exports.logout = function(req, res) {
      
                           
 };
-
-
-
-
-
-
-
 
 // forgot password
 exports.forgot = function(req, res) {
@@ -185,14 +181,12 @@ exports.forgot_post = function(req, res) {
                           
 };
 
-
-
 // profile view
 exports.profile = function(req, res) {
     
     log.info('get profile route started');
 
-    res.render('/login/profile', {} );
+    res.render('/login/profile', { } );
         
     
     

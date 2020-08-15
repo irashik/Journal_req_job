@@ -6,13 +6,11 @@
 const express                       = require('express');
 
 const router                        = require('./routes');
-
 const workerRouter                  = require('./routes/worker');
 const taskRouter                    = require('./routes/task');
 const journalRouter                 = require('./routes/journal');
 const timesheetRouter               = require('./routes/timesheet');
 const userRouter                    = require('./routes/user');
-
 
 const engine                        = require('ejs-mate');
 const log                           = require('./utils/log')(module);
@@ -23,10 +21,7 @@ const errorhandler                  = require('errorhandler');
 const bodyParser                    = require('body-parser');
 const logger                        = require('morgan');
 const cookieParser                  = require('cookie-parser');
-
 const livereload                    = require('livereload');
-const server                        = livereload.createServer();
-
 
 //const mongoose                      = require('./utils/mongoose');
 const session                       = require('express-session');
@@ -34,19 +29,18 @@ const session                       = require('express-session');
 
 const HttpError                     = require('./error').HttpError;
 
+
+//PassportJS
 const passport                      = require('passport');
-const LocalStrategy                 = require('passport-local').Strategy;
-const GoogleStrategy                =require('passport-google-oauth20');
-
-
 // подключение стратегии passport
-require('./middleware/passport');
+const myPassport                    = require('./middleware/passport');
+//const myPassportGoogle              = require('./middleware/google-strategy');
+
 
 
 const sessionStore                  = require('./utils/sessionStore');
 const flash                         = require('connect-flash');
 const cors                          = require('cors');
-//const Account                       = require('./models/user');
 
 const createError                   = require('http-errors');
 
@@ -54,6 +48,7 @@ const createError                   = require('http-errors');
 //const middleware = require('./middleware')(app, express)
 
 const app                           = express();
+const server                        = livereload.createServer();
 
 
 process.env.NODE_ENV = 'development';
@@ -79,17 +74,38 @@ app.use(bodyParser.json());
 
 app.use(require('./middleware/sendHttpError'));
 
+//app.use(require('./middleware/loadUser')); // не может прочитать свойство user
 
 //app.use(require('./middleware/auth'));  // так не хочет подключать.
 
 
 
-
  
-
 
 app.use(flash());
 
+
+app.use(cookieParser());
+
+app.use(session({
+    name: config.get('session:name'),
+    secret: config.get('session:secret'),
+    resave: config.get('session:resave'),
+    saveUninitialized: config.get('session:saveUninitialized'),
+    cookie: config.get('session:cookie'),
+    store: sessionStore
+    
+    
+    
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+//////////#####################3
 app.use(router);
 app.use(workerRouter);
 app.use(taskRouter);
@@ -107,44 +123,6 @@ app.use(express.static(path.join(__dirname, './public')));
 
 
 
-app.use(cookieParser());
-
-
-
-app.use(session({
-    name: config.get('session:name'),
-    secret: config.get('session:secret'),
-    resave: config.get('session:resave'),
-    saveUninitialized: config.get('session:saveUninitialized'),
-    cookie: config.get('session:cookie'),
-    store: sessionStore
-    
-    
-    
-}));
-
-
-
-// настройка стратегии Google
-//passport.use(new GoogleStrategy({
-//    clientID: GOOGLE_CLIENT_ID,
-//    clientSecret: GOOGLE_CLIENT_SECRET,
-//    callbackURL: "http://www.ptz-cargo/Journal/auth/google/callback"
-//},
-//    function(accessToken, refreshToken, profile, cb) {
-//        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//            return cb(err, user);
-//    });
-//    }
-//));
-//
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-
-
 
 
 
@@ -154,7 +132,6 @@ app.use(passport.session());
 
 
 if (process.env.NODE_ENV === 'development') {
-    
     app.use(errorhandler());
     app.use(logger('dev'));
     

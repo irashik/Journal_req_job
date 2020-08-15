@@ -80,13 +80,11 @@ describe("Test модуля user.model", function() {
                   User.setPassword('testpassword', (hash, salt) => {
                      
                      // проверим что возвращаемые данные не null
-                     
-//                     log.warn(hash);
-//                     log.warn(salt);
-//                   
                      expect(hash).to.be.true;
                      expect(salt).to.be.true;
-
+                    salt.should.be.calledOnce();
+                     //salt.should.be.calledTwice();
+                     
                 
                 
                   });
@@ -109,13 +107,20 @@ describe("Test модуля user.model", function() {
                      
                      // проверим что возвращаемые данные не null
                      
-                     expect(hash).to.be.false;
-                     expect(salt).to.be.false;
+                     expect(hash).to.be.null;
+                   expect(salt).to.be.null;
+                     //salt.should.not.be.ok;
+                    // expect(salt).to.be.null;
+                     should.not.exist(salt);
+                //   should.not.exist(hash);
                      
                      
-                
+                 // done();   
+                     
                 
                   });
+                  
+                 
                                 
       
                 
@@ -136,8 +141,10 @@ describe("Test модуля user.model", function() {
            
            let data = {
                Name: "test",
-               Email: "1234@gsdf.ru",
-               Password: '123'
+               Email: "123@test.ru",
+               Password: '123',
+               Salt: '123',
+               
                
            };
            
@@ -164,6 +171,40 @@ describe("Test модуля user.model", function() {
     
     
     
+      describe.only('Testing 3', () => {
+       
+        it('standart behavior', () => {
+           
+           let data = {
+               Name: "test",
+               Email: "123@test.ru",
+               Password: '123',
+               Salt: '123',
+               
+               
+           };
+           
+           let id = 'sdkfjsdfj';
+           
+           User.User.findById(id, (err, user) => {
+              
+               if(err) {
+                   log.error(err);
+               } else {
+                   log.info(user);
+               }
+                
+           });
+            
+            
+            
+            
+            
+            
+        });
+        
+        
+    });
     
     
     

@@ -1,14 +1,12 @@
-// взаимодействие со странице register и передача действий контроллеру
+// взаимодействие со странице Login и передача действий контроллеру
 /* 
  * 
- * @type type может это и будет контроллер??
+ * 
  */
 
 $(document).ready(function() {
-    
     // нажатие клавиши отправки формы регистрации
-    
-    $('#register_form').submit((e) => {
+    $('#login-form').submit((e) => {
       
         /*
          * берем данные из полей
@@ -21,43 +19,49 @@ $(document).ready(function() {
       
         
         e.preventDefault();
-          
-        const email = $('#inputEmail').val();
-        const password = $('#inputPassword').val();
-        const name = $('#inputName').val();
-        const position = $('#inputPosition').val();
-        const departament = $('#inputDepartament').val();
-      
-        const register_data = {
+        
+        const email = $('#InputEmail').val();
+        const password = $('#InputPassword').val();
+        
+        const login_data = {
             Email: email,
-            Password: password,
-            Name: name,
-            Position: position,
-            Departament: departament
+            Password: password
         };
+        
+        
+        console.log(login_data);
       
-        fetch('/register', {
+      
+      
+        fetch('/login', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
             redirect: 'follow',
             referrerPolicy: 'origin-when-cross-origin',
+            
             headers: {
                        'Accept': 'application/json',
                        "Content-Type": "application/json; charset=utf-8"
                        
             },
-                    
-                    body: JSON.stringify(register_data)
+                    body: JSON.stringify(login_data)
                     
         })
         .then(result => {
                   
                     // тут также может быть ошибка показываем флеш сообщение
+//                    if(result.se.status === 500) {
+//                        alert('code 500');
+//                        
+//                    };
+//                    
                     
                     console.log('request send true');
                     console.log(result);
+                    //console.log(result.status);
+                    //window.location.reload();
                     
 //                    <div class="alert alert-success" role="alert">
   //                      Это уведомление об успехе — check it out!
@@ -75,7 +79,7 @@ $(document).ready(function() {
                      */
                     
                     console.log('error from server');
-                    alert('Возникла ошибка при регистрации' + err);
+                    alert('Возникла ошибка при авторизации' + err);
 //                    
 //                    <div class="alert alert-danger" role="alert">
                       //  Это уведомление об опасности — check it out!

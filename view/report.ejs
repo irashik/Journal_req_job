@@ -7,6 +7,19 @@
 <h1>Отчеты по задачам</h1>
 
 
+<% if (message.length > 0) { %>
+<div class='alert alert-danger'>
+    <p>my flash message: <%= message %> </p>
+</div>
+<% } %>
+
+<% if (warning.length >0) { %>
+<div class='alert alert-danger'>
+    <p>my flash message warning: <%= warning %> </p>
+</div>
+<% } %>
+
+
 <div class='container-fluid'>
     
     <div class='row'>

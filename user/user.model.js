@@ -7,7 +7,6 @@
 
 'use strict';
 
-
 const db                            = require('../utils/mongoose');
 const mongoose                      = require('mongoose');
 const log                           = require('../utils/log')(module);
@@ -21,7 +20,8 @@ const UserSchema = new Schema({
   
   Email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
     
   },
   Password: {
@@ -56,22 +56,12 @@ const UserSchema = new Schema({
   
 });
 
-
-
-
 UserSchema.plugin(passportLocalMongoose, {
-   // usernameField: 'email'
-    //passwordField: 'passwd'
+      usernameField: 'Email',
+      passwordField: 'Password'
     
 });
 
-
-
-
-
-
-
-//
 //
 //
 //bcrypt.compare(password, user.passwordHash, (err, isValid) => {
@@ -85,15 +75,11 @@ UserSchema.plugin(passportLocalMongoose, {
 //
 //});
 
-
-
-
-
-
-
 //
 //
-//UserSchema.statics.verifyPassword = function(password, hash, callback) {
+//
+//
+//Account.statics.verifyPassword = function(password, hash, callback) {
 //    
 //    log.info('verifyPassword start methods');
 //    bcrypt.compare(password, hash, function(err, res) {
@@ -111,11 +97,10 @@ UserSchema.plugin(passportLocalMongoose, {
 //          }
 //        
 //    });
- 
-
+// 
+//
 //};
-
-
+//
 
 
 
@@ -202,89 +187,89 @@ UserSchema.plugin(passportLocalMongoose, {
 
 
 // генерация пароля и возврат хеша и соли
-UserSchema.statics.setPassword = function (password, callback) {
-    
-    log.info("function setPassword is started");
+function setPassword (password, callback) {
     // берет пароль и генерирует хеш и соль
+    if (!password) { return callback(null, null); } 
     
-    const saltRounds = 10;
-    
-    bcrypt.genSalt(saltRounds, function(err, salt) {
         
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function(err, salt) {
         if(err) { 
             log.error(err);
-            return callback(err, null);
-        
+            callback(err, null);
         }
-        
-        
-        log.debug('salt==' + salt);
         
         bcrypt.hash(password, salt)
             
             .then(function (hash) {
-                       
+                    //log.debug('pass = ' + hash + ' && salt== ' + salt);
                     callback(hash, salt);
-                    log.debug('pass = ' + hash + '|||salt==' + salt);
-                
                 
             })
-            
             .catch(err => {
                     callback(err, null);
                     log.error(err);
-                    
             });
-                        
-        
+           
     });
     
     
  };
 
-
-
-const User = db.model('User', UserSchema);
-
+module.exports.setPassword = setPassword;
 
 
 // запись данных пользователя в базу данных
 function Register (data, callback) {
+    const user = new User(data);
   
-  const user = new User(data);
-  
-  let promise = User.create(user);
-  
-  promise
-          .then(result => {
-              log.debug(result);
-              callback(null, result);
-  })
-          .catch(err => {
-                log.error(err);
-                callback(err, null);
+    User.create(user, function (err, result) {
+      
+        if(err) return callback(err);
+        log.debug(result);
+        return callback(null, result);
+      
   });
   
     
+};
+
+module.exports.Register = Register;
+
+
+
+
+function verifyPassword (password) {
+/*
+ * получаю пароль
+ * беру хеш и соль из базы данных
+ * сравниваю значение
+ * и возвращаю true || false
+ */  
+    
+    log.info('verifyPassword started');
     
     
-    
+    return true;
     
 };
 
 
-export { Register };
 
-
-
-
-
-
-
+module.exports.verifyPassword = verifyPassword;
 
 // export module User
 
-//module.exports.User = User;
 
-//module.exports = User;
-export { User };
+
+const User = db.model('User', UserSchema);
+module.exports.User = User;
+
+
+//module.exports = db.model('User', UserSchema);
+
+
+
+
+
+

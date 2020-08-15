@@ -13,8 +13,8 @@ const userController                = require('../user/user.controller');
 
 const authenticationMiddleware      = require('../middleware/auth');
 
-//const passport                      = require('../middleware/passport');
-const passport                      = require('passport');
+//const passport                      = require('passport');
+const passport                      = require('../middleware/passport');
 
 
 
@@ -23,11 +23,18 @@ userRouter.post('/register', userController.register_post);
 
 
 userRouter.get('/login', userController.login);
+
+
 userRouter.post('/login', passport.authenticate('local', { 
-                    failureRedirect: '/login',
+                    //failureRedirect: '/forgot',
                     successRedirect: '/profile',
                     failureFlash: true
-                }), userController.login_post);
+                }));
+                
+                
+                
+                
+//userRouter.post('/login', userController.login_post);
                 
 
 

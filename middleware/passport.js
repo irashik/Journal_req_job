@@ -11,56 +11,76 @@ const bcrypt                        = require('bcrypt');
 const User                          = require('../user/user.model');
 
 
+log.debug("my passport strategy started");
 
 // образец из сайта passportjs
 passport.use(new LocalStrategy ({
     
     usernameField: 'email',
-    passwordField: 'passwd'
+    passwordField: 'password'
+    
     
     }, function(username, password, done) {
             
-            User.findOne({ Name: username }, function (err, user) {
+            log.debug('passport Strategy loading = ' + username + '&&' + password);
+            
+            
+            User.User.findOne({ username: username }, function (err, user) {
+                log.debug('passport User.findOne started');
+                
+                
                 if (err) {
                     return done(err);
                 }
                 if (!user) {
-                    return done(null, false);
+                    log.debug('не сущ. такой аккаунт');
+                    return done(null, false, { passport: 'Incorrect username'});
                 }
+              
                 if (!user.verifyPassword(password)) {
-                    return done(null, false);
+                    log.debug('Incorrect user || password');
+                    return done(null, false, { passport: 'Incorrect password'});
                 }
+                
+                log.debug('авторизация пройдена');
                 return done(null, user);
+                
             });
         }));
         
+
+
+   //passport.use(new LocalStrategy (User.User.authenticate()));
+
         
-//        
-//        
-//passport.serializeUser(User.serializeUser());
-//passport.deserializeUser(User.deserializeUser());
+        
+        
+    passport.serializeUser(User.User.serializeUser());
+    passport.deserializeUser(User.User.deserializeUser());
 //
-
-passport.serializeUser((user, done) => {
-    
-  done(null, user.id);
-  
-});
-
-
-passport.deserializeUser((id, done) => {
-    
-  User.findOne({where: {id}})
-          .then((user) => {
-                done(null, user);
-                return null;
-        });
-
-});
+//
+//passport.serializeUser((user, done) => {
+//    
+//  done(null, user.id);
+//  
+//});
+//
+//
+//passport.deserializeUser((id, done) => {
+//    
+//  User.User.findOne(id)
+//          .then((user) => {
+//          
+//                        done(null, user);
+//                        
+//        });
+//
+//});
 
 
 
 module.exports = passport;
+
 
 //образец из чата.
 //

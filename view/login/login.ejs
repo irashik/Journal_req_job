@@ -2,29 +2,39 @@
 
 <% block('title', 'Аутентификация'); -%>
 
+<script src="./js/login_load.js"></script>
+
+
   <h1>Аутентификация</h1>
   
   
+
+<% if (message.length > 0 ) { %>
+<div class='alert alert-danger'>
+    <p>my flash message: <%= message %> </p>
+</div>
+<% } %>
+
+
   <form id="login-form">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Адрес эл.почты</label>
-    <input type="email" class="form-control col-md-12" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Введите email">
-    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Пароль</label>
-    <input type="password" class="form-control col-md-12" id="exampleInputPassword1" placeholder="Password">
-  </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Адрес эл.почты</label>
+      <input type="email" class="form-control col-md-12" id="InputEmail" aria-describedby="emailHelp" placeholder="Введите email">
+      <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Пароль</label>
+      <input type="password" class="form-control col-md-12" id="InputPassword" placeholder="Password">
+    </div>
       
       
-      <a href='/forgot'>
+    <a href='/forgot'>
           <small id="ForgotPass" class="form-text text-muted">Забыли пароль?</small>
-      </a>
-      <br>
+    </a>
+    <br>
       
-   
-      
-  <button type="submit" class="btn btn-primary col-md-12">Sign In</button>
+    <button type="submit" class="btn btn-primary col-md-12">Sign In</button>
+    
 </form>
       
       
