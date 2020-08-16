@@ -42,13 +42,13 @@ const UserSchema = new Schema({
   Departament: {   // цех, участок
       type: String
   },
-  admin: {
+  Admin: {
       type: Boolean
   },
-  created: {
+  Created: {
       type: Date
   },
-  verify: {
+  Verifed: {
       type: Boolean
   }
   
@@ -75,32 +75,70 @@ UserSchema.plugin(passportLocalMongoose, {
 //
 //});
 
-//
-//
-//
-//
-//Account.statics.verifyPassword = function(password, hash, callback) {
-//    
-//    log.info('verifyPassword start methods');
-//    bcrypt.compare(password, hash, function(err, res) {
-//
-//           if (err) {
-//               next(err);
-//           }
-//          if (res) {
-//            log.info('verify password - password true');
-//            callback(res);
-//          
-//          } else {
-//            log.info('verify password - password false');
-//            callback(res);
-//          }
-//        
-//    });
-// 
-//
-//};
-//
+
+
+UserSchema.methods.validPassword = function(password, cb) {
+    
+    let user = this;
+    
+    log.info('verifyPassword start methods');
+    
+    bcrypt.compare(password, user.Password, function(err, res) {
+
+        if (err) {
+            throw new Error(err);
+            
+        }
+        if (res) {
+            log.info('verify password - password true');
+            
+            cb(true);
+          
+        } else {
+            log.info('verify password - password false');
+            
+            cb(false);
+        }
+        
+    });
+ 
+
+};
+
+
+
+
+
+// генерация пароля и возврат хеша и соли         // todo включи эту функцию и удали другую реализацию
+UserSchema.statics.setPassword = function (password, callback) {
+    
+    // берет пароль и генерирует хеш и соль
+    if (!password) { return callback(null, null); } 
+            
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        if(err) { 
+            log.error(err);
+            callback(err, null);
+        }
+        
+        bcrypt.hash(password, salt)
+            
+            .then(function (hash) {
+                    log.debug('pass = ' + hash + ' && salt== ' + salt);
+                    callback(hash, salt);
+                    
+                
+            })
+            .catch(err => {
+                    callback(err, null);
+                    log.error(err);
+            });
+           
+    });
+    
+    
+ };
 
 
 

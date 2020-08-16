@@ -11,9 +11,6 @@ const bcrypt                        = require('bcrypt');
 const User                          = require('../user/user.model');
 
 
-log.debug("my passport strategy started");
-
-// образец из сайта passportjs
 passport.use(new LocalStrategy ({
     
     usernameField: 'email',
@@ -25,9 +22,7 @@ passport.use(new LocalStrategy ({
             log.debug('passport Strategy loading = ' + username + '&&' + password);
             
             
-            User.User.findOne({ username: username }, function (err, user) {
-                log.debug('passport User.findOne started');
-                
+            User.User.findOne({ Email: username }, function (err, user) {
                 
                 if (err) {
                     return done(err);
@@ -37,7 +32,8 @@ passport.use(new LocalStrategy ({
                     return done(null, false, { passport: 'Incorrect username'});
                 }
               
-                if (!user.verifyPassword(password)) {
+                if (!user.validPassword(password, function(cb) ) {
+                    
                     log.debug('Incorrect user || password');
                     return done(null, false, { passport: 'Incorrect password'});
                 }

@@ -17,7 +17,6 @@ const authenticationMiddleware      = require('../middleware/auth');
 const passport                      = require('../middleware/passport');
 
 
-
 userRouter.get('/register', userController.register);
 userRouter.post('/register', userController.register_post);
 
@@ -26,7 +25,6 @@ userRouter.get('/login', userController.login);
 
 
 userRouter.post('/login', passport.authenticate('local', { 
-                    //failureRedirect: '/forgot',
                     successRedirect: '/profile',
                     failureFlash: true
                 }));

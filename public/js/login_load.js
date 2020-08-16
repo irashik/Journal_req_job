@@ -6,33 +6,27 @@
 
 $(document).ready(function() {
     // нажатие клавиши отправки формы регистрации
-    $('#login-form').submit((e) => {
-      
+    
+    $('#login-form').on('submit', function(e) {
         /*
          * берем данные из полей
-         * проверяем данный по валидации
+         * форма проверяет валидацию сама
          * передаем на сервер методом post
          * получаем ответ с сервера - ничего не делаем
          * если ошибка - то показываем флеш сообщение с ошибкой, оставляем на странице
          * 
          */
-      
-        
+          
         e.preventDefault();
-        
+          
         const email = $('#InputEmail').val();
         const password = $('#InputPassword').val();
         
         const login_data = {
-            Email: email,
-            Password: password
+            email: email,
+            password: password
         };
         
-        
-        console.log(login_data);
-      
-      
-      
         fetch('/login', {
             method: 'POST',
             mode: 'cors',
@@ -43,10 +37,14 @@ $(document).ready(function() {
             
             headers: {
                        'Accept': 'application/json',
-                       "Content-Type": "application/json; charset=utf-8"
+                       'Content-Type': "application/json",
+                       //'Accept': 'application/x-www-form-urlencoded',
+                       'Accept-Charset': 'utf-8',
+                       //'Content-Type': 'text/html',
                        
             },
-                    body: JSON.stringify(login_data)
+            body: JSON.stringify(login_data)
+            
                     
         })
         .then(result => {
@@ -86,16 +84,10 @@ $(document).ready(function() {
                     //</div>
             
         });
-                
         
         
-    });
-    
-    
-    
-    
-    
-    
+  });
+       
     
     // end ready document
 });

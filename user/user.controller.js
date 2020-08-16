@@ -115,25 +115,25 @@ exports.login = function(req, res) {
 
 
 // потому что используется пасспорт как контроллер
-//exports.login_post = function(req, res) {
-//     
-//     log.info('post login');
-//     
-//          
-//     log.warn(req.body);
-//         
-//     let email = req.body.Email;
-//     let password = req.body.Password;
-//     
-//     let user = req.body.Name;
-//     
-//     
-//     
-//     res.send("hello login post");
-//     
-//                          
-//};
-//
+exports.login_post = function(req, res) {
+     
+     log.info('post login');
+     
+          
+     log.warn(req.body);
+         
+     let email = req.body.Email;
+     let password = req.body.Password;
+     
+     let user = req.body.Name;
+     
+     
+     
+     res.send("hello login post");
+     
+                          
+};
+
 
 
 

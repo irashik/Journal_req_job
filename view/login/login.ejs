@@ -2,10 +2,9 @@
 
 <% block('title', 'Аутентификация'); -%>
 
-<script src="./js/login_load.js"></script>
 
 
-  <h1>Аутентификация</h1>
+<h1>Аутентификация</h1>
   
   
 
@@ -16,15 +15,15 @@
 <% } %>
 
 
-  <form id="login-form">
+<form id="login-form" action='/login' method='POST' accept-charset='utf-8'>
     <div class="form-group">
       <label for="exampleInputEmail1">Адрес эл.почты</label>
-      <input type="email" class="form-control col-md-12" id="InputEmail" aria-describedby="emailHelp" placeholder="Введите email">
+      <input type="email" name='email' class="form-control col-md-12" id="InputEmail" aria-describedby="emailHelp" placeholder="Введите email" required>
       <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Пароль</label>
-      <input type="password" class="form-control col-md-12" id="InputPassword" placeholder="Password">
+      <input type="password" name='password' class="form-control col-md-12" id="InputPassword" placeholder="Password" required>
     </div>
       
       
@@ -36,5 +35,6 @@
     <button type="submit" class="btn btn-primary col-md-12">Sign In</button>
     
 </form>
-      
-      
+  
+
+<script src="./js/login_load.js"></script>
