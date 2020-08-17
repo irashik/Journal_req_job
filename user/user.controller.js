@@ -108,35 +108,12 @@ exports.register_post = function(req, res) {
 exports.login = function(req, res) {
      
     log.info('get login');
-    res.render('login/login', { user: req.body.username, message: req.flash('passport')  });
-
+    
+    res.render('login/login', { user: req.user, message: req.flash('passport')  });
+    
+   
                       
 };
-
-
-// потому что используется пасспорт как контроллер
-exports.login_post = function(req, res) {
-     
-     log.info('post login');
-     
-          
-     log.warn(req.body);
-         
-     let email = req.body.Email;
-     let password = req.body.Password;
-     
-     let user = req.body.Name;
-     
-     
-     
-     res.send("hello login post");
-     
-                          
-};
-
-
-
-
 
 
 
@@ -184,9 +161,9 @@ exports.forgot_post = function(req, res) {
 // profile view
 exports.profile = function(req, res) {
     
-    log.info('get profile route started');
+    log.info('profile route started');
 
-    res.render('/login/profile', { } );
+    res.render('login/profile', { user: req.user } );
         
     
     

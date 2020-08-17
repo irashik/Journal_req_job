@@ -25,19 +25,12 @@ userRouter.get('/login', userController.login);
 
 
 userRouter.post('/login', passport.authenticate('local', { 
-                    successRedirect: '/profile',
-                    failureFlash: true
-                }));
+                    successRedirect: '/',
+                    failureFlash: true,
+                    successFlash: true
+                    
+}));
                 
-                
-                
-                
-//userRouter.post('/login', userController.login_post);
-                
-
-
-
-
 
 userRouter.get('/logout', userController.logout);
 

@@ -32,7 +32,7 @@ passport.use(new LocalStrategy ({
                     return done(null, false, { passport: 'Incorrect username'});
                 }
               
-                if (!user.validPassword(password, function(cb) ) {
+                if (!user.validPassword(password)) {
                     
                     log.debug('Incorrect user || password');
                     return done(null, false, { passport: 'Incorrect password'});

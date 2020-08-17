@@ -37,10 +37,15 @@
     </ul>
       
       
+      <% if (user) { %>
+        <a type="button" href='/profile' class="btn btn-outline-light btn-sm mr-2">Signed in as <strong><%= user.Name %></strong></a>
+        <a type="button" href='/logout' class="btn btn-outline-light btn-sm mr-2">Выйти</a>
       
+      <% } else { %> 
+        <a type="button" href='/login' class="btn btn-outline-light btn-sm mr-2">Войти</a>
+        <a type="button" href='/register' class="btn btn-outline-light btn-sm mr-2">Регистрация</a>
       
-      <a type="button" href='/login' class="btn btn-outline-light btn-sm mr-2">Войти</a>
-      <a type="button" href='/register' class="btn btn-outline-light btn-sm mr-2">Регистрация</a>
+      <% } %>
     
   </div>
 </nav>

@@ -6,7 +6,14 @@
 <script src="./js/index_load.js"></script>
 
 
-  
+
+
+<% if (message.length > 0 ) { %>
+<div class='alert alert-success'>
+    <p>my flash message: <%= message %> </p>
+</div>
+<% } %>
+
 
 <h1>Главная страница</h1>
 <h2>Вэб приложение - журнал РХУ

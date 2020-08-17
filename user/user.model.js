@@ -77,31 +77,13 @@ UserSchema.plugin(passportLocalMongoose, {
 
 
 
-UserSchema.methods.validPassword = function(password, cb) {
+UserSchema.methods.validPassword = function(password) {
     
     let user = this;
     
-    log.info('verifyPassword start methods');
-    
-    bcrypt.compare(password, user.Password, function(err, res) {
-
-        if (err) {
-            throw new Error(err);
-            
-        }
-        if (res) {
-            log.info('verify password - password true');
-            
-            cb(true);
-          
-        } else {
-            log.info('verify password - password false');
-            
-            cb(false);
-        }
-        
-    });
- 
+    if (bcrypt.compareSync(password, user.Password)) { 
+        return true;
+    };
 
 };
 

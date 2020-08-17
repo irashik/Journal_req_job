@@ -56,10 +56,25 @@ $(document).ready(function() {
 //                    };
 //                    
                     
-                    console.log('request send true');
-                    console.log(result);
-                    //console.log(result.status);
-                    //window.location.reload();
+                    
+                    if (result.status == 200) {
+                        window.location.href = '/';
+                        
+                        
+                    }
+                    
+                    if (result.status == 401 ) {
+                        /*
+                         * добавить блок-сообщение на страничку login
+                         */
+                        $('form').before(`
+                         <div class='alert alert-danger' role='alert'>
+                            Incorrect user or password!
+                        </div>`);
+
+                        
+                        
+                    }
                     
 //                    <div class="alert alert-success" role="alert">
   //                      Это уведомление об успехе — check it out!

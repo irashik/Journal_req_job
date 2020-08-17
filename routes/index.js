@@ -14,14 +14,14 @@ const log                           = require('../utils/log')(module);
 
     
 router.get('/', function(req, res) {
-     
-     
-    log.debug('Flash: ', req.flash('message'));
     
-    res.render('index', {  });
      
-    //log.info(req.headers);
-     
+    //req.flash('passport', "sdkfjskdjfsjf");
+    //req.flash('warning', 'lkdjfsdjflks');
+    
+    
+    res.render('index', { user: req.user, message: req.flash('passport') });
+    
                           
 });
 
@@ -33,7 +33,7 @@ router.get('/report', function(req, res) {
 //    log.debug('Flash2: '+  req.flash('warning'));
 //    
 
-    res.render('report', { message: req.flash('message'), warning: req.flash('warning') } );
+    res.render('report', { user: req.user, message: req.flash('passport'), warning: req.flash('warning') } );
                           
 });
 
@@ -45,7 +45,7 @@ router.get('/about', function(req, res) {
             
     log.info('get about router');
     
-    res.render('about', {  });
+    res.render('about', { user: req.user, message: req.flash('message'), warning: req.flash('warning')  });
                                
 });
 
