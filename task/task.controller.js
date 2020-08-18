@@ -106,13 +106,13 @@ exports.index = function(req, res) {
         if (err) {
             log.error(err);
             log.debug('taskfindall - error');
-            res.render('JobList', {data: null, status: 'Error respond'});
+            res.render('JobList', {data: null, status: 'Error respond', user: req.user } );
         
         } else {
             
             log.debug('task controller-TaskFindAll' );
             
-            res.render('JobList', { data: data, status: 'ok', id_task: null, search: search_str });
+            res.render('JobList', { data: data, status: 'ok', id_task: null, search: search_str, user: req.user });
            
         }
         

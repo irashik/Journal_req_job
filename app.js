@@ -23,10 +23,7 @@ const logger                        = require('morgan');
 const cookieParser                  = require('cookie-parser');
 const livereload                    = require('livereload');
 
-//const mongoose                      = require('./utils/mongoose');
 const session                       = require('express-session');
-//const connectMongo                  = require ('connect-mongo');
-
 const HttpError                     = require('./error').HttpError;
 
 
@@ -41,7 +38,6 @@ const myPassport                    = require('./middleware/passport');
 const sessionStore                  = require('./utils/sessionStore');
 const flash                         = require('connect-flash');
 const cors                          = require('cors');
-
 const createError                   = require('http-errors');
 
 
@@ -72,17 +68,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-app.use(require('./middleware/sendHttpError'));
-
-//app.use(require('./middleware/loadUser')); // не может прочитать свойство user
-
-//app.use(require('./middleware/auth'));  // так не хочет подключать.
-
 
 
  
 
-app.use(flash());
 
 
 app.use(cookieParser());
@@ -98,6 +87,8 @@ app.use(session({
     
     
 }));
+
+app.use(flash());
 
 
 app.use(passport.initialize());
@@ -122,6 +113,11 @@ app.use(express.static(path.join(__dirname, './public')));
 //app.use(express.favicon('public/images/favicon.ico'));
 
 
+app.use(require('./middleware/sendHttpError'));
+
+app.use(require('./middleware/loadUser')); // не может прочитать свойство user
+
+app.use(require('./middleware/auth'));  // так не хочет подключать.
 
 
 

@@ -29,24 +29,22 @@ passport.use(new LocalStrategy ({
                 }
                 if (!user) {
                     log.debug('не сущ. такой аккаунт');
-                    return done(null, false, { passport: 'Incorrect username'});
+                    return done(null, false, { message: 'Incorrect username'});
                 }
               
                 if (!user.validPassword(password)) {
                     
                     log.debug('Incorrect user || password');
-                    return done(null, false, { passport: 'Incorrect password'});
+                    return done(null, false, { message: 'Incorrect password'});
                 }
                 
                 log.debug('авторизация пройдена');
-                return done(null, user);
+                return done(null, user, { passport: 'Вы успешно авторизированы'});
                 
             });
         }));
         
 
-
-   //passport.use(new LocalStrategy (User.User.authenticate()));
 
         
         
@@ -77,35 +75,3 @@ passport.use(new LocalStrategy ({
 
 module.exports = passport;
 
-
-//образец из чата.
-//
-//passport.use('local', new LocalStrategy(function(username, password, done) {
-//    
-//    Account.findOne({ username: username }, function (err, account) {
-//                if (err) { 
-//                    log.debug('error' + err);
-//                    return done(err); 
-//                }
-//                if (!account) { 
-//                    log.debug('не сущ. такой аккаунт');
-//                    return done(null, false, { message: "User not found"});
-//                        
-//                } else {
-//                        
-//                        Account.verifyPassword(password, account.password, function(res) {
-//                            
-//                            if (res) {
-//                               return done(null, account, { message: "Hello " + account.username});
-//                             } else {
-//                                log.debug('Incorrect user || password');
-//                                return done(null, false, { message: "Incorrect user || password" }); 
-//                             }
-//                            
-//                        });
-//                                 
-//                }
-//                             
-//    });
-//
-//}));

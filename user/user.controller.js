@@ -37,12 +37,15 @@ exports.register_post = function(req, res) {
      let name = req.body.Name;
      let position = req.body.Position;
      let departament = req.body.Departament;
+     let created = new Date();
+     
      
      const register_data = {
             Email: email,
             Name: name,
             Position: position,
-            Departament: departament
+            Departament: departament,
+            Created: created
             
         };
         
@@ -109,7 +112,7 @@ exports.login = function(req, res) {
      
     log.info('get login');
     
-    res.render('login/login', { user: req.user, message: req.flash('passport')  });
+    res.render('login/login', { user: req.user, message: req.flash('message')  });
     
    
                       

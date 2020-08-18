@@ -14,6 +14,18 @@
 </div>
 <% } %>
 
+<% if (warning.length > 0 ) { %>
+<div class='alert alert-warning'>
+    <p>Warning flash message: <%= warning %> </p>
+</div>
+<% } %>
+
+
+<% if (passport.length > 0 ) { %>
+<div class='alert alert-info'>
+    <p>Warning flash message: <%= passport %> </p>
+</div>
+<% } %>
 
 <h1>Главная страница</h1>
 <h2>Вэб приложение - журнал РХУ
