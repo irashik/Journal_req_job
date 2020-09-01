@@ -3,6 +3,10 @@
  */
 'use strrict';
 
+const log                           = require('./utils/log')(module);
+const config                        = require('./config');
+const path                          = require('path');
+
 const express                       = require('express');
 
 const router                        = require('./routes');
@@ -13,9 +17,6 @@ const timesheetRouter               = require('./routes/timesheet');
 const userRouter                    = require('./routes/user');
 
 const engine                        = require('ejs-mate');
-const log                           = require('./utils/log')(module);
-const config                        = require('./config');
-const path                          = require('path');
 const errorhandler                  = require('errorhandler');
 
 const bodyParser                    = require('body-parser');
@@ -46,9 +47,12 @@ const createError                   = require('http-errors');
 const app                           = express();
 const server                        = livereload.createServer();
 
+//
+// // Переменная окружения
+//process.env.NODE_ENV = 'development';
 
-process.env.NODE_ENV = 'development';
 
+log.debug('process.env.node_env:' + process.env.NODE_ENV);
 
 server.watch(__dirname + "/public");
 
@@ -130,6 +134,8 @@ app.use(require('./middleware/auth'));  // так не хочет подключ
 if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler());
     app.use(logger('dev'));
+    
+    
     
 };
 

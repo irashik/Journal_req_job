@@ -8,6 +8,8 @@
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
 
+
+
 //  Регистрация пользователя
 exports.register = function(req, res) {
 
@@ -114,6 +116,8 @@ exports.login = function(req, res) {
     
     res.render('login/login', { user: req.user, message: req.flash('message')  });
     
+    // проверка переменных окружения
+    log.debug('process.env==' + process.env.NODE_ENV);
    
                       
 };
