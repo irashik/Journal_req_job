@@ -1,0 +1,33 @@
+{
+    "url" : "http://localhost",
+    "port" : 3000,
+    "mongoose": {
+        "uri": "mongodb://localhost:27017/Journal_reg_job",
+        "options": {
+            "useNewUrlParser": true, 
+            "useUnifiedTopology": true, 
+            "keepAlive": 1,
+            "useCreateIndex": true
+            
+                
+            
+        }
+    },
+    
+    "session": {
+        "name": "Journal_reg_job",
+        "secret": "ExMN235J^*2f43yHEM#PygXY&cfqg=",
+        "key": "z*Kq}<mN(3>r{euN_;jfGrL[9Dh3;&",
+        "resave": false,
+        "saveUninitialized": true,
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null,
+            "secure": false
+           
+                
+            
+        }
+    }
+}
