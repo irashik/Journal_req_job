@@ -29,5 +29,11 @@
                 
             
         }
+    },
+    
+     "emailsend": {
+        "name": "irashin@ptz-cargo.com",
+        "password": "password"
+        
     }
 }

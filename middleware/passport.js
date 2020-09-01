@@ -38,6 +38,12 @@ passport.use(new LocalStrategy ({
                     return done(null, false, { message: 'Incorrect password'});
                 }
                 
+                // проверяю подтвержден ли пользователь
+                if(!user.approvalUser) {
+                    
+                    return done(null, false, { message: 'Not Approval User' });
+                }
+                
                 log.debug('авторизация пройдена');
                 return done(null, user, { passport: 'Вы успешно авторизированы'});
                 
