@@ -346,6 +346,35 @@ $(document).ready(function() {
     });
     
     
+    //Поиск по фильтру локомотивы. TypeTask - ремонт.локом.
+    $('#filter1').click((e) => {
+        e.preventDefault();
+        
+        let search_str = 'Ремонт локом.';
+              
+        // создаю URL с параметром
+        let url ='/Joblist'+ '?' + 'typetask=' + search_str;
+                
+        //отправляю запрос на сервер для перезагрузки страницы.
+        location.href = url;
+        
+        
+    });
+    
+     //Поиск по фильтру заявки - статус-Заявка
+    $('#filter2').click((e) => {
+        e.preventDefault();
+                
+        let search_str = 'Заявка';
+        // создаю URL с параметром
+        let url ='/Joblist'+ '?' + 'status=' + search_str;
+                
+        //отправляю запрос на сервер для перезагрузки страницы.
+        location.href = url;
+        
+        
+    });
+    
     
     
     

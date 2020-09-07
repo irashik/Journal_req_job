@@ -7,30 +7,33 @@
 'use strict';
 
 const express                       = require('express');
-const taskRouter                    = express.Router();
+const Router                        = express.Router();
 const log                           = require('../utils/log')(module);
-const taskController                = require('../task/task.controller');
+const reportController                = require('../report/report.controller');
 
 
 
 
-taskRouter.get('/JobList/:id', taskController.open);
-
-// удаление задачи
-taskRouter.delete('/JobList/:id', taskController.del);
+// открытие страницы Report 
+Router.get('/Report', reportController.index);
 
 
-taskRouter.get('/JobList', taskController.index);
+//
+//// удаление задачи
+//Router.delete('/JobList/:id', taskController.del);
+//
+//
+//Router.get('/JobList', taskController.index);
+//
+//
+////добавление новой задачи + изменение существующей
+//Router.post('/JobList/saved', taskController.saved);
+//
+//
+////todo   // изменение задачи
+////taskRouter.put('/JobList/saved', taskController.update);
 
 
-//добавление новой задачи + изменение существующей
-taskRouter.post('/JobList/saved', taskController.saved);
 
 
-//todo   // изменение задачи
-//taskRouter.put('/JobList/saved', taskController.update);
-
-
-
-
-module.exports = taskRouter;
+module.exports = Router;

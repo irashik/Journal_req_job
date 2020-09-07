@@ -20,7 +20,6 @@
 <% } %>
 
 
-<div class='container-fluid'>
     
     <div class='row'>
         <div class='col'>
@@ -33,12 +32,12 @@
        
 
     <div class='row'>
-        
-        
         <div class='col'>
             <p>bla bla bla</p>
         </div>
-           
+        
+    </div>
+    <div class='row'>
         <div class='col'>
             <label for="number">Select a number</label>
             <select name="number" id="number">
@@ -155,55 +154,84 @@
            </div>
            
        </div>
+    
   
-</div>
-
-<br>
-<br>
-
-
-
-
-
     
+    <!-- table -->
     
 
-
-
-
-<table class="table">
-  <thead>
+<table class="table table-responsive">
+  <thead class='thead-dark'>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Имя</th>
-      <th scope="col">Фамилия</th>
-      <th scope="col">Username</th>
+      <th scope="col">№</th>
+      <th scope="col">Name</th>
+      <th scope="col">DateStart</th>
+      <th scope="col">Status</th>
+      <th scope="col">DateEnd</th>
+      <th scope="col">Responsible</th>
+      <th scope="col">TypeTask</th>
+      <th scope="col">Creator</th>
+      <th scope="col">Profession</th>
+      <th scope="col">Resource</th>
+      <th scope="col">ExpenseTime</th>
+      <th scope="col">Priority</th>
     </tr>
   </thead>
+  
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+   
+      <% data.forEach(datai => { %>
+      
+        <tr>
+          <th id="<%= datai.id %>"> <%=datai.id%> </th>
+          <td><%= datai.Name %></td>
+          <td><%= datai.DateStart %></td>
+          <td><%= datai.Status %></td>
+          <td><%= datai.DateEnd %></td>
+          <td><%= datai.Responsible %></td>
+          <td><%= datai.TypeTask %></td>
+          <td><%= datai.Creator %></td>
+          <td><%= datai.Profession %></td>
+          <td><%= datai.Resource %></td>
+          <td><%= datai.ExpenseTime %></td>
+          <td><%= datai.Priority %></td>
+          
+          
+        </tr>
+
+    <% }) %>
+    
+       
+    
+    
   </tbody>
 </table>
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- container fluid div  -->
+
+
+
+
+
+
+    
+    
+
+
+
 
 
   
-  
+
+<!-- Modal Window Task-->
+<%- partial ('./partials/ModalWindowTask') %> 
  

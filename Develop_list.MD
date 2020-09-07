@@ -109,3 +109,8 @@
 *Что делать с модулем Отчет???
 *почитай про подготовку на продакшен - чек лист для подготовки.
 *разберись и подготовься к переносу данных из эксель в базу монго.
+
+#import to mongodb
+mongoimport --host=localhost -d test -c rhuTask --type csv --file ~/Download/rhuTask.csv --headerline
+
+

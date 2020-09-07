@@ -50,59 +50,43 @@ exports.open = function(req, res, next) {
 
 // получение всех данных для списка.
 exports.index = function(req, res) {
-    
-    log.debug("сработал метод index");
-    
-    let option;
+    let option = new Object();
+    let search_str = null;
     // берем опции из запроса если есть
     
-    log.debug('search== ' + req.query.search);
+    // Здесь всегда показываются все задачи кроме закрытых
+      option.Status = { $ne: "Выполнена" };
     
-    let search_str = null;
+    if(req.query.status) {
+        // добавляем в статус поиск по запросу плюс оставляем условие по только активным задачам.
+        
+        option.Status = { $eq: req.query.status, $ne: "Выполнена"};
+    }
     
+    if (req.query.typetask) {
+        option.TypeTask = req.query.typetask;
+        log.debug('req.query.typetask:: ' + req.query.typetask);
+        
+    }
     
     if (req.query.search) {
     
-         search_str = req.query.search;
-         
-         option = {
              // объект для запроса mongodb
-              /*
-               * ищу по полям
-               * { Name: , TypeTask: , Creator, Resource
-               * 
-               * должны быть созданы индексы.
-               * 
-               * добавить score & sort
-               db.messages.find({$text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}})* $text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}
+              /**ищу по полям
+               * { Name: , TypeTask: , Creator, Resource  - смотри индекс mongodb.
                */
-              
-              $text: { $search: search_str }
-             
-         };
          
-         
-         
-         
-    } else {
-        option = { 
-            Status: { $ne: "Выполнена" }
+         option.$text =  { $search: req.query.search };
+         search_str = req.query.search;
+    } 
+      
         
-        };
-        //option = { status: true };
-        
-    }
-        // если нет то по умолчанию
-        // все записи кроме закрытых работ status:closed или 
-        
-        log.debug('option:  ' + JSON.stringify(option));
-                         
-         /* // этот метод должен получать данные из БД
+    log.debug('option:  ' + JSON.stringify(option));
+         /* этот метод должен получать данные из БД
           * и передавать данные на страницу через res
           */
     
     Task.TaskFindAll(option, (err, data) => {
-        
         if (err) {
             log.error(err);
             log.debug('taskfindall - error');
@@ -111,11 +95,9 @@ exports.index = function(req, res) {
         } else {
             
             log.debug('task controller-TaskFindAll' );
-            
             res.render('JobList', { data: data, status: 'ok', id_task: null, search: search_str, user: req.user });
            
         }
-        
         
     });
     

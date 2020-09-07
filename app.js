@@ -15,6 +15,7 @@ const taskRouter                    = require('./routes/task');
 const journalRouter                 = require('./routes/journal');
 const timesheetRouter               = require('./routes/timesheet');
 const userRouter                    = require('./routes/user');
+const reportRouter                  = require('./routes/report');
 
 const engine                        = require('ejs-mate');
 const errorhandler                  = require('errorhandler');
@@ -47,17 +48,10 @@ const createError                   = require('http-errors');
 const app                           = express();
 const server                        = livereload.createServer();
 
-//
-// // Переменная окружения
-//process.env.NODE_ENV = 'development';
 
-
-log.debug('process.env.node_env:' + process.env.NODE_ENV);
+log.info('process.env.NODE_ENV: ' + process.env.NODE_ENV);
 
 server.watch(__dirname + "/public");
-
-
-
 
 app.engine('ejs', engine);
 app.set('views', __dirname + "/view");
@@ -70,12 +64,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-
-
-
-
- 
-
 
 
 app.use(cookieParser());
@@ -107,6 +95,8 @@ app.use(taskRouter);
 app.use(journalRouter);
 app.use(timesheetRouter);
 app.use(userRouter);
+app.use(reportRouter);
+
 
 
 
@@ -143,7 +133,7 @@ if (process.env.NODE_ENV === 'development') {
 
 
 
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
 
      
 // обработка ошибок 404 - которые прошли через все обработчики.

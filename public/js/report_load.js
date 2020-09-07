@@ -99,7 +99,20 @@ $(document).ready(function() {
   
   
   
-    
+// автоматическая нумерация строк таблицы
+function updateTableNumeration() {
+  $('table tr').each(function(i) {
+      if(i !== 0) {
+        let number = i;
+        $(this).find('th:first').text(number + ".");
+    }
+  });
+}
+
+
+ // todo нужна функция которая будет обновлять нумерацию при изменениях
+    updateTableNumeration();
+
     
     
     

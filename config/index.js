@@ -7,14 +7,6 @@ const path = require('path');
 const log                           = require('../utils/log')(module);
 
 
-// если переменная равна development то выбираем конфигурацию
-
-
-
-log.info('node_env0:  ' + nconf.get('NODE_ENV'));
-
-
-
 
 switch (process.env.NODE_ENV) {
     
@@ -46,6 +38,11 @@ switch (process.env.NODE_ENV) {
         nconf.argv()
             .env()
             .file({ file: path.join(__dirname, 'config_dev.json')});
+
+        process.env.NODE_ENV = 'development';
+
+        log.info('Default!!! Выбрана конфигурация development по default');
+
     break;
 
 

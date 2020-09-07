@@ -116,8 +116,6 @@ exports.login = function(req, res) {
     
     res.render('login/login', { user: req.user, message: req.flash('message')  });
     
-    // проверка переменных окружения
-    log.debug('process.env==' + process.env.NODE_ENV);
    
                       
 };
@@ -151,6 +149,8 @@ exports.forgot = function(req, res) {
     res.render('login/forgot', {  });
     
     
+    
+    
         
                           
 };
@@ -159,7 +159,9 @@ exports.forgot_post = function(req, res) {
         
     log.info('post forgot');
     
-    
+
+    //todo Сбросить пароль и отправить пользователю на емейл новый пароль
+
     
         
                           

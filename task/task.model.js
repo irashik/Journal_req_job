@@ -11,10 +11,10 @@
 
 
 
-const db                      = require('../utils/mongoose');
-const mongoose                = require('mongoose');
+const db                            = require('../utils/mongoose');
+const mongoose                      = require('mongoose');
 const log                           = require('../utils/log')(module);
-let Schema                    = mongoose.Schema;
+let Schema                          = mongoose.Schema;
 
 
 
@@ -27,11 +27,11 @@ let TaskSchema = new Schema({
   Name: {          // имя задачи - краткое описание.
     type: String,
     required: true,
-    maxlength: 100
+    maxlength: 300
   },
   Description: {  // более подробное описание задачи
     type: String,
-    maxlength: 600
+    maxlength: 1000
   },
   DateStart: {     // дата создания задачи
     type: Date
@@ -160,13 +160,8 @@ module.exports.TaskUpdate = TaskUpdate;
 
 function TaskFindAll(options, callback) {
       // получи все данные из коллекции Task и верни callback
-    
-    log.debug(options);
-    
-    
-    if(options) {
         
-        let promise = Task.find(options).sort({_id: -1 });
+    let promise = Task.find(options).sort({_id: -1 });
         
         promise
             .then(result => {
@@ -179,21 +174,7 @@ function TaskFindAll(options, callback) {
     
     });
     
-    } else {
     
-    let promise = Task.find();
-        promise
-            .then((result) => {
-                callback(null, result);
-                
-    })
-            .catch((err) => {
-                log.error(err);
-                callback(err, null);
-    
-    });
-    
-    }
    
 };
 

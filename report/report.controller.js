@@ -61,7 +61,7 @@ exports.index = function(req, res) {
     
 
      //Получить все данные из списка задач и отобразить.
-    let option;
+    let option = new Object();
     let search_str = null;
     // берем опции из запроса если есть
     
@@ -70,10 +70,8 @@ exports.index = function(req, res) {
     if (req.query.search) {
     
          search_str = req.query.search;
-         
-         option = {
-             // объект для запроса mongodb
-              /*
+         // объект для запроса mongodb
+           /*
                * ищу по полям
                * { Name: , TypeTask: , Creator, Resource
                * 
@@ -82,15 +80,13 @@ exports.index = function(req, res) {
                * добавить score & sort
                db.messages.find({$text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}})* $text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}
                */
+         
+         option.$text = { $search: search_str };
               
-              $text: { $search: search_str }
-             
-         };
-         
-         
          
          
     } 
+    
     // если нет то options null 
     log.debug('option:  ' + JSON.stringify(option));
                          

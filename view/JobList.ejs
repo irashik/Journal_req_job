@@ -8,6 +8,12 @@
     <button type='button' data-toggle='modal' data-target='#edit_task_modal'
                    class="btn btn-primary my-2">Добавление задачи
     </button>
+   <button type='button' id='filter1' class="btn btn-secondary my-2 btn-sm">
+       Фильтр локомотивы
+    </button>
+    <button type='button' id='filter2' class="btn btn-secondary my-2 btn-sm">
+       Фильтр заявки
+    </button>
   
   
     <form class="form-inline my-3 my-lg-2" id="search_form">
@@ -66,133 +72,11 @@
         <% }) %>
     </div>
   
-  
-      
-    
-    
-        
 
   
-  
+
 
 <!-- Modal Create-->
-<div class="modal fade bd-example-modal-xl" id="edit_task_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    
-  <div class="modal-dialog modal-xl" role="document">
-      
-    <div class="modal-content">
-    
-        <div class="modal-header">
-            <h5 class="modal-title" id="edit_task_modalLabel">Добавление задачи</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span  id="modal-close" aria-hidden="true">&times;</span>
-            </button>
-        </div>
-      
-        <div class="modal-body">
-            <!-- здесь встраивается task-id -->
-                                
-            <div id='DateStart'></div>
-                      
-             <div class ='row'>
-                 <div class='col'>
-                    <textarea class="form-control task_input_modal" type="text" id='Name' placeholder="Имя задачи" rows="3" cols="40"></textarea>
-                 </div>
-            </div>
-            <div class="row">     
-                  <div class='col'>
-                        <input class="form-control task_input" type="text" id='Creator' placeholder="Автор задачи">
-                  </div>
-                  <div class='col'>
-                    <select class="custom-select" id='TypeTask' title="Тип задачи">
-                        <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
-                        <option value="Хоз.работы">Хоз.работы</option>
-                        <option value="Срочный ремонт">Срочный ремонт</option>
-                        <option value="Ремонт локом.">Ремонт локом.</option>
-                        <option value="Плановый ремонт">Плановый ремонт</option>
-                    </select>
-                  </div>
-            </div>
-                  
-            <button type="button" id='hidden' class="btn btn-secondary btn-sm">Подробнее</button>
-            
-          
-               
-          <div id='hiddenDiv'>
-                    
-          <textarea class="form-control task_input_modal" type="text" id='Description' placeholder="Описание задачи" rows="5" cols="40"></textarea>
-          <textarea class="form-control task_input_modal" type="text" id='Resource' placeholder="Требуемые ресурсы" rows="3" cols="40"></textarea>
+<%- partial ('./partials/ModalWindowTask') %> 
 
-            <div class ='row'>
-                 <div class='col'>
-                     
-                    <input class="form-control task_input" type="text" id='ExpenseTime' placeholder="Трудозатраты">
-                     
-                     
-                     <select class="custom-select" id='Status' title="Статус задачи">
-                        <option data-hidden='true' value="" selected disable hidden>Статус задачи</option>
-                        <option value="Активная">Активная</option>
-                        <option value="Выполнено">Выполнено</option>
-                        <option value="Отложено">Отложено</option>
-                        <option value="Заявка">Заявка</option>-->
-                    </select>
-                     
-                     
-                     <select class="custom-select" id='Priority' title="Приоритет">
-                        <option data-hidden='true' value="" selected disable hidden>Выберите приоритет</option>
-                        <option value="Срочная важная">Срочная важная</option>
-                        <option value="Несрочная важная">Несрочная важная</option>
-                        <option value="Срочная неважная">Срочная неважная</option>
-                        <option value="Несрочная неважная">Несрочная неважная</option>
-                    </select>
-                     
-                 </div>
-            
-                <div class='col'>
-                    <!-- <input class="form-control task_input" type="text" id='DateEnd' placeholder="Дата изм. статуса">-->
-                    <input class="form-control task_input" type="text" id='Responsible' placeholder="Ответственный">
-                    <input class="form-control task_input" type="text" id='Profession' placeholder="Профессия">
-                </div>
-            </div>
-                
-            <div class ='row'>
-                <div class='col'>
-                    <button type="button" class="btn btn-secondary btn-sm" id='task-del'>Удалить</button>
-                </div>
-            </div>
 
-          
-<!--        <form>
-            <div class="form-group inline">
-                <label for="exampleFormControlFile1">Загрузить фото</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
-            <div id='foto-upload'>Загруженные фото</div>
-        </form>-->
-          
-           
-            
-          
-          
-                
-          
-          </div>
-
-          
-          
-          
-            
-          
-          
-          
-
-      </div>
-      
-        <div class="modal-footer">
-            <button id='task_save' type="button" class="btn btn-secondary">Сохранить</button>
-       </div>
-  
-  </div>
-</div>
-
-    

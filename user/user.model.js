@@ -14,6 +14,7 @@ const Schema                        = mongoose.Schema;
 
 const bcrypt                        = require('bcrypt');
 const passportLocalMongoose         = require('passport-local-mongoose');
+const emailservice                  = require('../utils/mailSend');
 
 
 const UserSchema = new Schema({
@@ -217,7 +218,8 @@ function Register (data, callback) {
 module.exports.Register = Register;
 
 
-/*
+/*   Процесс подтверждения регистрации пользователя.
+ *
     Создайте случайный хеш и сохраните его в своей базе данных со ссылкой на User ID.
     Отправьте электронное письмо на указанный адрес электронной почты с хешем как часть ссылки, указывающей на маршрут на вашем сервере.
     Когда пользователь щелкает ссылку и попадает в ваш маршрут, проверьте хеш, переданный в URL
@@ -228,7 +230,32 @@ module.exports.Register = Register;
 
 
 
-
+    // объект сообщение для отправки на адрес админа
+    let adressee = 'D7271984@yandex.ru';
+    
+    let message = {
+        from: '"WebApp JournalReqJob" <D7271984@yandex.ru>', // sender address
+        to: adressee,
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+    };
+    
+    
+    
+//    
+//// отправляем сообщение и получаем ответ.    
+//emailservice(message, (err, respond) => {
+//   
+//    
+//    
+//  console.log('sendmail respond::  ' + respond);
+//  console.log('error:: ' + err);
+//  
+//  
+//    
+//    
+//});
 
 
 
