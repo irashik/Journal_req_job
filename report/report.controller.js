@@ -70,20 +70,8 @@ exports.index = function(req, res) {
     if (req.query.search) {
     
          search_str = req.query.search;
-         // объект для запроса mongodb
-           /*
-               * ищу по полям
-               * { Name: , TypeTask: , Creator, Resource
-               * 
-               * должны быть созданы индексы.
-               * 
-               * добавить score & sort
-               db.messages.find({$text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}})* $text: {$search: "dogs"}}, {score: {$meta: "toextScore"}}).sort({score:{$meta:"textScore"}
-               */
          
          option.$text = { $search: search_str };
-              
-         
          
     } 
     
@@ -100,7 +88,7 @@ exports.index = function(req, res) {
         if (err) {
             log.error(err);
             log.debug('taskfindall - error');
-            res.render('Report', {data: null, status: 'Error respond', user: req.user } );
+            res.render('Report', { data: null, status: 'Error respond', user: req.user } );
             
             
         

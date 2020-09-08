@@ -3,25 +3,16 @@
  * 
  * 
  */
-
 'use strict';
 
-
 $(document).ready(function() {
-    
-    
-    
-
  
-  $( function() {
+    // функционал работы с DatePicker
+    $(function() {
     let dateFormat = "dd/mm/yy";
     let today = new Date();
-    let lastMonth = new Date(2020, 0, 1);
-    //lastMonth.setDate(today.getDate() -60);
-    // далее хочу задавать стандартный период для выборки - пол года или год или квартал
-    
-    
-    
+    let lastMonth = new Date();
+    lastMonth.setDate(today.getDate() - 30);
     
     let from = $("#from")
         .datepicker({
@@ -32,71 +23,68 @@ $(document).ready(function() {
           startDate: '01.01.2020',
           endDate: ""
          
-      })
+        })
+        .on("change", function() {
+            to.datepicker( "option", "minDate", getDate(this));
         
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
+        });
         
+        
+    let to = $("#to")
+            .datepicker({
+                dateFormat: dateFormat,
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                startDate: '01.01.2020',
+                endDate: ""
+            })
+            
+            .on( "change", function() {
+                from.datepicker( "option", "maxDate", getDate(this));
     });
-        
-        
-        from.datepicker('setDate', lastMonth);
-        
-        
-    let to = $( "#to" ).datepicker({
-        dateFormat: dateFormat,
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 1,
-        startDate: '01.01.2020',
-        endDate: ""
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-      });
       
-      
-      to.datepicker('setDate', today);
-      
-      
-      
+        // это думаю не понадобиться. - даты если нужну вручную выставишь.
+        //to.datepicker('setDate', today);
+        //from.datepicker('setDate', lastMonth);
+
  
-    function getDate( element ) {
+    function getDate(element) {
       let date;
       try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
+        date = $.datepicker.parseDate(dateFormat, element.value);
+      } 
+      catch(error) {
         date = null;
       }
- 
       return date;
     }
-  } );
+    
+  });
+  
+    // Кнопка применить фильтры.  
+    $('#toApplyFilter').click((e) => {
+        e.preventDefault();
+            /*
+             * возьми значения всех селекторов
+             * сделай запрос на контроллер и передай параметры.
+             * 
+             */
+          
+          
+    });
   
   
-  
-  
-  
-  
-  $( function() {
 
-    $( "#number" )
+
+    
+    //применение виджета UIquery для всех селекторов
+    $("select[name='number']")
       .selectmenu()
       .selectmenu( "menuWidget" )
           .addClass( "overflow" );
  
     
-    
-    $( "#number2" )
-      .selectmenu()
-      .selectmenu( "menuWidget" )
-          .addClass( "overflow" );
- 
-    
-    
-    
-  } );
-  
   
   
 // автоматическая нумерация строк таблицы
@@ -109,18 +97,8 @@ function updateTableNumeration() {
   });
 }
 
-
- // todo нужна функция которая будет обновлять нумерацию при изменениях
-    updateTableNumeration();
-
-    
-    
-    
-    
-    
-    
-    
-    
+  //todo нужна функция которая будет обновлять нумерацию при изменениях
+  updateTableNumeration();
     
     // end ready document
 });

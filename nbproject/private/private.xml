@@ -13,7 +13,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/view/Report.ejs</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/task/task.controller.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/view/JobList.ejs</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/task/task.model.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/config/config_dev.json</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/Develop_list.MD</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/view/partials/ModalWindowTask.ejs</file>
             <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/report/report.controller.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/TODO_list.MD</file>
         </group>
     </open-files>
 </project-private>

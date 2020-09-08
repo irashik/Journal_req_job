@@ -6,7 +6,7 @@
 
 <h1>Отчеты по задачам</h1>
 
-
+<!-- flash messages -->
 <% if (message.length > 0) { %>
 <div class='alert alert-danger'>
     <p>my flash message: <%= message %> </p>
@@ -20,7 +20,7 @@
 <% } %>
 
 
-    
+<!-- filter -->     
     <div class='row'>
         <div class='col'>
             <label for="from">Выберите период: от</label>
@@ -28,138 +28,83 @@
             <label for="to">до</label>
             <input type="text" id="to" name="to">
         </div>
-   </div>
+    </div>
        
 
     <div class='row'>
         <div class='col'>
-            <p>bla bla bla</p>
+            <p id="datafrom"></p>
+            
+        </div>
+        
+        <div class='col'>
+            <p id="datato"></p>
         </div>
         
     </div>
-    <div class='row'>
-        <div class='col'>
-            <label for="number">Select a number</label>
-            <select name="number" id="number">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-            </select>
-        
-        </div>
-           
-        <div class='col'>
-               <label for="number">Select a number</label>
-                <select name="number" id="number2">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>12</option>
-                  <option>13</option>
-                  <option>14</option>
-                  <option>15</option>
-                  <option>16</option>
-                  <option>17</option>
-                  <option>18</option>
-                  <option>19</option>
-                </select>
-               
-        </div>
-           
-        <div class='col'>
-               <label for="number">Select a number</label>
-                <select name="number" id="number">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                  <option>13</option>
-                  <option>14</option>
-                  <option>15</option>
-                  <option>16</option>
-                  <option>17</option>
-                  <option>18</option>
-                  <option>19</option>
-                </select>
-               
-        </div>
-        
-        
-        
-        <div class='col'>
-               <label for="number">Select a number</label>
-                <select name="number" id="number">
-                  <option>1</option>
-                  <option selected="selected">2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                  <option>13</option>
-                  <option>14</option>
-                  <option>15</option>
-                  <option>16</option>
-                  <option>17</option>
-                  <option>18</option>
-                  <option>19</option>
-                </select>
-               
-        </div>
-           
-        <div class='col'>
-               <label for="number">Select a number</label>
-                <select name="number" id="number">
-                  <option>1</option>
-                  <option selected="selected">2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                  <option>13</option>
-                  <option>14</option>
-                  <option>15</option>
-                  <option>16</option>
-                  <option>17</option>
-                  <option>18</option>
-                  <option>19</option>
-                </select>
-               
-           </div>
-           
-       </div>
-    
-  
-    
-    <!-- table -->
-    
 
+    <div class='row'>
+        <div class='col-md'>
+            <!-- Фильтр по типу задач -->
+            <select class='custom-select' name="number" id="TypeTaskFilter" title='Тип задачи'>
+                <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
+                <option value="Хоз.работы">Хоз.работы</option>
+                <option value="Срочный ремонт">Срочный ремонт</option>
+                <option value="Ремонт локом.">Ремонт локом.</option>
+                <option value="Плановый ремонт">Плановый ремонт</option>
+            </select>
+        </div>
+           
+        <div class='col-md'>
+            <!-- фильтр по статусу задач -->
+                <select  class='custom-select' name="number" id="StatusFilter" title='Статус задачи'>
+                    <option data-hidden='true' value="" selected disable hidden>Статус задачи</option>
+                    <option value="Активная">Активная</option>
+                    <option value="Выполнено">Выполнено</option>
+                    <option value="Отложено">Отложено</option>
+                    <option value="Заявка">Заявка</option>
+                </select>
+               
+        </div>
+           
+        
+        <div class='col-md'>
+            <select class='custom-select' name="number" id="CreatorFilter" title='Автор задачи'>
+                <option data-hidden='true' value="" selected disable hidden>Автор задачи</option>
+                    <option value="Лаптев">Лаптев</option>
+                    <option value="Красильников">Красильников</option>
+                    <option value="Ирашин">Ирашин</option>
+                    
+                    <!--  todo  тут добавь выборку из базы для взятия всех возможных авторов -->
+                   
+                </select>
+               
+        </div>
+        
+        <div class='col-md'>
+            <select class='custom-select' name="number" id="ResourceFilter" title='Только с ресурсами'>
+                  <option data-hidden='true' value="" selected disable hidden>Требуются ресурсы</option>
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+            </select>
+               
+        </div>
+        
+        <div class='col-md'>
+            <button type='button' id='toApplyFilter' class="btn btn-secondary my-2 btn-sm">
+                    Применить фильтры
+            </button>
+       
+        </div>
+         
+    </div>
+
+       
+            
+
+
+  
+<!-- table -->
 <table class="table table-responsive">
   <thead class='thead-dark'>
     <tr>
