@@ -7,7 +7,16 @@
 
   <h1>Регистрация</h1>
   
-      
+ 
+<% if (warning.length >0) { %>
+<div class='alert alert-warning'>
+    <p>my flash message warning: <%= warning %> </p>
+</div>
+<% } %>
+
+
+<div id='alert'></div>
+    
       
 <form id="register_form">
 
@@ -38,9 +47,6 @@
       
       
       
-    
-    
-  
   
    
   <button type="submit" id='register' class="btn btn-primary col-md-12">Sign up</button>

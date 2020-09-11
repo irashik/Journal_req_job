@@ -11,8 +11,14 @@
 
 
 <% if (message.length > 0 ) { %>
-<div class='alert alert-danger'>
+<div class='alert alert-success'>
     <p>my flash message: <%= message %> </p>
+</div>
+<% } %>
+
+<% if (warning.length >0) { %>
+<div class='alert alert-warning'>
+    <p>my flash message warning: <%= warning %> </p>
 </div>
 <% } %>
 

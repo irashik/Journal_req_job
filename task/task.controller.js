@@ -13,7 +13,7 @@ const log                           = require('../utils/log')(module);
 
 
 
-// получи данные по конкретному работнику
+// получи данные по конкретной задачи
 exports.open = function(req, res, next) {
     
      //log.debug("сработал вызов open в контроллере");
@@ -50,17 +50,18 @@ exports.open = function(req, res, next) {
 
 // получение всех данных для списка.
 exports.index = function(req, res) {
+    
     let option = new Object();
     let search_str = null;
     // берем опции из запроса если есть
     
     // Здесь всегда показываются все задачи кроме закрытых
-      option.Status = { $ne: "Выполнена" };
+      option.Status = { $ne: "Выполнено" };
     
     if(req.query.status) {
         // добавляем в статус поиск по запросу плюс оставляем условие по только активным задачам.
         
-        option.Status = { $eq: req.query.status, $ne: "Выполнена"};
+        option.Status = { $eq: req.query.status, $ne: "Выполнено"};
     }
     
     if (req.query.typetask) {

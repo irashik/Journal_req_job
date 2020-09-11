@@ -197,7 +197,8 @@ app.use(function(err, req, res, next) {
        
     } else {
         
-           if (app.get(NODE_ENV) === 'development') {
+           if (process.env.NODE_ENV === 'development') {
+               
                log.debug("started errorHandler");
                express.errorHandler()(err, req, res, next);
                

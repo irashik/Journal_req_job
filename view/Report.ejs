@@ -23,31 +23,27 @@
 <!-- filter -->     
     <div class='row'>
         <div class='col'>
-            <label for="from">Выберите период: от</label>
-            <input type="text" id="from" name="from">
+            <label for="from">Период для даты создания: от</label>
+            <input type="text" id="DateStartFrom" name="DateStart1">
             <label for="to">до</label>
-            <input type="text" id="to" name="to">
+            <input type="text" id="DateStartTo" name="DateStart2">
         </div>
     </div>
-       
 
     <div class='row'>
-        <div class='col'>
-            <p id="datafrom"></p>
-            
+            <div class='col'>
+                <label for="from">Период для даты окончания: от</label>
+                <input type="text" id="DateEndFrom" name="DateEnd1">
+                <label for="to">до</label>
+                <input type="text" id="DateEndTo" name="DateEnd2">
+            </div>
         </div>
-        
-        <div class='col'>
-            <p id="datato"></p>
-        </div>
-        
-    </div>
 
     <div class='row'>
         <div class='col-md'>
             <!-- Фильтр по типу задач -->
             <select class='custom-select' name="number" id="TypeTaskFilter" title='Тип задачи'>
-                <option data-hidden='true' value="" selected disable hidden>Выберите тип задачи</option>
+                <option data-hidden='true' value="" selected disable hidden>Тип задачи</option>
                 <option value="Хоз.работы">Хоз.работы</option>
                 <option value="Срочный ремонт">Срочный ремонт</option>
                 <option value="Ремонт локом.">Ремонт локом.</option>
@@ -83,16 +79,22 @@
         
         <div class='col-md'>
             <select class='custom-select' name="number" id="ResourceFilter" title='Только с ресурсами'>
-                  <option data-hidden='true' value="" selected disable hidden>Требуются ресурсы</option>
-                  <option value="true">true</option>
-                  <option value="false">false</option>
+                  <option data-hidden='true' value="" selected disable hidden>Ресурсы</option>
+                  <option value="1">Требуются</option>
+                  <option value="2">Не требуются</option>
             </select>
                
         </div>
         
         <div class='col-md'>
-            <button type='button' id='toApplyFilter' class="btn btn-secondary my-2 btn-sm">
+            <button type='button' id='toApplyFilter' class="btn btn-secondary btn-sm text-nowrap">
                     Применить фильтры
+            </button>
+       
+        </div>
+        <div class='col-md'>
+            <button type='button' id='toClearFilter' class="btn btn-secondary btn-sm text-nowrap">
+                    Сбросить фильтры
             </button>
        
         </div>
@@ -124,15 +126,23 @@
   </thead>
   
   <tbody>
-   
+      
+                
       <% data.forEach(datai => { %>
       
         <tr>
           <th id="<%= datai.id %>"> <%=datai.id%> </th>
           <td><%= datai.Name %></td>
-          <td><%= datai.DateStart %></td>
+          <td><%= moment(datai.DateStart).format('DD.MM.YYYY, HH:mm') %></td>
+          
           <td><%= datai.Status %></td>
-          <td><%= datai.DateEnd %></td>
+          
+          <% if(datai.DateEnd) { %>
+                <td><%= moment(datai.DateEnd).format('DD.MM.YYYY, HH:mm') %></td>
+          <% } else { %>
+                <td></td>
+          <% } %>
+          
           <td><%= datai.Responsible %></td>
           <td><%= datai.TypeTask %></td>
           <td><%= datai.Creator %></td>
@@ -144,7 +154,7 @@
           
         </tr>
 
-    <% }) %>
+    <% }); %>
     
        
     

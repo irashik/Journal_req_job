@@ -14,9 +14,13 @@ const log               = require('../utils/log')(module);
 exports.register = function(req, res) {
 
     log.info('get register');
-    res.render('login/register', {  });
-     
-     
+    
+//    req.flash('message', "Ваша заявка принята");
+//    req.flash('warning', 'flash warning');
+    
+    //res.render('login/register', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
+
+    res.render('login/register', { user: req.user, warning: req.flash('warning')  });
                           
 };
 
@@ -69,20 +73,22 @@ exports.register_post = function(req, res) {
               User.Register(register_data, (err, data) => {
                     if (err) {
                         log.error(err);
-
-        //                res.render('register', { message: req.flash('error')});
-        //                req.flash('error', "неправильные данные");
-
+                        req.flash('warning', 'Неправильные данные');
                         res.status(500).send('ошибка от базы данных ' + err);
-
-
+                        
+                        
 
                     } else {
                         log.info('успешно');
-                        
                         log.warn(data);
-                        
+
+                        req.flash('message', "Ваша заявка принята");
                         res.status(200).send('запись успешно зарегистрирована' + data);     
+                        
+                        
+                        //log.debug('Flash: ' + req.flash('message'));
+                        //log.debug('Flash2: '+  req.flash('warning'));
+                        
                         
                         //res.redirect('login');
                         //, { message: 'Вы успешно зарегистрированы'});
@@ -97,6 +103,8 @@ exports.register_post = function(req, res) {
         } else {
             
             res.status(500).send('ошибка от при генерации хеша ' + hash + '\n' + salt);
+            req.flash('warning', "Ошибка генерации хеша");
+
 
         }
     });
@@ -114,9 +122,11 @@ exports.login = function(req, res) {
      
     log.info('get login');
     
-    res.render('login/login', { user: req.user, message: req.flash('message')  });
+    //log.debug('Flash1: ' + req.flash('message'));
+    //log.debug('flash2: ' + req.flash('warning'));
+
+    res.render('login/login', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
     
-   
                       
 };
 

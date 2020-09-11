@@ -40,6 +40,17 @@ $(document).ready(function() {
         
         let id = $('p#task-id.text-success').text();
        
+        console.log('текущий статус задачи: ' + Status);
+        
+       // если тип задачи выбран выполнено, то добавляем дату закрытия
+        if (!DateEnd) {
+            if (Status === 'Выполнено') {
+            
+            DateEnd = new Date();
+            }
+        }
+       
+        
         
         //  подготавливаем json в соответствии со схемой mongodb
         let task = {

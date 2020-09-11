@@ -53,16 +53,22 @@ $(document).ready(function() {
                     
         })
         .then(result => {
-                  
-                    // тут также может быть ошибка показываем флеш сообщение
+            // получаю ответ если ответ 200 то 
+            // редиректим на /login там будут флеш сообщения
+            if(result.status === 200) {
+                location.href = '/login';
+            } else {
+                // иначе показываем флеш сообщения и никуда не редиректим.
+                
+            let html = `<div class="alert alert-danger" role="alert">Что-то пошло не так</div>`
+            
+            $('div#alert').append(html);
+                
+             
+                
+            }
+            
                     
-                    console.log('request send true');
-                    console.log(result);
-                    
-//                    <div class="alert alert-success" role="alert">
-  //                      Это уведомление об успехе — check it out!
-    //                    result
-      //              </div>
                     
               
           

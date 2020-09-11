@@ -72,14 +72,9 @@ let TaskSchema = new Schema({
              
 });
 
-
 const Task = db.model('Task', TaskSchema);
 
-
-
-//todo подумай над реализацие очередности задач (список задач сначало это потом то, затем...)
-
-
+// функция создания новой задачи
 function TaskCreate(data, callback) {
     // создай запись в базе данных, и верни подтверждение
     
@@ -123,13 +118,9 @@ function TaskCreate(data, callback) {
                 });
     
 };
-
-
 module.exports.TaskCreate = TaskCreate;
 
-
-
-
+// функция обновления данных по конкретной задачи
 function TaskUpdate(id, data, callback) {
     // найди запись по id , и поменяй там данные, и подтверди//
     log.debug('входные данные' + data);
@@ -153,14 +144,13 @@ function TaskUpdate(id, data, callback) {
             });
        
 };
-
 module.exports.TaskUpdate = TaskUpdate;
 
-
-
+//функция поиска задач (всех или по выборке из options)
 function TaskFindAll(options, callback) {
       // получи все данные из коллекции Task и верни callback
-        
+    
+    // sort применен чтобы новые задачи показывались вверху.
     let promise = Task.find(options).sort({_id: -1 });
         
         promise
@@ -177,18 +167,12 @@ function TaskFindAll(options, callback) {
     
    
 };
-
 module.exports.TaskFindAll = TaskFindAll;
 
-
-
-//открыть конкретную запись.
+// найти и открыть конкретную задачу
 function TaskFindById(id, option, callback)  {
     
-//    
     let promise = Task.findById(id, option);
-    
-    
     
     promise
             .then(result => {
@@ -201,33 +185,12 @@ function TaskFindById(id, option, callback)  {
                 callback(err, null);
     });
         
-//        
-//      Task.findById(id, option, (err, data) => {
-//      
-//        if (err) {
-//            callback(err, null);
-//        } else {
-//            callback (null, data);
-//        }
-//    
-//        }); 
-          
-      
-    
-    
     
 };
-
-
 module.exports.TaskFindById = TaskFindById;
 
-
-
-
-
-// удалить задачу
+// найти по id  и удалить задачу
 function TaskDel(id, callback) {
-    
     log.debug('id request: ' + id);
     
     let promise = Task.findByIdAndRemove(id);
@@ -242,19 +205,12 @@ function TaskDel(id, callback) {
                 log.error(err);
                 callback(err, null);
     });
-        
     
 };
-
-
 module.exports.TaskDel = TaskDel;
 
-
-
-// удалить задачу
+// пометить задачу закрытой (выполненой)
 function TaskClose(id, callback) {
-    
-    
     log.debug('id request: ' + id);
         
     /*
@@ -263,19 +219,14 @@ function TaskClose(id, callback) {
      * вернуть callback
      */
     
-    
     const option = { new: true };  // вернуть обновленный документ.
-
     
     let DateEnd = new Date();
     
     const data = {
         DateEnd: DateEnd,
         Status: "closed"
-
-
     };
-    
     
     const task = new Task(data);
       
@@ -293,32 +244,12 @@ function TaskClose(id, callback) {
                 callback(err, null);
                     
             });
-       
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 };
-
-
 module.exports.TaskClose = TaskClose;
 
 
-
-
-
-
+// экспорт функции модели или схемы mongodb Task
 module.exports.Task = Task;
         
 
