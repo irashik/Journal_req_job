@@ -13,7 +13,7 @@ const log                           = require('../utils/log')(module);
 // страница входа на сайт.
 router.get('/', function(req, res) {
 
-    res.render('index', { user: req.user, message: req.flash('message'), warning: req.flash('warning'), passport: req.flash('passport') });
+    res.render('index', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
                          
 });
 

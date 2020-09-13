@@ -10,7 +10,7 @@ function authenticationMiddleware() {
             
             return next();
         }
-        
+        req.flash('warning', 'Для начала зарегайтесь');
         res.redirect('/login');
     };
     

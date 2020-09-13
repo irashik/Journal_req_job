@@ -45,7 +45,7 @@ passport.use(new LocalStrategy ({
                 }
                 
                 log.debug('авторизация пройдена');
-                return done(null, user, { passport: 'Вы успешно авторизированы'});
+                return done(null, user, { message: 'Вы успешно авторизированы'});
                 
             });
         }));

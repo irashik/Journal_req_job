@@ -18,8 +18,6 @@ $(document).ready(function() {
          * если ошибка - то показываем флеш сообщение с ошибкой, оставляем на странице
          * 
          */
-      
-        
         e.preventDefault();
           
         const email = $('#inputEmail').val();
@@ -52,40 +50,51 @@ $(document).ready(function() {
                     body: JSON.stringify(register_data)
                     
         })
+        
         .then(result => {
+            
+        
             // получаю ответ если ответ 200 то 
             // редиректим на /login там будут флеш сообщения
             if(result.status === 200) {
                 location.href = '/login';
+                
             } else {
                 // иначе показываем флеш сообщения и никуда не редиректим.
                 
-            let html = `<div class="alert alert-danger" role="alert">Что-то пошло не так</div>`
-            
-            $('div#alert').append(html);
+                let promise = result.text();
                 
-             
+                promise.then(a => {
+                    
+                    let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
+                
+                    $('div#alert').append(html);
+                });
                 
             }
             
-                    
-                    
-              
+//            let a = result.json();
+//            a.then(b => {
+//                alert(b);
+//            });
+//            
+                
           
                     
         })
+       
         .catch(err => {
-                    
-                    /*
+                     /*
                      * показываем флеш сообщение с ошибкой
                      */
+                   
+                   let promise = err.text();
+                    promise.then(a => {
+                        let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
+                        $('div#alert').append(html);
+                    });
                     
-                    console.log('error from server');
-                    alert('Возникла ошибка при регистрации' + err);
-//                    
-//                    <div class="alert alert-danger" role="alert">
-                      //  Это уведомление об опасности — check it out!
-                    //</div>
+            
             
         });
                 

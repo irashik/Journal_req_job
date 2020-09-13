@@ -23,15 +23,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     unique: true
-    
   },
   Password: {
       type: String,
       required: true
   },
-  Salt: {
+  Salt: {            //todo это поле наверное не нужно
       type: String
-      
   },
   Name: {      // имя и фамилия
     type: String,
@@ -49,9 +47,13 @@ const UserSchema = new Schema({
   Created: {
       type: Date
   },
-  Verifed: {
+  Verifed: {           // переход по ссылке подтверждения
+      type: Boolean
+  },
+  Confirmation: {   // проврка пользователя админом
       type: Boolean
   }
+  
   
   
   
@@ -85,12 +87,15 @@ UserSchema.methods.approvalUser = function() {
     // посмотри значение поля Verifed в схеме
     //if (user.Verifed) { return true; };
     
+    // еще посмотри поле confirmation
+    
 };
 
 
 
 // метод экземпляра модели
-// генерация пароля и возврат хеша и соли         // todo включи эту функцию и удали другую реализацию
+// генерация пароля и возврат хеша и соли      
+//    // todo включи эту функцию и удали другую реализацию
 UserSchema.statics.setPassword = function (password, callback) {
     
     let user = this;
@@ -144,8 +149,8 @@ UserSchema.statics.setPassword = function (password, callback) {
 
 
 
-//
-//
+
+
 //// обработчик ошибки авторизации
 //function AuthError(message) {
 //    Error.apply(this, arguments);
@@ -202,11 +207,12 @@ module.exports.setPassword = setPassword;
 
 // запись данных пользователя в базу данных
 function Register (data, callback) {
+    
     const user = new User(data);
   
     User.create(user, function (err, result) {
-      
-        if(err) return callback(err);
+        if(err) return callback(err, null);
+        
         log.debug(result);
         return callback(null, result);
       
@@ -261,15 +267,43 @@ module.exports.Register = Register;
 
 
 
+
+
+
+// обновление профиля пользователя
+function UpdateProfile (id, data, callback) {
+  
+  
+    //найди юзера
+    User.findById(id, (err, user) => {
+        
+        
+        
+    });
+  
+  
+//    
+//  
+//    User.create(user, function (err, result) {
+//        if(err) return callback(err, null);
+//        
+//        log.debug(result);
+//        return callback(null, result);
+//      
+//  });
+  
+    
+};
+
+module.exports.UpdateProfile = UpdateProfile;
+
+
+
+
+
+
 // export module User
 const User = db.model('User', UserSchema);
 module.exports.User = User;
-
-
 //module.exports = db.model('User', UserSchema);
-
-
-
-
-
 

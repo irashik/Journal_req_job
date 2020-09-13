@@ -2,45 +2,45 @@
 
 <% block('title', 'Авторизация'); -%>
 
-  <h1>Профиль пользователя</h1>
-  
-  
-  
-  
-  
-<% if (user) { %>
-<h2> Добро пожаловать, <%= user.Name %></h2>
-<h2> Добро пожаловать, <%= user.Email %></h2>
-<% } %>
 
 
+<h1>Профиль пользователя</h1>
+
+<div class='d-none' id='userid'><%= user._id %></div>
       
-      
-<form id="register_form">
+<form id="pforileData_form">
+    <h2>Данные пользователя</h2>
 
     <div class="form-group md-6">
       <label for="inputEmail">Email</label>
-      <input type="email" class="form-control" id="inputEmail" disabled>
+      <input type="email" class="form-control" id="inputEmail" disabled value='<%= user.Email %>'>
     </div>
-      
-    
+          
     
     <div class="form-group md-6">
         <label for="inputName">Фамилия и Имя</label>
-        <input type="text" class="form-control" id="inputAddress">
+        <input type="text" class="form-control" id="inputName" value='<%= user.Name %>'>
     </div>
 
     <div class="form-group md-6">
       <label for="position">Должность</label>
-      <input type="text" class="form-control" id="inputCity">
+      <input type="text" class="form-control" id="inputPosition" value='<%= user.Position %>'>
     </div>
     
     <div class="form-group md-6">
       <label for="departament">Цех, участок</label>
-      <input type="text" class="form-control" id="inputCity">
+      <input type="text" class="form-control" id="inputDepartament" value='<%= user.Departament %>'>
     </div>
+
+ <button type="submit" id='save-profile' class="btn btn-primary">Сохранить</button>
     
-    <p>Поменять пароль</p>
+    
+</form>
+<br>
+<br>
+
+<form id='profilePass_form'>
+    <h2>Поменять пароль</h2>
     
     <div class="form-group md-6">
         <label for="inputPassword">Старый пароль</label>
@@ -58,10 +58,13 @@
     </div>
       
       
- <button type="submit" id='save-profile' class="btn btn-primary">Сохранить</button>
+ <button type="submit" id='save-profile' class="btn btn-primary">Изменить пароль</button>
   
 
   
   
   
 </form> 
+
+
+<script src="./js/profile_load.js"></script>
