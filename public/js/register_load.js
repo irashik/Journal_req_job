@@ -7,7 +7,6 @@
 $(document).ready(function() {
     
     // нажатие клавиши отправки формы регистрации
-    
     $('#register_form').submit((e) => {
       
         /*

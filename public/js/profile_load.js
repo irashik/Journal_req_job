@@ -11,21 +11,19 @@ $(document).ready(function() {
     
     //Собираем и подставляем данные - это EJS делает
        
-    
-    
-    
-    // нажатие клавиши отправки формы 
-    $('#profileData_form').submit((e) => {
-      
+    // нажатие клавиши отправки формы - изменение данных пользователя
+    $('#save-profile').click((e) => {
         /*
          * берем данные из полей
          * проверяем данный по валидации todo
          * передаем на сервер методом post
          * получаем ответ с сервера - 
-         *      подставляем в форму
-         *      уведомление показываем и если ошибка
+         *      подставляем в форму результат 
+         *      уведомление показываем
+         *      если ошибка - то уведомление
          *   
          */
+        
         e.preventDefault();
           
         const id =  $('div#userid').text();
@@ -45,7 +43,7 @@ $(document).ready(function() {
         
         // отправляем пост запрос с объектом далее контроллер обрабатывает
         fetch('/profile', {
-            method: 'PATH',
+            method: 'PATCH',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
@@ -56,9 +54,7 @@ $(document).ready(function() {
                        "Content-Type": "application/json; charset=utf-8"
                        
             },
-                    
                     body: JSON.stringify(profile)
-                    
         })
         
         .then(result => {
@@ -67,49 +63,54 @@ $(document).ready(function() {
             // получаю ответ если ответ 200 то 
             // редиректим на /login там будут флеш сообщения
             if(result.status === 200) {
-                location.href = '/login';
+               //показать сообщение что все ок. и поддтянуть новые данные
+                let promise = result.json();
+                promise.then(a => {
+                    
+                    console.log('данные на клиенте полученные: ' + JSON.stringify(a));
+                    
+                    // покажи сообщение
+                    let html = `<div class="alert alert-success" role="alert">Данные успешно изменены</div>`
+                    $('div#alert').append(html);
+                    //обнови данные в полях
+                    $('#inputEmail').val(a.Email);
+                    $('#inputName').val(a.Name);
+                    $('#inputPosition').val(a.Position);
+                    $('#inputDepartament').val(a.Departament);
+                    
+                    
+                    
+                });
                 
             } else {
-                // иначе показываем флеш сообщения и никуда не редиректим.
+                // иначе показываем флеш сообщения об ошибке
                 
                 let promise = result.text();
                 
                 promise.then(a => {
-                    
                     let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
-                
                     $('div#alert').append(html);
                 });
                 
             }
             
-//            let a = result.json();
-//            a.then(b => {
-//                alert(b);
-//            });
-//            
-                
-          
+
                     
         })
-       
         .catch(err => {
                      /*
                      * показываем флеш сообщение с ошибкой
                      */
                    
-                   let promise = err.text();
-                    promise.then(a => {
-                        let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
+                    
+                    
+                        let html = `<div class="alert alert-danger" role="alert">` + err + `</div>`
                         $('div#alert').append(html);
-                    });
+                    
                     
             
-            
         });
-                
-        
-        
+            
     });
     
     
@@ -117,7 +118,7 @@ $(document).ready(function() {
     
     
     // обработчик нажание кнопки изменения пароля
-    $('#profilePass_form').click((e) => {
+    $('#save-password').click((e) => {
         /*
          * берем данные
          * проверяем все-ли верно
@@ -127,15 +128,35 @@ $(document).ready(function() {
          * сбрасываем введенные значения.
          */
         
-        const OldPassword = $('#inputOldPassword').val();
-        const NewPassword = $('#inputNewPassword').val();
-        const confirmPassword = $('#inputconfirmPassword').val();
+        e.preventDefault();
+
+
         
-        let password = {};
+       
+        // берем данные и собираем в объект для передачи
+        let password = {
+            OldPassword: $('input#OldPassword').val(),
+            NewPassword: $('#input#NewPassword').val(),
+            confirmPassword: $('input#confirmPassword').val()
+
+        };
         
+        if (password.OldPassword && password.NewPassword && password.confirmPassword &&
+            password.NewPassword === password.confirmPassword) {
+            
+            
+            
+            
+            
+            
+        } else {
+            alert('Проверьте введенные пароли');
+        }
+
         
+        // отправляю на сервер по запросу PATH controller changePassw
         fetch('/profile/passw', {
-            method: 'PATH',
+            method: 'PATCH',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',

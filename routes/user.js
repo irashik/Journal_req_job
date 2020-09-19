@@ -39,15 +39,10 @@ userRouter.post('/forgot', userController.forgot_post);
 
 
 userRouter.get('/profile',  authenticationMiddleware(), userController.profile);
-userRouter.PATH('/profile',  authenticationMiddleware(), userController.profileChange);
+userRouter.patch('/profile',  authenticationMiddleware(), userController.profileChange);
+
 //КОНТРОЛЛЕР ДЛЯ ИЗМЕНЕНИЯ ПАРОЛЯ
-userRouter.PATH('/profile/passw',  authenticationMiddleware(), userController.changePassw);
-
-
-
-
-
-
+userRouter.patch('/profile/passw',  authenticationMiddleware(), userController.changePassw);
 
 
 

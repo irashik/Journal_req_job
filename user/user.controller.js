@@ -14,16 +14,12 @@ const log               = require('../utils/log')(module);
 exports.register = function(req, res) {
 
     log.info('get register');
-    
-//    req.flash('message', "Ваша заявка принята");
-//    req.flash('warning', 'flash warning');
-    
     //res.render('login/register', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
-
     res.render('login/register', { user: req.user });
                           
 };
 
+// Кнопка отправить рег данные - обработчик
 exports.register_post = function(req, res) {
     log.info('post register');
          
@@ -115,10 +111,6 @@ exports.register_post = function(req, res) {
 
         }
     });
-        
-        
-      
-     
                           
 };
 
@@ -136,9 +128,6 @@ exports.login = function(req, res) {
     
                       
 };
-
-
-
 
 // Logout
 exports.logout = function(req, res) {
@@ -158,19 +147,15 @@ exports.logout = function(req, res) {
                           
 };
 
-// forgot password
+// forgot password - рендер страницы.
 exports.forgot = function(req, res) {
         
     log.info('get forgot');
-    res.render('login/forgot', {  });
+    res.render('login/forgot', { });
     
-    
-    
-    
-        
-                          
 };
 
+// Сброс пароля - отправка формы
 exports.forgot_post = function(req, res) {
         
     log.info('post forgot');
@@ -196,18 +181,12 @@ exports.forgot_post = function(req, res) {
 
 // profile view
 exports.profile = function(req, res) {
-    
-    log.info('profile route started');
-    
-    log.info(req.user);
-    
-
+        
     res.render('login/profile', { user: req.user } );
         
-    
-    
 };
 
+    // изменение данных профиля пользователя
 exports.profileChange = function(req, res) {
     log.info('request path profileChange');
          
@@ -247,11 +226,8 @@ exports.profileChange = function(req, res) {
                 res.status(500).send(err);
 
             } else {
-                log.info('успешно');
-                log.debug(data);
-
-                req.flash('message', "Ваша заявка принята");
-                res.status(200).send('запись успешно зарегистрирована' + data);     
+                log.debug('данные с сервера' + data);
+                res.status(200).send(data);     
                      
             };
             
@@ -274,16 +250,17 @@ exports.changePassw = function(req, res) {
       */
      
      
+     
      log.warn(req.body);
          
-     let email = req.body.Email;
-     let name = req.body.Name;
-     let position = req.body.Position;
-     let departament = req.body.Departament;
-     let id = req.body.Id;
+     let OldPassword = req.body.OldPassword;
+     let NewPassword = req.body.NewPassword;
+     let confirmPassword = req.body.confirmPassword;
+     let Id = req.user.id
      
-     
-     
+
+    
+    
      const profile = {
             Email: email,
             Name: name,
@@ -323,7 +300,7 @@ exports.verife = function(req, res) {
     
     let hash = req.params["hash"];
     
-
+    
  
     
     

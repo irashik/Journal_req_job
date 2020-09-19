@@ -7,6 +7,9 @@
 <h1>Профиль пользователя</h1>
 
 <div class='d-none' id='userid'><%= user._id %></div>
+
+<div id='alert'></div>
+
       
 <form id="pforileData_form">
     <h2>Данные пользователя</h2>
@@ -44,12 +47,12 @@
     
     <div class="form-group md-6">
         <label for="inputPassword">Старый пароль</label>
-        <input type="password" class="form-control" id="inputOldPassword">
+        <input type="password" class="form-control" id="OldPassword">
     </div>
     
     <div class="form-group md-6">
         <label for="inputPassword">Новый пароль</label>
-        <input type="password" class="form-control" id="inputNewPassword">
+        <input type="password" class="form-control" id="NewPassword">
     </div>
     
     <div class="form-group md-6">
@@ -58,7 +61,7 @@
     </div>
       
       
- <button type="submit" id='save-profile' class="btn btn-primary">Изменить пароль</button>
+ <button type="submit" id='save-password' class="btn btn-primary">Изменить пароль</button>
   
 
   

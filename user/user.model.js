@@ -65,8 +65,6 @@ UserSchema.plugin(passportLocalMongoose, {
     
 });
 
-
-
 // метод схемы монгуста для проверки пароля
 UserSchema.methods.validPassword = function(password) {
     
@@ -78,8 +76,21 @@ UserSchema.methods.validPassword = function(password) {
 
 };
 
-// проверка подтверждения пользователя.
+// подтвержден ли адрес эл. почты пользователя
 UserSchema.methods.approvalUser = function() {
+    
+    let user = this;
+    return true; //todo
+    
+    // посмотри значение поля Verifed в схеме
+    //if (user.Verifed) { return true; };
+    
+    // еще посмотри поле confirmation
+    
+};
+
+// проверяю подтвержден ли пользователь админом
+UserSchema.methods.confirmUser = function() {
     
     let user = this;
     return true; //todo
@@ -171,7 +182,7 @@ UserSchema.statics.setPassword = function (password, callback) {
 
 
 
-
+//todo  эту реализацию удали и перейди на ту что выше
 // генерация пароля и возврат хеша и соли
 function setPassword (password, callback) {
     // берет пароль и генерирует хеш и соль
@@ -273,24 +284,20 @@ module.exports.Register = Register;
 // обновление профиля пользователя
 function UpdateProfile (id, data, callback) {
   
+    log.debug('req data' + data);
+    let options = { new: true };
+    
   
-    //найди юзера
-    User.findById(id, (err, user) => {
+    //найди юзера и обновить данные
+    User.findByIdAndUpdate(id, data, options, (err, user) => {
+        if(err) return callback(err, null);
         
+        log.debug('получено от базы' + user);
+        return callback(null, user);
         
         
     });
   
-  
-//    
-//  
-//    User.create(user, function (err, result) {
-//        if(err) return callback(err, null);
-//        
-//        log.debug(result);
-//        return callback(null, result);
-//      
-//  });
   
     
 };
