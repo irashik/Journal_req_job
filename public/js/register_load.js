@@ -51,57 +51,32 @@ $(document).ready(function() {
         })
         
         .then(result => {
-            
-        
             // получаю ответ если ответ 200 то 
             // редиректим на /login там будут флеш сообщения
             if(result.status === 200) {
                 location.href = '/login';
-                
             } else {
                 // иначе показываем флеш сообщения и никуда не редиректим.
-                
                 let promise = result.text();
-                
                 promise.then(a => {
-                    
                     let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
-                
                     $('div#alert').append(html);
                 });
-                
             }
-            
-//            let a = result.json();
-//            a.then(b => {
-//                alert(b);
-//            });
-//            
-                
-          
                     
         })
-       
         .catch(err => {
                      /*
                      * показываем флеш сообщение с ошибкой
                      */
-                   
                    let promise = err.text();
                     promise.then(a => {
                         let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
                         $('div#alert').append(html);
                     });
-                    
-            
-            
         });
-                
-        
         
     });
-    
-    
     
     
     

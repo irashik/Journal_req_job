@@ -42,43 +42,34 @@ exports.register_post = function(req, res) {
      let created = new Date();
      
      
-     const register_data = {
-            Email: email,
-            Name: name,
-            Position: position,
-            Departament: departament,
-            Created: created
+     const registerData = {
+                Email: email,
+                Name: name,
+                Position: position,
+                Departament: departament,
+                Created: created,
+                Password: password
             
         };
         
         
-     
-       // реализуй этот функционал с помощью промисов а не ада колбэков
-    User.setPassword(password, (hash, salt) => {
+        
+    // реализуй этот функционал с помощью промисов а не ада колбэков
+      
+    
         // после того как получен хеш пароля и соль
         // регистрируем пользователя
         // если неудачно то отправляем статус 500 и ошибку
         // если удачно, то редиректим на логин
         
         
-        if (hash !== null && salt !== null) {
-                    
-            register_data.Password = hash;
-            register_data.salt = salt;
-                        
-              User.Register(register_data, (err, data) => {
-                    if (err) {
-                        log.error(err);
-                        
-                        res.status(500).send('ошибка от базы данных ' + err);
-                        
-                        
-
-                    } else {
-                        log.info('успешно');
-                        log.warn(data);
+        
+        let promise = User.Register(registerData).exec();
+        
+        promise.then(user => {
+            log.info('успешно');
+            log.warn(user);
                             
-                            // todo
                             /*
                              * Здесь нужно отправить емейл пользователю 
                              * Плюс отпавить емейл админу
@@ -96,21 +87,18 @@ exports.register_post = function(req, res) {
                                */
                             
                             
-                        req.flash('message', "Ваша заявка принята");
-                        res.status(200).send('запись успешно зарегистрирована' + data);     
-                     
-                    };
+            req.flash('message', "Ваша заявка принята");
+            res.status(200);     
             
-              });
-            
-        } else {
-            
-            res.status(500).send('ошибка от при генерации хеша пароля ' + hash + '\n' + salt);
-            
-
-
-        }
-    });
+        }).catch(err => {
+            log.error(err);
+            res.status(500).send('ошибка от базы данных ' + err);
+        
+        });
+           
+                        
+        
+    
                           
 };
 
@@ -149,9 +137,11 @@ exports.logout = function(req, res) {
 
 // forgot password - рендер страницы.
 exports.forgot = function(req, res) {
-        
+       
     log.info('get forgot');
-    res.render('login/forgot', { });
+    res.render('login/forgot', { user: req.user });
+    // todo или проверь есть ли юзер и если есть но верни Error404
+    
     
 };
 
@@ -252,28 +242,27 @@ exports.changePassw = function(req, res) {
      
      
      log.warn(req.body);
+     log.warn('id user:: ' + req.user.id);
          
-     let OldPassword = req.body.OldPassword;
-     let NewPassword = req.body.NewPassword;
-     let confirmPassword = req.body.confirmPassword;
-     let Id = req.user.id
+     let oldPassword = req.body.OldPassword;
+     let newPassword = req.body.NewPassword;
+     let confirmPassword = req.body.ConfirmPassword;
+     let id = req.user.id;
      
+          
 
     
     
-     const profile = {
-            Email: email,
-            Name: name,
-            Position: position,
-            Departament: departament
-            
-            
+     let password = {
+            OldPassword: oldPassword,
+            NewPassword: newPassword,
+            ConfirmPassword:confirmPassword
         };
         
         
      
      
-        User.UpdateProfile(id, profile, (err, data) => {
+        User.UpdatePassword(id, password, (err, data) => {
             if (err) {
                 log.error(err);
                 res.status(500).send(err);
@@ -281,9 +270,7 @@ exports.changePassw = function(req, res) {
             } else {
                 log.info('успешно');
                 log.debug(data);
-
-                req.flash('message', "Ваша заявка принята");
-                res.status(200).send('запись успешно зарегистрирована' + data);     
+                res.status(200);
                      
             };
             

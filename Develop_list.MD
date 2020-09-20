@@ -132,3 +132,4 @@ mongoimport --host=localhost -d test -c rhuTask --type csv --file ~/Download/rhu
             1.4 Функционал сброса пароля
 
 *Закинь данные из файла в базу данных.
+*страницу ошибок реализуй - додела Error404...

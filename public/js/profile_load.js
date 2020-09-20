@@ -137,14 +137,54 @@ $(document).ready(function() {
         let password = {
             OldPassword: $('input#OldPassword').val(),
             NewPassword: $('#input#NewPassword').val(),
-            confirmPassword: $('input#confirmPassword').val()
+            ConfirmPassword: $('input#ConfirmPassword').val()
 
         };
         
-        if (password.OldPassword && password.NewPassword && password.confirmPassword &&
-            password.NewPassword === password.confirmPassword) {
+        // валидация на стороне клиента
+        if (password.OldPassword && password.NewPassword && password.ConfirmPassword &&
+            password.NewPassword === password.ConfirmPassword) {
             
             
+             // отправляю на сервер по запросу PATch controller changePassw
+                fetch('/profile/passw', {
+                    method: 'PATCH',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    credentials: 'same-origin',
+                    redirect: 'follow',
+                    referrerPolicy: 'origin-when-cross-origin',
+                    headers: {
+                               'Accept': 'application/json',
+                               "Content-Type": "application/json; charset=utf-8"
+
+                    },
+
+                            body: JSON.stringify(password)
+
+                })
+
+                .then(result => {
+                    //уведомляем пользователя об успешном изменении
+                    if (result.status === 200) {    
+                    let html = `<div class="alert alert-success" role="alert">Пароль успешно изменен</div>`
+                    $('div#alert').append(html);
+                    
+                    } else {
+                        // берем тексит и сообщаем об ошибке
+                        let promise = result.text();
+                        promise.then(a => {
+                                let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
+                                $('div#alert').append(html);
+                        });
+                    }
+                
+                })
+                .catch(err => {
+                    // уведомляем пользователя об ошибке
+                    let html = `<div class="alert alert-danger" role="alert">` + err + `</div>`
+                    $('div#alert').append(html);
+                });
             
             
             
@@ -154,31 +194,7 @@ $(document).ready(function() {
         }
 
         
-        // отправляю на сервер по запросу PATH controller changePassw
-        fetch('/profile/passw', {
-            method: 'PATCH',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            redirect: 'follow',
-            referrerPolicy: 'origin-when-cross-origin',
-            headers: {
-                       'Accept': 'application/json',
-                       "Content-Type": "application/json; charset=utf-8"
-                       
-            },
-                    
-                    body: JSON.stringify(password)
-                    
-        })
-        
-        .then(result => {
-            
-            
-        })
-        .catch(err => {
-            
-        });
+       
         
         
         
