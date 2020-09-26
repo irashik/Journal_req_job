@@ -35,8 +35,10 @@ router.get('/about', function(req, res) {
 // страница "о проекте"
 router.get('/test', function(req, res) {
     
-    res.send('test page');
-    log.warn(req.user.id);
+    
+    // нужно передавать error
+    res.render('Error404', { error: 'тестовая ошибка'});
+    
     
                                
 });

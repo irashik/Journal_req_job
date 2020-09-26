@@ -30,9 +30,6 @@ const UserSchema = new Schema({
       type: String,
       required: true
   },
-//  Salt: {            //todo это поле наверное не нужно
-//      type: String
-//  },
   Name: {      // имя и фамилия
     type: String,
     required: true
@@ -105,56 +102,64 @@ UserSchema.methods.confirmUser = function() {
 };
 
 // виртуальное поле для схемы - создание соли
-UserSchema.virtual('salt2')
-    .set(function() {
-        const saltRounds = 10;
-        bcrypt.genSalt(saltRounds, function(err, salt) {
-            if(err) { 
-                log.error(err);
-                return (err, null);
-            }
-        
-        this.salt2 = salt;
-           
-        });
-    
-    
-    }).get(function() { 
-        
-        return this.salt; 
-          
-  });
+//UserSchema.virtual('Salt')
+//
+//        .get(function() { 
+//          
+//          const saltRounds = 10;
+//            bcrypt.genSalt(saltRounds, function(err, salt) {
+//                if(err) { 
+//                    log.error(err);
+//                    return (err, null);
+//                }
+//            log.debug('schemavirtual - salt=== ' + salt);
+//            //this.salt2 = salt;
+//            return salt;
+//
+//            });
+//          
+//  });
 
 // генерация пароля и возврат хеша  
-UserSchema.statics.setPassword = function (password, callback) {
-    
-    let user = this;
-    
-    // берет пароль и генерирует хеш и соль
-    if (!password) { return callback("empty password", null); } 
-            
-            
-       
-    const salt = user.salt();
-    
-    log.debug('salt::: ' + salt);
-        
-    bcrypt.hash(password, salt)
-            
-        .then(function (hash) {
-            log.debug('pass = ' + hash + ' && salt== ' + salt);
-            callback(hash, salt);
-                    
+function setPassword (password) {
+
+        return new Promise((resolve, reject) => {
+
+            // проверяет не пустой ли пароль
+            if (!password) { 
+                //return callback("empty password", null);
+                reject('password empty');
+            } 
+
+            const saltRounds = 10;
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                if(err) { 
+                    log.error(err);
+                    reject(err);
+                }
+             
+                //вычисляем хэш.    
+                bcrypt.hash(password, salt)
+
+                    .then(function (hash) {
+                        log.debug('pass = ' + hash + ' && salt== ' + salt);
+                        
+                        //return this.update({ Password: hash });
+                        //return callback(null, hash);
+                        resolve(hash);
+
+                    })
+                    .catch(err => {
+                        //return callback(err, null);
+                        log.error(err);
+                        reject(err);
+                    });
                 
-        })
-        .catch(err => {
-            callback(err, null);
-            log.error(err);
-        });
-        
+            });
+            
+    });
     
-    
- };
+};
 
 
 
@@ -163,7 +168,7 @@ UserSchema.statics.setPassword = function (password, callback) {
 
 
 
-
+//todo как его использовать???
 // обработчик ошибки авторизации
 function AuthError(message) {
     Error.apply(this, arguments);
@@ -181,74 +186,47 @@ exports.AuthError = AuthError;
 
 
 
-//
-////todo  эту реализацию удали и перейди на ту что выше
-//// генерация пароля и возврат хеша и соли
-//function setPassword (password, callback) {
-//    // берет пароль и генерирует хеш и соль
-//    if (!password) { return callback(null, null); } 
-//    
-//        
-//    const saltRounds = 10;
-//    bcrypt.genSalt(saltRounds, function(err, salt) {
-//        if(err) { 
-//            log.error(err);
-//            callback(err, null);
-//        }
-//        
-//        bcrypt.hash(password, salt)
-//            
-//            .then(function (hash) {
-//                    //log.debug('pass = ' + hash + ' && salt== ' + salt);
-//                    callback(hash, salt);
-//                
-//            })
-//            .catch(err => {
-//                    callback(err, null);
-//                    log.error(err);
-//            });
-//           
-//    });
-//    
-//    
-// };
-//
-//module.exports.setPassword = setPassword;
+
 
 
 // запись данных пользователя в базу данных
-function Register (data, callback) {
+function Register(data) {
     
-    const user = new User(data);
+    return new Promise((resolve, reject) => {
+       
+        const passwordUser = data.Password;
+        log.info('register data==' + JSON.stringify(data));
+        
+        const user = new User(data);
+        log.info('passwordUser===' + passwordUser);
+        
     
-    // получить hash для пароля
-    let hash = user.setPassword(user.Password).exec();
-    
-    hash
+        // получить hash для пароля 
+        setPassword(passwordUser)
             .then(hash => {
-        
-        
-        
-        
-        
-    })
-            .catch(err => {
+                    // получаем хеш и сохраняем в базе его и сохраняем юзера
+                    log.debug('user.Password=== ' + hash);
+                    user.Password = hash;
+                    return user.save();
+                             
+                    
+            })
+            .then(savedUser => {
+                log.debug('savedUser=' + savedUser);
+                resolve(savedUser);
                 
-    });
-    
-    
-    
-    
-    
-    
-    User.create(user, function (err, result) {
-        if(err) return callback(err, null);
+            })
+            .catch(err => {
+                    reject(err);
+                    
+                    
+            });
         
-        log.debug(result);
-        return callback(null, result);
-      
-  });
-  
+    
+    
+    });
+        
+    
     
 };
 

@@ -64,7 +64,7 @@ exports.register_post = function(req, res) {
         
         
         
-        let promise = User.Register(registerData).exec();
+        let promise = User.Register(registerData);
         
         promise.then(user => {
             log.info('успешно');
@@ -88,11 +88,11 @@ exports.register_post = function(req, res) {
                             
                             
             req.flash('message', "Ваша заявка принята");
-            res.status(200);     
+            res.status(200).send(user);     
             
         }).catch(err => {
             log.error(err);
-            res.status(500).send('ошибка от базы данных ' + err);
+            res.status(500).send(err);
         
         });
            

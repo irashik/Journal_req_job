@@ -1,0 +1,28 @@
+<% layout('layout/page') -%>
+
+<% block('title', 'О проекте'); -%>
+
+
+<script src="./js/about_load.js"></script>
+
+
+  
+
+<h1>Страница одной ошибки</h1
+
+    <div class="Error">
+
+        <img src="./image/head-1-750x410.png"  width="300px" border:0 alt="Error"/>
+        <h1>Ошибка 404</h1>
+
+        <p>Вы попали сюда, потому что: 
+            <% if (error) { %>
+        <p> <%=error %></p>
+            <% } else { %>
+        <p>набрали неверный адрес, либо непонятно почему.</p>
+            <% } %>
+        <br>
+        
+        
+        <a href="/">Начните, пожалуй, с главной страницы!</a>
+    </div>
