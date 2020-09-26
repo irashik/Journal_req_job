@@ -280,9 +280,21 @@ module.exports.Register = Register;
 
 
 // обновление профиля пользователя
-function UpdateProfile (id, data) {
+function UpdateProfile (id, data, callback) {
     
+  log.debug('req data' + data);
+    let options = { new: true };
     
+  
+    //найди юзера и обновить данные
+    User.findByIdAndUpdate(id, data, options, (err, user) => {
+        if(err) return callback(err, null);
+        
+        log.debug('получено от базы' + user);
+        return callback(null, user);
+        
+        
+    });  
   
     
 };
