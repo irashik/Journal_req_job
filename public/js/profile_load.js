@@ -136,10 +136,12 @@ $(document).ready(function() {
         // берем данные и собираем в объект для передачи
         let password = {
             OldPassword: $('input#OldPassword').val(),
-            NewPassword: $('#input#NewPassword').val(),
+            NewPassword: $('input#NewPassword').val(),
             ConfirmPassword: $('input#ConfirmPassword').val()
 
         };
+        
+        console.log(password);
         
         // валидация на стороне клиента
         if (password.OldPassword && password.NewPassword && password.ConfirmPassword &&

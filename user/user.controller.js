@@ -241,41 +241,40 @@ exports.changePassw = function(req, res) {
      
      
      
-     log.warn(req.body);
-     log.warn('id user:: ' + req.user.id);
+    log.warn(req.body);
+    log.warn('id user:: ' + req.user.id);
          
-     let oldPassword = req.body.OldPassword;
-     let newPassword = req.body.NewPassword;
-     let confirmPassword = req.body.ConfirmPassword;
-     let id = req.user.id;
-     
+    let oldPassword = req.body.OldPassword;
+    let newPassword = req.body.NewPassword;
+    let confirmPassword = req.body.ConfirmPassword;
+    
+    // todo желательно сделать проверку паролей на стороне сервера.
+    
+    let id = req.user.id;
+    if (!id) { req.status(401); }
           
-
-    
-    
-     let password = {
-            OldPassword: oldPassword,
-            NewPassword: newPassword,
-            ConfirmPassword:confirmPassword
+    let password = {
+            Password: newPassword
+            
         };
         
         
-     
-     
-        User.UpdatePassword(id, password, (err, data) => {
-            if (err) {
-                log.error(err);
-                res.status(500).send(err);
-
-            } else {
+         
+    let promise = User.UpdatePassword(id, password);
+    
+    promise
+            .then(data => {
                 log.info('успешно');
                 log.debug(data);
                 res.status(200);
-                     
-            };
-            
+                
+            })
+            .catch(err => {
+                log.error(err);
+                res.status(500).send(err);
             });
-            
+
+    
                           
 };
 

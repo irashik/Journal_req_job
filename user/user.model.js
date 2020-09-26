@@ -280,22 +280,9 @@ module.exports.Register = Register;
 
 
 // обновление профиля пользователя
-function UpdateProfile (id, data, callback) {
-  
-    log.debug('req data' + data);
-    let options = { new: true };
+function UpdateProfile (id, data) {
     
-  
-    //найди юзера и обновить данные
-    User.findByIdAndUpdate(id, data, options, (err, user) => {
-        if(err) return callback(err, null);
-        
-        log.debug('получено от базы' + user);
-        return callback(null, user);
-        
-        
-    });
-  
+    
   
     
 };
@@ -309,64 +296,113 @@ module.exports.UpdateProfile = UpdateProfile;
 // обновление пароля пользоваетя
 function UpdatePassword (id, password, callback) {
   
-    log.debug('req data' + password);
-    let options = { new: true };
-    
-    const newpassword = password.NewPassword;
-    const oldPassword = password.OldPassword;
-    
   
-    /* найти юзера
-     * Проверить старый пароль
-     * Сформировать хеш и соль нового пароля
-     * обновить хеш и соль
-     * 
-     */
-    
-    //находим
-    let promise = User.findById(id).exec();
-    promise.then(user => {
-               // проверяю валидность пароля
-        if (!user.validPassword(password)) {
-            log.debug('Incorrect password');
-            return reject;
-        }
-            
-        return user;
-                
-    })
-    .then(validuser => {
-        
-                
-                
-                
-    })
-    .catch(err => {
+                      
+                     //найти юзера в базе, обновить его данные и вернуть данные или просто ок или ошибку.
+     // сформировать хеш.
+    return new Promise((resolve, reject) => {
 
-        
-        
-                
-    });
-    
-    
-    
-                
-    
-   validPassword(oldPassword)
+    log.debug('req data=== ' + JSON.stringify(data));
    
-     
-                
     
+    let user = null;
+  
+    //найди юзера и обновить данные
+    let promise = User.findById(id).exec();
     
-    User.findByIdAndUpdate(id, newpassw, options, (err, user) => {
+        promise
+                .then(user => {
+                    log.debug('получено от базы' + user);
+                    // сформируй хеш для юзера
+                    user = this.user;
+                    return setPassword(data.Password);
+                    
+                })
+                .then(hash => {
+                    // получаем хеш и сохраняем в базе его и сохраняем юзера
+                    log.debug('user.Password=== ' + hash);
+                    user.Password = hash;
+                    return user.save();
+                    
+                            
+                })
+                .then(user => {
+                    // если все хорошо то резолвим результат
+                    log.debug('saved user ==' + user);
+                    resolve(user);
+                    
+                    
+                    
+                })
+                .catch(err => {
+                    reject(err);
+            
+                });
         
-        if(err) return callback(err, null);
-        
-        log.debug('получено от базы' + user);
-        return callback(null, user);
+       
         
         
-    });
+
+  
+    
+//    log.debug('req data' + password);
+//    let options = { new: true };
+//    
+//    const newpassword = password.NewPassword;
+//    const oldPassword = password.OldPassword;
+//    
+//  
+//    /* найти юзера
+//     * Проверить старый пароль
+//     * Сформировать хеш и соль нового пароля
+//     * обновить хеш и соль
+//     * 
+//     */
+//    
+//    //находим
+//    let promise = User.findById(id).exec();
+//    promise.then(user => {
+//               // проверяю валидность пароля
+//        if (!user.validPassword(password)) {
+//            log.debug('Incorrect password');
+//            return reject;
+//        }
+//            
+//        return user;
+//                
+//    })
+//    .then(validuser => {
+//        
+//                
+//                
+//                
+//    })
+//    .catch(err => {
+//
+//        
+//        
+//                
+//    });
+//    
+//    
+//    
+//                
+//    
+//   validPassword(oldPassword)
+//   
+//     
+//                
+//    
+//    
+//    User.findByIdAndUpdate(id, newpassw, options, (err, user) => {
+//        
+//        if(err) return callback(err, null);
+//        
+//        log.debug('получено от базы' + user);
+//        return callback(null, user);
+//        
+//        
+//    });
   
   
     
