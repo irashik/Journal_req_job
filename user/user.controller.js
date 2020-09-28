@@ -254,8 +254,8 @@ exports.changePassw = function(req, res) {
     if (!id) { req.status(401); }
           
     let password = {
-            Password: newPassword
-            
+            Password: newPassword,
+            OldPassword: oldPassword
         };
         
         
@@ -265,13 +265,13 @@ exports.changePassw = function(req, res) {
     promise
             .then(data => {
                 log.info('успешно');
-                log.debug(data);
-                res.status(200);
+                res.status(200).send(data);
                 
             })
             .catch(err => {
                 log.error(err);
                 res.status(500).send(err);
+                
             });
 
     

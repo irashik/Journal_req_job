@@ -49,8 +49,6 @@ const app                           = express();
 const server                        = livereload.createServer();
 
 
-log.info('process.env.NODE_ENV: ' + process.env.NODE_ENV);
-
 server.watch(__dirname + "/public");
 
 app.engine('ejs', engine);

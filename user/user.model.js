@@ -71,7 +71,9 @@ UserSchema.methods.validPassword = function(password) {
     
     if (bcrypt.compareSync(password, user.Password)) { 
         return true;
-    };
+    } else {
+        return false;
+    }
 
 };
 
@@ -306,33 +308,41 @@ module.exports.UpdateProfile = UpdateProfile;
 
 
 // обновление пароля пользоваетя
-function UpdatePassword (id, password, callback) {
-  
-  
-                      
-                     //найти юзера в базе, обновить его данные и вернуть данные или просто ок или ошибку.
-     // сформировать хеш.
+function UpdatePassword (id, passw) {
+    //найти юзера в базе, обновить его данные и вернуть данные или просто ок или ошибку.
+    // сформировать хеш.
     return new Promise((resolve, reject) => {
-
-    log.debug('req data=== ' + JSON.stringify(data));
-   
-    
-    let user = null;
-  
-    //найди юзера и обновить данные
+        log.debug('req data=== ' + JSON.stringify(passw));
+        let user = null;
+        
+    //найди юзера по id
     let promise = User.findById(id).exec();
     
         promise
-                .then(user => {
-                    log.debug('получено от базы' + user);
+                .then(olduser => {
+                    // уже нашли пользователя
+                    // проверяем  пароль юзера на валидность
+                    log.debug('получено от базы' + olduser);
+                    log.debug('passw===' + passw.OldPassword);
+                                       
+                    if(olduser.validPassword(passw.OldPassword)) {
+                        return olduser;
+                    } else {
+                        return Promise.reject('user password not valid');
+                    }
+                    
+                })
+                .then(data => {
                     // сформируй хеш для юзера
-                    user = this.user;
-                    return setPassword(data.Password);
+                    user = data; //присваиваем документ базы переменной нелокальной.
+                    return setPassword(passw.Password);
+                    
                     
                 })
                 .then(hash => {
                     // получаем хеш и сохраняем в базе его и сохраняем юзера
                     log.debug('user.Password=== ' + hash);
+                    //получили хэш и теперь сохраняем его в базе данных к юзеру.
                     user.Password = hash;
                     return user.save();
                     
@@ -343,8 +353,6 @@ function UpdatePassword (id, password, callback) {
                     log.debug('saved user ==' + user);
                     resolve(user);
                     
-                    
-                    
                 })
                 .catch(err => {
                     reject(err);
@@ -352,70 +360,7 @@ function UpdatePassword (id, password, callback) {
                 });
         
        
-        
-        
-
-  
-    
-//    log.debug('req data' + password);
-//    let options = { new: true };
-//    
-//    const newpassword = password.NewPassword;
-//    const oldPassword = password.OldPassword;
-//    
-//  
-//    /* найти юзера
-//     * Проверить старый пароль
-//     * Сформировать хеш и соль нового пароля
-//     * обновить хеш и соль
-//     * 
-//     */
-//    
-//    //находим
-//    let promise = User.findById(id).exec();
-//    promise.then(user => {
-//               // проверяю валидность пароля
-//        if (!user.validPassword(password)) {
-//            log.debug('Incorrect password');
-//            return reject;
-//        }
-//            
-//        return user;
-//                
-//    })
-//    .then(validuser => {
-//        
-//                
-//                
-//                
-//    })
-//    .catch(err => {
-//
-//        
-//        
-//                
-//    });
-//    
-//    
-//    
-//                
-//    
-//   validPassword(oldPassword)
-//   
-//     
-//                
-//    
-//    
-//    User.findByIdAndUpdate(id, newpassw, options, (err, user) => {
-//        
-//        if(err) return callback(err, null);
-//        
-//        log.debug('получено от базы' + user);
-//        return callback(null, user);
-//        
-//        
-//    });
-  
+    });
   
     
 };

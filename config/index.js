@@ -14,9 +14,7 @@ switch (process.env.NODE_ENV) {
         nconf.argv()
             .env()
             .file({ file: path.join(__dirname, 'config_dev.json')});
-    
-    log.info('выбрана конфигурация development');
-    
+        
     break;
     
     
@@ -40,7 +38,6 @@ switch (process.env.NODE_ENV) {
             .file({ file: path.join(__dirname, 'config_dev.json')});
 
         process.env.NODE_ENV = 'development';
-
         log.info('Default!!! Выбрана конфигурация development по default');
 
     break;
@@ -50,7 +47,7 @@ switch (process.env.NODE_ENV) {
 };
 
 
-log.info('node_env:  ' + process.env.NODE_ENV);
+log.info('process.env.NODE_ENV:  ' + process.env.NODE_ENV);
 
 
 

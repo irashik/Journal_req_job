@@ -168,16 +168,30 @@ $(document).ready(function() {
 
                 .then(result => {
                     //уведомляем пользователя об успешном изменении
-                    if (result.status === 200) {    
+                    if (result.status === 200) {  
+                        
                     let html = `<div class="alert alert-success" role="alert">Пароль успешно изменен</div>`
-                    $('div#alert').append(html);
+                        $('div#alert').append(html);
+                    
+                        $('input#OldPassword').val('');
+                        $('input#NewPassword').val('');
+                        $('input#ConfirmPassword').val('');
+                    
                     
                     } else {
                         // берем тексит и сообщаем об ошибке
                         let promise = result.text();
+                        
                         promise.then(a => {
                                 let html = `<div class="alert alert-danger" role="alert">` + a + `</div>`
                                 $('div#alert').append(html);
+                                //обнулить поля ввода
+                                
+                                
+                            $('input#OldPassword').val('');
+                            $('input#NewPassword').val('');
+                            $('input#ConfirmPassword').val('');
+                                
                         });
                     }
                 
@@ -186,6 +200,13 @@ $(document).ready(function() {
                     // уведомляем пользователя об ошибке
                     let html = `<div class="alert alert-danger" role="alert">` + err + `</div>`
                     $('div#alert').append(html);
+                    
+                    $('input#OldPassword').val('');
+                    $('input#NewPassword').val('');
+                    $('input#ConfirmPassword').val('');
+                
+                    
+                    
                 });
             
             
@@ -193,11 +214,12 @@ $(document).ready(function() {
             
         } else {
             alert('Проверьте введенные пароли');
+            
+            $('input#OldPassword').val('');
+            $('input#NewPassword').val('');
+            $('input#ConfirmPassword').val('');
+                    
         }
-
-        
-       
-        
         
         
     });
