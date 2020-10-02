@@ -195,25 +195,43 @@ exports.AuthError = AuthError;
 function Register(data) {
     
     return new Promise((resolve, reject) => {
+        
+        /*
+         * в аргументе объект с данными пользователя для регистрации
+         * создаем модель из объекта
+         * отдельно в переменную сохраняем пароль пользователя
+         * получаем хеш пароля
+         * сохраняем юзера в базе данных
+         * 
+         * отправляем емейл для подтверждения юзеру.
+         * отправляем емейл для проверки админу.
+         * 
+         */
        
         const passwordUser = data.Password;
+        log.info('passwordUser===' + passwordUser);
         log.info('register data==' + JSON.stringify(data));
         
         const user = new User(data);
-        log.info('passwordUser===' + passwordUser);
+        
         
     
         // получить hash для пароля 
-        setPassword(passwordUser)
+        let promise = setPassword(passwordUser);
+        
+        promise
             .then(hash => {
                     // получаем хеш и сохраняем в базе его и сохраняем юзера
                     log.debug('user.Password=== ' + hash);
+                    // запишем хеш в модел пользователя
+                    // сохраним юзера в базе данных
                     user.Password = hash;
                     return user.save();
                              
                     
             })
             .then(savedUser => {
+                // при возврате пользователя сохраненного резолвим.
                 log.debug('savedUser=' + savedUser);
                 resolve(savedUser);
                 
