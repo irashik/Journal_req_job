@@ -24,23 +24,28 @@ let mailConfig = {
 let transport = nodemailer.createTransport(mailConfig);
 
 
-function main(message, respond) {
-  
+function main(message) {
+   return new Promise((resolve, reject) => {
+       
     transport.sendMail(message)
         .then(info => {
     
-            respond(null, [info.messageId, info.response]);
+            resolve(info.response);
         
     
     })
         .catch(err => {
-            respond(err, null);
+            reject(err);
     });
+       
+       
+       
+   });
     
     
 
 
-}
+};
 
 
 

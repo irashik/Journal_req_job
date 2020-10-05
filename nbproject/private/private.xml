@@ -12,9 +12,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/Develop_list.MD</file>
-            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/user/user.controller.js</file>
             <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/user/user.model.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/user/user.model.test.js</file>
         </group>
     </open-files>
 </project-private>

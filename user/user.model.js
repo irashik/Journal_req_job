@@ -16,6 +16,10 @@ const bcrypt                        = require('bcrypt');
 const passportLocalMongoose         = require('passport-local-mongoose');
 const emailservice                  = require('../utils/mailSend');
 const util                          = require('util');
+const config                        = require('../config');
+const ejs                           = require('ejs');
+const path                          = require('path');
+
 
 
 
@@ -103,24 +107,7 @@ UserSchema.methods.confirmUser = function() {
     
 };
 
-// виртуальное поле для схемы - создание соли
-//UserSchema.virtual('Salt')
-//
-//        .get(function() { 
-//          
-//          const saltRounds = 10;
-//            bcrypt.genSalt(saltRounds, function(err, salt) {
-//                if(err) { 
-//                    log.error(err);
-//                    return (err, null);
-//                }
-//            log.debug('schemavirtual - salt=== ' + salt);
-//            //this.salt2 = salt;
-//            return salt;
-//
-//            });
-//          
-//  });
+
 
 // генерация пароля и возврат хеша  
 function setPassword (password) {
@@ -166,10 +153,6 @@ function setPassword (password) {
 
 
 
-
-
-
-
 //todo как его использовать???
 // обработчик ошибки авторизации
 function AuthError(message) {
@@ -182,10 +165,6 @@ util.inherits(AuthError, Error);
 AuthError.prototype.name = 'AuthError';
 
 exports.AuthError = AuthError;
-
-
-
-
 
 
 
@@ -233,7 +212,42 @@ function Register(data) {
             .then(savedUser => {
                 // при возврате пользователя сохраненного резолвим.
                 log.debug('savedUser=' + savedUser);
-                resolve(savedUser);
+                
+                // на данном этапе отправляем письма админу и самому пользователю
+                
+                const admin = SendMailAdmin(savedUser);
+                const user =  SendMailUser(savedUser);
+                const result = null;
+                
+                Promise.allSettled([admin, user])
+                        
+                    .then(res => {
+                        result = res;
+                    })
+                    .finally(() => {
+                        // возвращаем ответ по обещанию основной функции с юзером 
+                        // и результатом отправки (массив)
+                        //добавляем в массив данные
+                        result.unshift(savedUser);
+                        
+                        // дебагинг
+                        result.forEach(function(item, index, array) {
+                          log.debug(`${item} позицию имеет ${index} в ${array}`);
+
+                        });
+
+                        // возвращаем массив [Юзер, ответ по AdminMail, ответ по UserMail ]
+                    resolve(result);
+                    
+                    });
+                
+                
+                
+                
+                
+                
+                
+                
                 
             })
             .catch(err => {
@@ -263,34 +277,211 @@ module.exports.Register = Register;
 
 */
 
+// функция для отправки емейла юзеру
+function SendMailUser(user) {
+      log.info('function sendMailUser start');
+      return new Promise((resolve, reject) => {
+  
+        
+        // объект сообщение для отправки на адрес админа
+        let adress = user.Email;
+        
+        
+        
+        let url = config.get('url') +':' + config.get('port') + '/register/confirm/:' +  user._id;
+        
+        log.debug('url == ' + url);
+
+        log.warn('object user= ' + user.Email + ' ' + user.Name + ' ' + user.Position + ' ' + user.Departament);
 
 
-    // объект сообщение для отправки на адрес админа
-    let adressee = 'D7271984@yandex.ru';
+        let way = path.join(__dirname, '..', '/view/password/confirm.ejs');
+        
+        log.warn(way);
+        
+        
+        // теперь сформировать сообщение
+        function html() {
+            return new Promise((resolve, reject) => {
+                ejs.renderFile(way, { 
+                    Email: user.Email, 
+                    Name: user.Name, 
+                    Position: user.Position, 
+                    Departament: user.Departament, 
+                    url: url
+                }, (err, html) => {
+                    if (err) { 
+                        //todo как обработать ошибку??
+                        log.error(err);
+                        throw new Error('create mail confirm error');
+                        //return 'Произошла ошибка при формировании письма, обратитесь к админу';
+                        reject(err);
+                    } 
+                        log.debug('html for mail= ' + html);
+                        resolve(html);
+
+                });
+                
+                
+                
+            });
+        };
+        
+        html()
+                .then(result => {
+            
+                    
+
+                    // формируем письмо для отправки 
+                let message = {
+                    from: "WebApp JournalReqJob", // sender address
+                    to: adress,
+                    subject: "Подтвердите свою регистрацию!", // Subject line
+                    html: result
+
+                };
+                
+                return message;
+            
+        }).then(message => {
+            
+            
+            
+              // отправляем сообщение и получаем ответ.    
+            emailservice(message)
+                 .then(respond => {
+                     
+                     resolve(respond);
+
+                 })
+                 .catch(err => {
+
+                     
+                     reject(err);
+
+                 });
+            
+        });
+        
+           
+
+        
+        
+        
+        
+        
+    });
+ };
     
-    let message = {
-        from: '"WebApp JournalReqJob" <D7271984@yandex.ru>', // sender address
-        to: adressee,
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
-    };
+    module.exports.SendMailUser = SendMailUser; 
+
     
+    //функция для отправки данных пользователя админу
+function SendMailAdmin(user) {
+    log.info('function SendMailAdmin start');
+    return new Promise((resolve, reject) => {
+        
+        
+
+        // объект сообщение для отправки на адрес админа
+        let adress = config.get('AdminEmail');
+        
+        
+        let url = config.get('url') +':' + config.get('port') + '/register/verife/:' +  user._id;
+        log.debug('url == ' + url);
+
+        log.warn('object user= ' + user.Email + ' ' + user.Name + ' ' + user.Position + ' ' + user.Departament);
+
+
+        let way = path.join(__dirname, '..', '/view/password/verife.ejs');
+        
+        log.warn(way);
+        
+        
+        // теперь сформировать сообщение
+        function html() {
+            return new Promise((resolve, reject) => {
+                ejs.renderFile(way, { 
+                    Email: user.Email, 
+                    Name: user.Name, 
+                    Position: user.Position, 
+                    Departament: user.Departament, 
+                    url: url
+                }, (err, html) => {
+                    if (err) { 
+                        //todo как обработать ошибку??
+                        log.error(err);
+                        throw new Error('create mail confirm error');
+                        //return 'Произошла ошибка при формировании письма, обратитесь к админу';
+                        reject(err);
+                    } 
+                        //log.debug('html for mail= ' + html);
+                        resolve(html);
+
+                });
+                
+                
+                
+            });
+        };
+        
+        html()
+                .then(result => {
+            
+                    
+
+                    // формируем письмо для отправки 
+                let message = {
+                    from: "WebApp JournalReqJob", // sender address
+                    to: adress,
+                    subject: "Подтверди нового пользователя!", // Subject line
+                    html: result
+
+                };
+                
+                return message;
+            
+        }).then(message => {
+            
+            
+            
+              // отправляем сообщение и получаем ответ.    
+            emailservice(message)
+                 .then(respond => {
+                     
+                     resolve(respond);
+
+                 })
+                 .catch(err => {
+
+                     
+                     reject(err);
+
+                 });
+            
+        });
+        
+           
+        
+        
+        
+        
+
+
+          
+
+
+
+
+        
+        
+        
+    });
     
+};
     
-//    
-//// отправляем сообщение и получаем ответ.    
-//emailservice(message, (err, respond) => {
-//   
-//    
-//    
-//  console.log('sendmail respond::  ' + respond);
-//  console.log('error:: ' + err);
-//  
-//  
-//    
-//    
-//});
+
+module.exports.SendMailAdmin = SendMailAdmin; 
 
 
 

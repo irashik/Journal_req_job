@@ -171,38 +171,66 @@ describe("Test модуля user.model", function() {
     
     
     
-      describe.only('Testing 3', () => {
+      describe('Testing SendMailAdmin method', () => {
        
         it('standart behavior', () => {
            
-           let data = {
+           let user = {
                Name: "test",
                Email: "123@test.ru",
                Password: '123',
-               Salt: '123',
+               Position:  'brigadir',
+               Departament: 'RHU area',
+               _id: 'sdlkjf203984209834'
                
                
            };
            
-           let id = 'sdkfjsdfj';
+           let promise = User.SendMailAdmin(user);
            
-           User.User.findById(id, (err, user) => {
-              
-               if(err) {
-                   log.error(err);
-               } else {
-                   log.info(user);
-               }
-                
+           promise.then(result => {
+               log.debug('respond sendmailAdmin= ' + result);
+               
+           })
+           .catch(err => {
+               
+                       log.debug('error= ' + err);
            });
-            
-            
-            
-            
-            
+           
             
         });
         
+    });
+    
+    
+    
+      describe.only('Testing SendMailUser method', () => {
+       
+        it('standart behavior', () => {
+           
+           let user = {
+               Name: "test",
+               Email: "123@test.ru",
+               Password: '123',
+               Position:  'brigadir',
+               Departament: 'RHU area',
+               _id: 'sdlkjf203984209834'
+               
+               
+           };
+           
+           let promise = User.SendMailUser(user);
+           
+           promise.then(result => {
+               log.debug(result);
+               
+           })
+           .catch(err => {
+                       log.debug('error= ' + err);
+           });
+           
+            
+        });
         
     });
     

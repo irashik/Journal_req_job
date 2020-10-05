@@ -11,6 +11,7 @@ const log               = require('../utils/log')(module);
 
 
 
+
 //  Регистрация пользователя
 exports.register = function(req, res) {
 
@@ -88,7 +89,7 @@ exports.register_post = function(req, res) {
                                */
                             
                             
-            req.flash('message', "Ваша заявка принята");
+            req.flash('message', "Ваша заявка принята. На вашу почту отправлено письмо для подтверждения регистрации");
             res.status(200).send(user);     
             
         }).catch(err => {
