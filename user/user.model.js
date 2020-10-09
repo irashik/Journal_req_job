@@ -217,17 +217,26 @@ function Register(data) {
                 
                 const admin = SendMailAdmin(savedUser);
                 const user =  SendMailUser(savedUser);
-                const result = null;
+                let result = null;
                 
                 Promise.allSettled([admin, user])
                         
                     .then(res => {
                         result = res;
+                        log.debug(res instanceof Array);
+                        log.debug('allsettled==' + res);
+                        
+                    })
+                            .catch(err => {
+                                log.error('allSettled error= ' + err);
                     })
                     .finally(() => {
                         // возвращаем ответ по обещанию основной функции с юзером 
                         // и результатом отправки (массив)
                         //добавляем в массив данные
+                        log.debug(result instanceof Array);
+                        log.debug('allsettled==' + result);
+                        
                         result.unshift(savedUser);
                         
                         // дебагинг
@@ -237,7 +246,7 @@ function Register(data) {
                         });
 
                         // возвращаем массив [Юзер, ответ по AdminMail, ответ по UserMail ]
-                    resolve(result);
+                        resolve(result);
                     
                     });
                 
@@ -282,21 +291,12 @@ function SendMailUser(user) {
       log.info('function sendMailUser start');
       return new Promise((resolve, reject) => {
   
-        
         // объект сообщение для отправки на адрес админа
         let adress = user.Email;
-        
-        
-        
         let url = config.get('url') +':' + config.get('port') + '/register/confirm/:' +  user._id;
-        
         log.debug('url == ' + url);
-
         log.warn('object user= ' + user.Email + ' ' + user.Name + ' ' + user.Position + ' ' + user.Departament);
-
-
         let way = path.join(__dirname, '..', '/view/password/confirm.ejs');
-        
         log.warn(way);
         
         
@@ -317,7 +317,7 @@ function SendMailUser(user) {
                         //return 'Произошла ошибка при формировании письма, обратитесь к админу';
                         reject(err);
                     } 
-                        log.debug('html for mail= ' + html);
+                        
                         resolve(html);
 
                 });
