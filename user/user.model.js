@@ -234,16 +234,16 @@ function Register(data) {
                         // возвращаем ответ по обещанию основной функции с юзером 
                         // и результатом отправки (массив)
                         //добавляем в массив данные
-                        log.debug(result instanceof Array);
-                        log.debug('allsettled==' + result);
+//                        log.debug(result instanceof Array);
+//                        log.debug('allsettled==' + result);
                         
                         result.unshift(savedUser);
                         
                         // дебагинг
-                        result.forEach(function(item, index, array) {
-                          log.debug(`${item} позицию имеет ${index} в ${array}`);
-
-                        });
+//                        result.forEach(function(item, index, array) {
+//                          log.debug(`${item} позицию имеет ${index} в ${array}`);
+//
+//                        });
 
                         // возвращаем массив [Юзер, ответ по AdminMail, ответ по UserMail ]
                         resolve(result);
@@ -484,6 +484,40 @@ function SendMailAdmin(user) {
 module.exports.SendMailAdmin = SendMailAdmin; 
 
 
+// проверка id пользователя
+function verifeUser(id) {
+  
+    return new Promise((resolve, reject) => {
+        
+       /*
+        * Ищем user
+        *   если найдент то меняем поле verife
+        */
+       
+       let data = {
+                    Verifed: true
+       };
+       
+       
+       
+        User.findByIdAndUpdate(id, data, option).exec()
+        
+            .then(data => {
+
+
+            })
+            .catch(err => {
+
+
+
+        });
+        
+        
+    });
+
+};
+
+module.exports.verifeUser = verifeUser;
 
 
 

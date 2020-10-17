@@ -55,6 +55,7 @@ $(document).ready(function() {
             // редиректим на /login там будут флеш сообщения
             if(result.status === 200) {
                 location.href = '/login';
+                    // плюсом контроллер передает флеш сообщения на эту страницу
             } else {
                 // иначе показываем флеш сообщения и никуда не редиректим.
                 let promise = result.text();

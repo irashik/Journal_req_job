@@ -68,29 +68,24 @@ exports.register_post = function(req, res) {
         
         let promise = User.Register(registerData);
         
-        promise.then(user => {
+        // от метода модели возвращается массив значений
+        
+        promise.then(result => {
             log.info('успешно');
-            log.warn(user);
-                            
-                            /*
-                             * Здесь нужно отправить емейл пользователю 
-                             * Плюс отпавить емейл админу
-                             * 
-                             */
-                            
-                            
-                            /*   Процесс подтверждения регистрации пользователя.
-                             *     Создайте случайный хеш и сохраните его в своей базе данных со ссылкой на User ID.
-                                   Отправьте электронное письмо на указанный адрес электронной почты с хешем как часть ссылки, указывающей на маршрут на вашем сервере.
-                                   Когда пользователь щелкает ссылку и попадает в ваш маршрут, проверьте хеш, переданный в URL
-                                   Если хеш существует в базе данных, получите связанного пользователя и установите для его свойства active значение true.
-                                   Удалите хеш из базы, он больше не нужен
+                                                       
+             log.debug('Данные пользователя= ' + result[0]);
+             log.debug('Статус отправки админу= ' + result[1].value);
+             log.debug('Статус отправки пользователю: ' + result[2].value);
+             
 
-                               */
                             
                             
-            req.flash('message', "Ваша заявка принята. На вашу почту отправлено письмо для подтверждения регистрации");
-            res.status(200).send(user);     
+                            
+            req.flash('message', "Ваша заявка принята. ");
+            req.flash('adminmail', "Статус отправки заявки админу: " + result[1].value);
+            req.flash('usermail', "Статус отправки ссылки подтверждения на вашу почту: " + result[2].value);
+            
+            res.status(200);
             
         }).catch(err => {
             log.error(err);
@@ -114,7 +109,13 @@ exports.login = function(req, res) {
     //log.debug('Flash1: ' + req.flash('message'));
     //log.debug('flash2: ' + req.flash('warning'));
 
-    res.render('login/login', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
+    res.render('login/login', { user: req.user, 
+                                message: req.flash('message'),
+                                warning: req.flash('warning') ,
+                                usermail: req.flash('usermail'),
+                                adminmail: req.flash('adminmail')
+                            
+    });
     
                       
 };
@@ -286,9 +287,22 @@ exports.changePassw = function(req, res) {
 exports.verife = function(req, res) {
     log.info('get request verife run');
     
-    let hash = req.params["hash"];
+    let id = req.params["hash"];
     
     
+    /* Ищю пользователя с данным id
+     *  если есть, то обновляем поле verife
+     *      если true то возвращаем ответ res.send
+     */
+              
+      User.verifeUser(id)
+              .then(data => {
+                  
+      })
+      .catch(err => {
+          
+      });
+              
  
     
     
@@ -300,7 +314,7 @@ exports.verife = function(req, res) {
 exports.confirm = function(req, res) {
     log.info('get request confirm run');
     
-    let hash = req.params["hash"];
+    let id = req.params["hash"];
     
     
     

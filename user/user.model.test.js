@@ -135,13 +135,17 @@ describe("Test модуля user.model", function() {
     
     
     
-    describe('Testing Register method', () => {
+    describe.only('Testing Register method', () => {
        
         it('standart behavior', () => {
            
+           let namemail = Math.round(Math.random() * 100000);
+           let email = namemail + '@test.ru';
+           
+           
            let data = {
                Name: "test",
-               Email: "123@test.ru",
+               Email: email,
                Password: '123',
                Salt: '123',
                
@@ -149,13 +153,30 @@ describe("Test модуля user.model", function() {
            };
            
            
-           User.Register(data, (err, data) => {
-              
-               if(err) {
-                   log.error(err);
-               } else {
-                   log.info(data);
-               }
+           let promise = User.Register(data);
+           
+           promise
+                   .then(result => {
+                       //   log.info(result);
+                
+                
+                log.debug('Данные пользователя= ' + result[0]);
+                log.debug('Статус отправки админу= ' + JSON.stringify(result[1]));
+                log.debug('Статус отправки пользователю: ' + JSON.stringify(result[2]));
+             
+                
+              //  log.warn(result[1].value);
+                
+                
+                    })
+                    .catch(err => {
+                
+                
+                        log.error(err);
+                
+                    });
+            
+            
                 
            });
             
@@ -164,7 +185,7 @@ describe("Test модуля user.model", function() {
             
             
             
-        });
+      
         
         
     });
@@ -204,7 +225,7 @@ describe("Test модуля user.model", function() {
     
     
     
-      describe.only('Testing SendMailUser method', () => {
+      describe('Testing SendMailUser method', () => {
        
         it('standart behavior', () => {
            

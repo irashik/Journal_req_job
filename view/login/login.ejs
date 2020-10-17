@@ -12,9 +12,22 @@
 
 <% if (message.length > 0 ) { %>
 <div class='alert alert-success'>
-    <p>my flash message: <%= message %> </p>
+    <p><%= message %> </p>
 </div>
 <% } %>
+
+<% if (adminmail.length > 0 ) { %>
+<div class='alert alert-warning'>
+    <p><%= adminmail %> </p>
+</div>
+<% } %>
+
+<% if (usermail.length > 0 ) { %>
+<div class='alert alert-warning'>
+    <p><%= usermail %> </p>
+</div>
+<% } %>
+
 
 <% if (warning.length >0) { %>
 <div class='alert alert-warning'>
