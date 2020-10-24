@@ -85,25 +85,32 @@ UserSchema.methods.validPassword = function(password) {
 UserSchema.methods.approvalUser = function() {
     
     let user = this;
+    
+    if (user.Verifed) {
+        //return true;
+    } else {
+        //return false;
+        // todo как сообщение передать??
+    }
     return true; //todo
     
-    // посмотри значение поля Verifed в схеме
-    //if (user.Verifed) { return true; };
-    
-    // еще посмотри поле confirmation
-    
+   
 };
 
 // проверяю подтвержден ли пользователь админом
 UserSchema.methods.confirmUser = function() {
     
     let user = this;
+    
+    if(user.Confirmation) {
+        //return true;
+    } else {
+        //return false;
+        // messages  AuthError
+    }
+    
     return true; //todo
     
-    // посмотри значение поля Verifed в схеме
-    //if (user.Verifed) { return true; };
-    
-    // еще посмотри поле confirmation
     
 };
 
@@ -278,25 +285,22 @@ module.exports.Register = Register;
 
 /*   Процесс подтверждения регистрации пользователя.
  *
-    Создайте случайный хеш и сохраните его в своей базе данных со ссылкой на User ID.
-    Отправьте электронное письмо на указанный адрес электронной почты с хешем как часть ссылки, указывающей на маршрут на вашем сервере.
-    Когда пользователь щелкает ссылку и попадает в ваш маршрут, проверьте хеш, переданный в URL
-    Если хеш существует в базе данных, получите связанного пользователя и установите для его свойства active значение true.
-    Удалите хеш из базы, он больше не нужен
+   SendMailUser - это проверка адреса пользователя - verifeUser !!
+    SandMailAdmin - это подтверждение пользователя админом - confirmUser!!
 
 */
 
-// функция для отправки емейла юзеру
+// функция для отправки емейла юзеру (проверка по контроллеру userVerife)
 function SendMailUser(user) {
       log.info('function sendMailUser start');
       return new Promise((resolve, reject) => {
   
         // объект сообщение для отправки на адрес админа
         let adress = user.Email;
-        let url = config.get('url') +':' + config.get('port') + '/register/confirm/:' +  user._id;
+        let url = config.get('url') +':' + config.get('port') + '/register/verife/' +  user._id;
         log.debug('url == ' + url);
         log.warn('object user= ' + user.Email + ' ' + user.Name + ' ' + user.Position + ' ' + user.Departament);
-        let way = path.join(__dirname, '..', '/view/password/confirm.ejs');
+        let way = path.join(__dirname, '..', '/view/password/verife.ejs');
         log.warn(way);
         
         
@@ -376,7 +380,7 @@ function SendMailUser(user) {
     module.exports.SendMailUser = SendMailUser; 
 
     
-    //функция для отправки данных пользователя админу
+    //функция для отправки данных пользователя админу - проверка по контроллеру userConfirm
 function SendMailAdmin(user) {
     log.info('function SendMailAdmin start');
     return new Promise((resolve, reject) => {
@@ -387,13 +391,13 @@ function SendMailAdmin(user) {
         let adress = config.get('AdminEmail');
         
         
-        let url = config.get('url') +':' + config.get('port') + '/register/verife/:' +  user._id;
+        let url = config.get('url') +':' + config.get('port') + '/register/' + config.get("confirmKey") + '/' +  user._id;
         log.debug('url == ' + url);
 
         log.warn('object user= ' + user.Email + ' ' + user.Name + ' ' + user.Position + ' ' + user.Departament);
 
 
-        let way = path.join(__dirname, '..', '/view/password/verife.ejs');
+        let way = path.join(__dirname, '..', '/view/password/confirm.ejs');
         
         log.warn(way);
         
@@ -466,16 +470,6 @@ function SendMailAdmin(user) {
         
         
         
-
-
-          
-
-
-
-
-        
-        
-        
     });
     
 };
@@ -484,7 +478,7 @@ function SendMailAdmin(user) {
 module.exports.SendMailAdmin = SendMailAdmin; 
 
 
-// проверка id пользователя
+// проверка почты пользователя пользователя (id как ключ)
 function verifeUser(id) {
   
     return new Promise((resolve, reject) => {
@@ -498,16 +492,16 @@ function verifeUser(id) {
                     Verifed: true
        };
        
-       
+       const option = {new: true };
        
         User.findByIdAndUpdate(id, data, option).exec()
         
             .then(data => {
-
+                resolve(data);
 
             })
             .catch(err => {
-
+                reject(err);
 
 
         });
@@ -521,6 +515,41 @@ module.exports.verifeUser = verifeUser;
 
 
 
+
+// подтверждение пользователя админом
+function confirmUser(id) {
+  
+    return new Promise((resolve, reject) => {
+        
+       /*
+        * Ищем user
+        *   если найдент то меняем поле verife
+        */
+       
+       let data = {
+                    Confirmation: true
+       };
+       
+       const option = { new: true };
+       
+        User.findByIdAndUpdate(id, data, option).exec()
+        
+            .then(data => {
+                resolve(data);
+
+            })
+            .catch(err => {
+                reject(err);
+
+
+        });
+        
+        
+    });
+
+};
+
+module.exports.confirmUser = confirmUser;
 
 
 

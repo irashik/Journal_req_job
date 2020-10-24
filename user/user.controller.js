@@ -85,7 +85,7 @@ exports.register_post = function(req, res) {
             req.flash('adminmail', "Статус отправки заявки админу: " + result[1].value);
             req.flash('usermail', "Статус отправки ссылки подтверждения на вашу почту: " + result[2].value);
             
-            res.status(200);
+            res.status(200).send();
             
         }).catch(err => {
             log.error(err);
@@ -249,7 +249,7 @@ exports.changePassw = function(req, res) {
          
     let oldPassword = req.body.OldPassword;
     let newPassword = req.body.NewPassword;
-    let confirmPassword = req.body.ConfirmPassword;
+    const confirmPassword = req.body.ConfirmPassword;
     
     // todo желательно сделать проверку паролей на стороне сервера.
     
@@ -284,7 +284,7 @@ exports.changePassw = function(req, res) {
 
 
     //  проверка адреса почты
-exports.verife = function(req, res) {
+exports.userVerife = function(req, res) {
     log.info('get request verife run');
     
     let id = req.params["hash"];
@@ -296,11 +296,17 @@ exports.verife = function(req, res) {
      */
               
       User.verifeUser(id)
-              .then(data => {
+            
+            .then(data => {
+                  log.debug('new user: ' + data);
+                  res.status(200).send('Проверка почты завершена');
+                  
+                  
                   
       })
       .catch(err => {
-          
+            log.error('User.virifeUser return err= ' + err);
+            res.status(500).send(err);
       });
               
  
@@ -311,13 +317,32 @@ exports.verife = function(req, res) {
          
          
     // подтверждение пользователя администратором.
-exports.confirm = function(req, res) {
+exports.userConfirm = function(req, res) {
     log.info('get request confirm run');
     
     let id = req.params["hash"];
     
     
     
+    /* Ищю пользователя с данным id
+     *  если есть, то обновляем поле confirm
+     *      если true то возвращаем ответ res.send
+     */
+              
+      User.confirmUser(id)
+            
+            .then(data => {
+                  log.debug('new user: ' + data);
+                  res.status(200).send('Пользователь подтвержден: ' + data);
+                  
+                  
+                  
+      })
+      .catch(err => {
+            log.error('User.confirmUser return err= ' + err);
+            res.status(500).send(err);
+      });
+              
  
     
     

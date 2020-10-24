@@ -61,7 +61,18 @@ let TaskSchema = new Schema({
       type: String
   },
   Foto: {
-      type: String // нужно тип binData но чет незнаю
+      foto1: { // нужно тип binData но чет незнаю
+          type: Buffer 
+      },
+      foto2: {
+          type: Buffer
+      },
+      foto3: {
+          type: Buffer
+      },
+      foto4: {
+          type: Buffer
+      }
   },
   Resource: {    // требуемые ресурсы (материалы)
       type: String

@@ -38,15 +38,15 @@ passport.use(new LocalStrategy ({
                     return done(null, false, { message: 'Incorrect password'});
                 }
                 
-                // проверяю проверен ли пользователь
+                // проверяю подтвержден ли адрес пользователя пользователь
                 if(!user.approvalUser) {
                     
-                    return done(null, false, { message: 'Not Approval User' });
+                    return done(null, false, { message: 'не подтвержден адрес пользователя' });
                 }
                 
-                // проверяю подтвержден ли пользователь
+                // проверяю подтвержден ли пользователь админом
                 if(!user.сonfirmUser) {
-                    
+                    return done(null, false, { message: 'не подтвердил администратор' });
                 }
                 
                 log.debug('авторизация пройдена');

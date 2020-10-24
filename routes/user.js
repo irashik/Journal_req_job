@@ -15,12 +15,20 @@ const authenticationMiddleware      = require('../middleware/auth');
 
 //const passport                      = require('passport');
 const passport                      = require('../middleware/passport');
+const config                        = require('../config');
+
 
 
 // проверка - подтверждение емейла пользователем
-userRouter.get('/register/verife/:hash', userController.verife);
+userRouter.get('/register/verife/:hash', userController.userVerife);
+
 // подтсврждение пользователя администратором.
-userRouter.get('/register/confirm/:hash', userController.confirm);
+        //чтобы не строить сложную проверку доступа админа
+           // путь будет секретным
+userRouter.get('/register/' + config.get('confirmKey') + '/:hash', userController.userConfirm);
+
+
+
 
 userRouter.get('/register', userController.register);
 userRouter.post('/register', userController.register_post);
