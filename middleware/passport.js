@@ -25,7 +25,8 @@ passport.use(new LocalStrategy ({
             User.User.findOne({ Email: username }, function (err, user) {
                 
                 if (err) {
-                    return done(err);
+                    return done(err, false, { message: 'Error auth' });
+                    log.error('error auth');
                 }
                 if (!user) {
                     log.debug('не сущ. такой аккаунт');
@@ -40,15 +41,16 @@ passport.use(new LocalStrategy ({
                 
                 // проверяю подтвержден ли адрес пользователя пользователь
                 if(!user.approvalUser) {
-                    
+                    log.debug('not approvalUser');
                     return done(null, false, { message: 'не подтвержден адрес пользователя' });
                 }
                 
                 // проверяю подтвержден ли пользователь админом
                 if(!user.сonfirmUser) {
+                    log.debug('not confirm user');
                     return done(null, false, { message: 'не подтвердил администратор' });
                 }
-                
+ 
                 log.debug('авторизация пройдена');
                 return done(null, user, { message: 'Вы успешно авторизированы'});
                 

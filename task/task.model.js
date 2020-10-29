@@ -60,8 +60,8 @@ let TaskSchema = new Schema({
   Profession: {  // профессия для которой задача
       type: String
   },
-  Foto: {
-      foto1: { // нужно тип binData но чет незнаю
+  Foto: {       // хранение фото
+      foto1: { 
           type: Buffer 
       },
       foto2: {
@@ -107,9 +107,9 @@ function TaskCreate(data, callback) {
             //         TypeTask: {  // тип задачи (хоз.раб; срочный ремонт, ремонт, обслуживание, ремонт Локомот, ппр, план ОГМ ??).
             //         Creator: {   // создатель задачи (автор).
             //         Profession: {  // профессия для которой задача
-            //         Foto: {
-            //         Resource: {    // требуемые ресурсы (материалы)
-            //         ExpenseTime: {  // затраты времени на задачу
+            //         Foto: { foto1, foto2}
+            //         Resource:     // требуемые ресурсы (материалы)
+            //         ExpenseTime:   // затраты времени на задачу
             // }
         
         let promise = Task.create(task);

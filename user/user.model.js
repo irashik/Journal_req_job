@@ -101,15 +101,19 @@ UserSchema.methods.approvalUser = function() {
 UserSchema.methods.confirmUser = function() {
     
     let user = this;
-    
+        
     if(user.Confirmation) {
         //return true;
+        
+        log.debug('user.Confirmation == true');
     } else {
         //return false;
         // messages  AuthError
+        log.debug('user.Confirmation == false');
     }
     
     return true; //todo
+//    
     
     
 };
@@ -516,8 +520,8 @@ module.exports.verifeUser = verifeUser;
 
 
 
-// подтверждение пользователя админом
-function confirmUser(id) {
+// подтверждение пользователя админом - функция для проверки пользователя
+function confirmUserUpdate(id) {
   
     return new Promise((resolve, reject) => {
         
@@ -549,7 +553,7 @@ function confirmUser(id) {
 
 };
 
-module.exports.confirmUser = confirmUser;
+module.exports.confirmUserUpdate = confirmUserUpdate;
 
 
 
