@@ -10221,5 +10221,24 @@ html {
     max-width: 200%;
   }
 }
+input[type=file] {
+  display: none;
+}
+
+.link {
+  color: #0056b3;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+label {
+  font-size: 0.8em;
+}
+
+#task-id {
+  font-size: 0.8em;
+}
 
 /*# sourceMappingURL=custom.css.map */

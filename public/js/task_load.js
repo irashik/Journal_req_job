@@ -36,22 +36,17 @@ $(document).ready(function() {
         let DateEnd = $('#DateEnd').val();
         let Responsible = $('#Responsible').val();
         let Creator = $('#Creator').val();
+        
         let Foto = $('#foto-upload').val(); // как корректно передать???
         
-        let id = $('p#task-id.text-success').text();
-       
-        console.log('текущий статус задачи: ' + Status);
-        
-       // если тип задачи выбран выполнено, то добавляем дату закрытия
+        let id = $('p#task-id.text-info').text();
+        // если тип задачи выбран выполнено, то добавляем дату закрытия
         if (!DateEnd) {
             if (Status === 'Выполнено') {
-            
             DateEnd = new Date();
             }
         }
-       
-        
-        
+               
         //  подготавливаем json в соответствии со схемой mongodb
         let task = {
             Name: Name,
@@ -65,16 +60,11 @@ $(document).ready(function() {
             DateEnd: DateEnd,
             Responsible: Responsible,
             Creator: Creator,
-            Foto: Foto,
+            //Foto: null,
             id: id
         };
         
-        // отладка - корректность взятия данных
-        console.log(JSON.stringify(task));
-        
-        
         let url = '/JobList/saved';
-            
         fetch(url, {
                     method: 'POST',
                     mode: 'cors',
@@ -85,63 +75,31 @@ $(document).ready(function() {
                     headers: {
                             'Accept': 'application/json',
                             "Content-Type": "application/json; charset=utf-8"
-                        
-                        
         },
-                    
                     body: JSON.stringify(task)
-                    
-
         })
-                    // получение ответа 
-            .then(result => {
-
-            // добавить надпись в модальном окне о результате выполнения
-            $('#DateStart_main').after("<p class=text-success> Task Added" + result + " </p>");
-
-            
-
-            // если присутсвует значение строки поиска то перейти по ссылке с параметром
-               let search_str = $('#input-search').val();
-
-               if (search_str) {
-                   // создаю URL с параметром
-                    let url ='/Joblist'+ '?' + 'search=' + search_str;
-                
-                    //отправляю запрос на сервер для перезагрузки страницы.
-                    location.href = url;
-                   
-               } else {
-                        // редирект на список задач.    
-                        window.location.href = '/JobList';
-               
-               }
-            
-        
-            
-                       
-                    
-
+            // получение ответа 
+        .then(result => {
+                // добавить надпись в модальном окне о результате выполнения
+                $('#DateStart_main').after("<p class=text-success> Task Added" + result + " </p>");
+                    // если присутсвует значение строки поиска то перейти по ссылке с параметром
+                    let search_str = $('#input-search').val();
+                    if (search_str) {
+                       // создаю URL с параметром
+                        let url ='/Joblist'+ '?' + 'search=' + search_str;
+                        //отправляю запрос на сервер для перезагрузки страницы c параметрами поиска
+                        location.href = url;
+                    } else {
+                            // редирект на список задач.    
+                            window.location.href = '/JobList'; //todo реализуй через window.location.pathname
+                   }
         })
-            .catch(err => {
+        .catch(err => {
                 $('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
-
-                       
+           
         });
-
     });
-    
-    
-    //################################################
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
     // открытие подробного перечня полей #########################
     $('#hidden').click(function() { 
         $('#hiddenDiv').css('display', "block");
@@ -150,24 +108,17 @@ $(document).ready(function() {
        
     // добавление новой задачи
     $("#task_add").click(function() {
-        
-    
+     //todo забыл что хотел
     });
-
-    
+        //открытие окна модального
     $('[data-target|="#edit_task_modal"]').click(() => {
-        console.log('modal window opened');
-        
+        //console.log('modal window opened');
     });
-    
-    
     
     // по открытию модального окна поместить курсор в поле ввода названия задачи.
     $('#edit_task_modal').on('shown.bs.modal', function () {
         $('#Name').trigger('focus');
-             
     });
-
 
     // открытие отдельной задачи
     $('button[data-target="edit_task_modal2"]').click((e) => {
@@ -180,60 +131,50 @@ $(document).ready(function() {
               
         // открыть модальное окно
         $('[data-target|="#edit_task_modal"]').trigger('click');
-        //e.stopPropagation();
-        e.preventDefault();
-
-        let id;
-        try {
-            if (e.target.id) {
-               id = e.target.id;
-            } else if (e.target instanceof HTMLSpanElement) {
-                 console.log('span element');
-                 //todo реализуй тут нормально 
-                 // сейчас просто во всех элементах id вставляю
-        }
-        } catch (e) {
-           alert('попробуйте еще раз. Error: ' + e);
-           console.log('Ошибка: ' + e);
-        }
-            
-        console.log('this id: ' + id);
-        //взять данные из базы данных --- 
-         let url = '/JobList/' + id;
-        //делаем запрос get на контроллер task.open
-                    
-        fetch(url, {
-            method: 'GET'
-        })
+            e.preventDefault();
+            let id;
+            try {
+                if (e.target.id) {
+                id = e.target.id;
+                } else if (e.target instanceof HTMLSpanElement) {
+                    console.log('span element');
+                    //todo реализуй тут нормально 
+                    // сейчас просто во всех элементах id вставляю
+                }
+            } catch (e) {
+                alert('попробуйте еще раз. Error: ' + e);
+            }
+           
+        
+            //взять данные из базы данных --- 
+            let url = '/JobList/' + id;
+            // функция загрузки фото1 из базы
+            loadFoto(id, 'foto1');
+         
+            //делаем запрос get на контроллер task.open и получаем данные
+            fetch(url, {
+                method: 'GET'
+            })
                 // получение ответа - данные из базы по id
                 // сначала распарсим stream object
-        .then(response => response.json())  
-        .then(result => {
-                     
-                    //теперь берем данные из ответа и подставляем в поля модального окна 
-                    //console.log(result);
-                    
-                   // преобразовать дату
-                    let date = new Date(result.DateStart);
-                    
-                    console.log('result.DateStart=== ' + date);
-                    
-                    let options = {
+            .then(response => response.json())  
+            .then(result => {
+                //теперь берем данные из ответа и подставляем в поля модального окна 
+                //console.log(result);
+                // преобразовать дату
+                let date = new Date(result.DateStart);
+                let options = {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',
                         hour: 'numeric',
                         minute: 'numeric',
                         second: 'numeric'
-                    };
+                };
 
-                    let DateStart = date.toLocaleString('ru', options);
-
-                    console.log('input string data= ' + DateStart);
-                    
-                    
+                let DateStart = date.toLocaleString('ru', options);
+    
                     $('#DateStart').text('Дата создания задачи: ' + DateStart);
-                    
                     $('#Name').val(result.Name);
                     $('#Profession').val(result.Profession);
                     $('#ExpenseTime').val(result.ExpenseTime);
@@ -249,28 +190,20 @@ $(document).ready(function() {
                     $('#foto-upload').val(result.Foto); // как корректно ??? отдельный запрос?
 
                       //покажем id задачи
-                    $('#DateStart').before('<p class=text-success id=task-id>' + result._id + '</p>');
+                    $('#DateStart').before('<p class=text-info id=task-id>' + result._id + '</p>');
         
-        })
+            })
             .catch(err => {
-                //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
-                console.log(err);
-                       
-        });
+                    //$('#DateStart_main').after("<p id=text-danger>Ошибка" + err + "</p>");
+                    alert(err); //todo
+            });
 
-        });
+    });
     
-    
-    
-    
-    // todo:
-     /*
+     /* todo
       * реализуй динамическое изменение:
       * При выборе элемента списка, появляются кнопки (изменить, удалить, завершить)
-      * 
       */
-     
-    
     
     // обработка скрытия окна    
     $('#edit_task_modal').on('hide.bs.modal', function () {
@@ -288,10 +221,14 @@ $(document).ready(function() {
         $('#Responsible').val('');
         $('#Creator').val('');
         $('#foto-upload').val('');
-        $('p#task-id.text-success').remove();
+        $('p#task-id.text-info').remove();
+        
+        
+        // удалить изображения
+        $('#foto1_load').attr('src', '#');
+        $('#foto1_load').attr('class', 'd-none');
    
     });
-
 
     // удаление задачи
     $("#task-del").click(() => {
@@ -300,7 +237,8 @@ $(document).ready(function() {
         * получить ответ, сообщить что все ОК (или не сообщать?)
         * редирект на список задач
         */
-        let id = $('p#task-id.text-success').text();
+        let id = $('p#task-id.text-info').text();
+        
         console.log(id);
         let url = '/JobList/' + id;
 
@@ -323,11 +261,8 @@ $(document).ready(function() {
                 console.log(err);
         });
     });
-
     
-    
-    // кнопка поиск
-    // todo реализуй через submit form - меньше кода.
+    // кнопка поиск  // todo реализуй через submit form - меньше кода.
     $('#btn-search').click((e) => {
          /*
           * берем значение из поля ввода
@@ -335,59 +270,218 @@ $(document).ready(function() {
           * получаем запрос, обрабатываем 
           * 
           */
-        
         e.preventDefault();
-        
         // беру строку поискового запроса из поля инпут
         let search_str = $('#input-search').val();
-                
         // создаю URL с параметром
         let url ='/Joblist'+ '?' + 'search=' + search_str;
-                
         //отправляю запрос на сервер для перезагрузки страницы.
         location.href = url;
-
-
-        // вернуть значение поискового запроса обратно в строку
-        //$('#input-search').val(search_str);
-
-        
-        
-        
     });
-    
     
     //Поиск по фильтру локомотивы. TypeTask - ремонт.локом.
     $('#filter1').click((e) => {
         e.preventDefault();
-        
         let search_str = 'Ремонт локом.';
-              
         // создаю URL с параметром
         let url ='/Joblist'+ '?' + 'typetask=' + search_str;
-                
         //отправляю запрос на сервер для перезагрузки страницы.
         location.href = url;
-        
-        
     });
     
      //Поиск по фильтру заявки - статус-Заявка
     $('#filter2').click((e) => {
         e.preventDefault();
-                
         let search_str = 'Заявка';
         // создаю URL с параметром
         let url ='/Joblist'+ '?' + 'status=' + search_str;
-                
         //отправляю запрос на сервер для перезагрузки страницы.
         location.href = url;
-        
-        
     });
     
+    // Нажатие на label  Add foto1 и выбор файла
+    $('#foto1').change((e) => {
+       e.preventDefault();
+       /*
+        * Проверяем наличие файла он будет один // todo можно поменять на возможность выбора нескольких - Алгоритм??
+        * Формируем форму для отправки на сервер
+        * отправляем на сервер
+        * получаем ответ - если ок 
+        *   то сразу загружаем фото на клиент
+        *   преобразовываем через filereader
+        *   меняем отрибуты для отображения фото.
+        *   
+        */
+        const fotoNum = 'foto1';
+        // взять id задачи куда будем сохранять.
+        const id = $('p#task-id').text();
+        let file = event.target.files[0];
+        if (event.target.files && file) {
+            let formData = new FormData();
+            formData.append('uploadedFile', file, 'foto1');
+            //загружаем фото на сервер
+            loadFileServer(id, formData)
+                    .then(res => {
+                        // сразу загрузить ее с сервера если все ок
+                        loadFileClient(id, fotoNum)
+                                .then(result => {
+                                  // получаем blob и преобразовываем и закидываем в <img>
+                                        let reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            console.log(e.target.result);
+                                            $('#foto1_load').attr('src', e.target.result);
+                                            $('#foto1_load').attr('class', 'img-thumbnail');
+                                        };
+                                        reader.readAsDataURL(result);
+                                })
+                                .catch(err => {
+                                    alert('Произошла ошибка при загрузке фото:: ' + err);
+                                    $('#foto1_load').attr('alt', err);
+                                });
+                    })
+                    .catch(err => {
+                          alert('Произошла ошибка при выгрузке фото:: ' + err);
+//                        $('.toast-body').text(err);    
+//                        $('.toast').toast({ delay:5000 });
+//                        $('#testToast').toast('show');
+                    });
+                
+        } else {
+            alert('добавьте хотя бы файл');
+        }
+    });
+    
+    // нажатие на ссылку для удаления фото
+    $('#foto1_del').click((e) => {
+        e.preventDefault();
+        const id = $('p#task-id').text();
+        const fotoNum = 'foto1';
+
+        deleteFileServer(id, fotoNum)
+            .then(result => {
+                //убрать картинку из дом
+                // подсказку что-ли добавить??
+                if(result.status !== 500) {
+                $('#foto1_load').attr("src", "#");
+                $('#foto1_load').attr('class', 'd-none');
+                } else {
+                        $('.toast-body').text('не удалось удалить фото');    
+                        $('.toast').toast({ delay:5000 });
+                        $('#testToast').toast('show');
+                
+                
+                }
+            })
+            .catch(err => {
+                $('#foto1_load').attr("src", "#");
+                $('#foto1_load').attr("alt", err);
+                //$('#foto1_load').attr('class', 'd-none');
+
+        });
+
+
+    });
+
     
     
     
     // end ready document
 });
+
+
+// загрузка фото с сервера на клиент и отображение
+function loadFoto(id, fotoNum) {
+        // функция загрузки фото при открытии страницы
+        loadFileClient(id, fotoNum)
+            .then(result => {
+                    // получаем blob и преобразовываем и закидываем в <img>
+                    // тут возможно требуется проверка условия получения изображения.
+                    let reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#foto1_load').attr('src', e.target.result);
+                        $('#foto1_load').attr('class', 'img-thumbnail');
+                    };
+                    reader.readAsDataURL(result);
+            })
+            .catch(err => {
+                    
+                    alert('loadclient=' + err);
+                    $('#foto1_load').attr('alt', err);
+                    $('#foto1_load').attr('class', 'img-thumbnail');
+                          
+                    $('.toast-body').text(err);    
+                    $('.toast').toast({ delay:5000 });
+                    $('#testToast').toast('show');
+                        
+            });
+        
+    }
+
+// выгрузка фото на сервер с клиента
+function loadFileServer(id, formData) {
+    return new Promise((resolve, reject) => {
+        let url = '/JobList/Foto' + '?id=' + id;
+        fetch(url, {
+                    method: 'POST',
+                    body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+                resolve(data);
+        })
+        .catch(err => {
+                //throw new Error(err);
+                reject(err);
+        });
+    });
+                        
+};
+
+// загружаю фото на клиент.
+function loadFileClient(id, fotoNum) {
+    return new Promise((resolve, reject) => {
+        fetch('/JobList/Foto/' + id + '/' + fotoNum, {
+                           method: 'GET'
+            })
+            .then(response => {
+                if(response.status !==500) {
+                    return response.blob();
+                } else {
+                    reject(fotoNum + ' == null');
+                }
+            })
+            .then(data => {
+                resolve(data);    
+            })
+            .catch(err => {
+                //throw new Error(err);
+                reject(err);
+        });
+    });
+};
+
+// удаление фото с сервера
+function deleteFileServer(id, fotoNum) {
+     return new Promise((resolve, reject) => {
+        fetch('/JobList/Foto/' + id + '/' + fotoNum, {
+                           method: 'DELETE'
+            })
+            .then(response => {
+                if (response.status !==500) {
+                    return response.text();
+                } else {
+                    reject('return status 500 from server');
+                }
+            })
+            .then(data => {
+                resolve(data);
+            })
+            .catch(err => {
+                reject('deleteFileServer:catch:error==' + err);
+        });
+        
+    });
+    
+};
+
+

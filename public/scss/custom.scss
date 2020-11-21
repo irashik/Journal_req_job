@@ -300,3 +300,31 @@ html {
         
     }
 }
+
+
+input[type='file'] {
+    display: none;
+}
+
+.link {
+    color: $bluelink;
+    
+    
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+label {
+    font-size: 0.8em;
+}
+
+#task-id {
+    font-size: 0.8em;
+ 
+}
+
+
+
+
