@@ -15,7 +15,8 @@ const db                            = require('../utils/mongoose');
 const mongoose                      = require('mongoose');
 const log                           = require('../utils/log')(module);
 let Schema                          = mongoose.Schema;
-
+const mongodb = require('mongodb');
+const binary = mongodb.Binary;
 
 
 const chai             = require('chai');
@@ -72,6 +73,9 @@ let TaskSchema = new Schema({
       },
       foto4: {
           type: Buffer
+      },
+      foto5: {
+          type: Buffer
       }
   },
   Resource: {    // требуемые ресурсы (материалы)
@@ -112,12 +116,17 @@ function TaskCreate(data, callback) {
             //         ExpenseTime:   // затраты времени на задачу
             // }
         
+        
+        log.debug('task model from object =' + task);
+
+        
         let promise = Task.create(task);
         
         
         promise
             .then(result => {
-                log.debug(result);
+                log.debug('Task Create==' + result);
+        
                 callback(null, result);
                     
                 })
@@ -132,15 +141,14 @@ function TaskCreate(data, callback) {
 module.exports.TaskCreate = TaskCreate;
 
 // функция обновления данных по конкретной задачи
-function TaskUpdate(id, data, callback) {
+function TaskUpdate(id, task, callback) {
     // найди запись по id , и поменяй там данные, и подтверди//
-    log.debug('входные данные' + data);
+    log.debug('входные данные' + task);
     
     const option = { new: true };  // вернуть обновленный документ.
-    const task = new Task(data);
+    //const task = new Task(data);
       
-    let promise = Task.findByIdAndUpdate(id, data, option);
-
+    let promise = Task.findByIdAndUpdate(id, task, option);
     promise
             .then(result => {
                 log.debug(result);
@@ -170,7 +178,6 @@ function TaskFindAll(options, callback) {
                 
     })
             .catch(err => {
-                log.error(err);
                 callback(err, null);
     
     });
@@ -183,8 +190,7 @@ module.exports.TaskFindAll = TaskFindAll;
 // найти и открыть конкретную задачу
 function TaskFindById(id, option, callback)  {
     
-    let promise = Task.findById(id, option);
-    
+    let promise = Task.findById(id, option).exec();
     promise
             .then(result => {
                 //log.debug(result);
@@ -258,6 +264,106 @@ function TaskClose(id, callback) {
     
 };
 module.exports.TaskClose = TaskClose;
+
+// загрузка файла на клиент
+function FindAndDownload (id, fotoNum) {
+    log.info('FindAndDownload started');
+    return new Promise((resolve, reject) => {
+        // по нормальному нужно запрашивать только поле fotoNum
+        // нужно получить только данные из поля fotoNum
+        
+        let query = Task.findById(id).exec();
+      
+        query
+            .then((doc) => {
+                 // получили документ целиком.
+
+                 log.debug('return doc ==' + doc);
+                 
+                 if(doc.Foto[fotoNum]) {
+                     resolve(doc);
+                 } else {
+                    throw new Error('not file');
+                    reject('not file');
+                 }
+                 
+                 
+                 
+        
+            })
+            .catch((err) => {
+                log.error('request error== ' + err);
+                reject(err);
+                //throw new Error('not file - catch ++ ' + err);
+            });
+        
+    });
+
+};
+module.exports.FindAndDownload = FindAndDownload;
+
+    // загрузка файла на сервер
+function FindAndUpload (id, file, fotoNum) {
+    /*
+     * функция принимает параметр id & blob & fotoNum 
+     * находит запись в коллекции по этому id
+     * записывает blob данные в поля [ foto1, foto2, ... foto6 ]
+     * возвращает документ
+     * 
+     */
+    log.info('FindAndUpload started');
+    
+    return new Promise((resolve, reject) => {
+        
+      
+        
+        let update = { Foto: {}};
+        let buffer = binary(file);
+        update.Foto[fotoNum] = buffer;
+        const options = { new: true };
+               
+      
+        
+        let query = Task.findByIdAndUpdate(id, update, options).exec();
+        query
+            .then((doc) => {
+                log.debug('findandupdate then== ' + doc);
+                resolve(doc);
+        
+            })
+            .catch((err) => {
+                throw new Error(err);
+                log.error('findbyidandUpdate catch==' + err);
+                //reject(err);
+            });
+        
+    });
+
+};
+module.exports.FindAndUpload = FindAndUpload;
+
+
+function FindAndDeleteFile (id, fotoNum) {
+    log.info('FindAndDeleteFile started');
+    return new Promise((resolve, reject) => {
+        let update = { Foto: {}};
+        update.Foto[fotoNum] = null; // присваеваем значение null полю в базе данных
+        let options = { new: true }; // возвращать новый документ
+        // todo можно заранее проверить, есть что удалять то?
+        
+        Task.findByIdAndUpdate(id, update, options).exec()
+            .then(doc => {
+                log.debug('findAndDelete then =' + doc);
+                resolve(doc);
+            })
+            .catch(err => {
+                reject('findAndDelete catch = ' + err);
+                log.error(err);
+            });
+    });
+};
+module.exports.FindAndDeleteFile = FindAndDeleteFile;
+
 
 
 // экспорт функции модели или схемы mongodb Task

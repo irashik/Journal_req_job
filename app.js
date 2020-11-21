@@ -41,6 +41,7 @@ const sessionStore                  = require('./utils/sessionStore');
 const flash                         = require('connect-flash');
 const cors                          = require('cors');
 const createError                   = require('http-errors');
+const fileUpload                    = require('express-fileupload');
 
 
 //const middleware = require('./middleware')(app, express)
@@ -55,6 +56,8 @@ app.engine('ejs', engine);
 app.set('views', __dirname + "/view");
 app.set('view engine', 'ejs');
 
+
+app.use(fileUpload()); // для получения файла в запросе.
 
 
 app.use(bodyParser.urlencoded({ 
