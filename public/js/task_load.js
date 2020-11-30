@@ -405,7 +405,7 @@ function loadFoto(id, fotoNum) {
             })
             .catch(err => {
                     
-                    alert('loadclient=' + err);
+                    
                     $('#foto1_load').attr('alt', err);
                     $('#foto1_load').attr('class', 'img-thumbnail');
                           
