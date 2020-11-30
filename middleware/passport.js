@@ -12,16 +12,10 @@ const User                          = require('../user/user.model');
 
 
 passport.use(new LocalStrategy ({
-    
     usernameField: 'email',
     passwordField: 'password'
     
-    
     }, function(username, password, done) {
-            
-            log.debug('passport Strategy loading = ' + username + '&&' + password);
-            
-            
             User.User.findOne({ Email: username }, function (err, user) {
                 
                 if (err) {
@@ -40,16 +34,19 @@ passport.use(new LocalStrategy ({
                 }
                 
                 // проверяю подтвержден ли адрес пользователя пользователь
-                if(!user.approvalUser) {
+                if(user.approvalUser() !== true) {
                     log.debug('not approvalUser');
                     return done(null, false, { message: 'не подтвержден адрес пользователя' });
                 }
                 
                 // проверяю подтвержден ли пользователь админом
-                if(!user.сonfirmUser) {
+                if(user.confirmUser() !== true) {
                     log.debug('not confirm user');
                     return done(null, false, { message: 'не подтвердил администратор' });
                 }
+                
+               
+                
  
                 log.debug('авторизация пройдена');
                 return done(null, user, { message: 'Вы успешно авторизированы'});

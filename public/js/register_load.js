@@ -30,7 +30,8 @@ $(document).ready(function() {
             Password: password,
             Name: name,
             Position: position,
-            Departament: departament
+            Departament: departament,
+           
         };
       
         fetch('/register', {

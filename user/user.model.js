@@ -70,6 +70,7 @@ UserSchema.plugin(passportLocalMongoose, {
 
 // метод схемы монгуста для проверки пароля
 UserSchema.methods.validPassword = function(password) {
+    log.info('schema method validPassword run');
     
     let user = this;
     
@@ -84,38 +85,36 @@ UserSchema.methods.validPassword = function(password) {
 // подтвержден ли адрес эл. почты пользователя
 UserSchema.methods.approvalUser = function() {
     
-    let user = this;
+    log.debug('userschema method approvalUser run');
+    
+    const user = this;
     
     if (user.Verifed) {
         //return true;
+        log.debug('user.Verifed ==  true');
     } else {
         //return false;
         // todo как сообщение передать??
+        log.debug('user.Verifed== false');
     }
     return true; //todo
-    
-   
 };
 
 // проверяю подтвержден ли пользователь админом
 UserSchema.methods.confirmUser = function() {
     
-    let user = this;
-        
+    const user = this;
     if(user.Confirmation) {
         //return true;
-        
         log.debug('user.Confirmation == true');
     } else {
         //return false;
         // messages  AuthError
         log.debug('user.Confirmation == false');
+        
     }
     
     return true; //todo
-//    
-    
-    
 };
 
 

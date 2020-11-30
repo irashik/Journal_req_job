@@ -50,11 +50,14 @@ exports.register_post = function(req, res) {
                 Position: position,
                 Departament: departament,
                 Created: created,
-                Password: password
-            
+                Password: password,
+                Admin: false,
+                Verifed: false,
+                Confirmation: false
         };
         
-        
+        //todo можно сделать чтобы данные подтягивались из модели недостающие, чтобы
+        // в объекте не прописывать??
         
     // реализуй этот функционал с помощью промисов а не ада колбэков
       

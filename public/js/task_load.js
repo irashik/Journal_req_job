@@ -227,7 +227,10 @@ $(document).ready(function() {
         // удалить изображения
         $('#foto1_load').attr('src', '#');
         $('#foto1_load').attr('class', 'd-none');
-   
+
+        // заново скрыть скрытый блок
+        $('#hiddenDiv').css('display', "none");
+
     });
 
     // удаление задачи
