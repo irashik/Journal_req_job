@@ -8,6 +8,7 @@
 
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
+const passport          = require('../middleware/passport');
 
 
 
@@ -104,23 +105,34 @@ exports.register_post = function(req, res) {
 
 
 
-// Авторизация пользователя
-exports.login = function(req, res) {
-     
-    log.info('get login');
+// Авторизация пользователя post req in login
+exports.login_post = function(req, res) {
+  
+    passport.authenticate('local', { 
+                    successRedirect: '/',
+                    failureRedirect: '/login',
+                    failureFlash: true,
+                    successFlash: true 
+                })(req, res); 
+                    
     
-    log.debug('Flash1: ' + req.flash('message'));
-    //log.debug('flash2: ' + req.flash('warning'));
     
-    req.flash('warning', 'какое-то сообщение из сервера по запросу get login');
+    
+    
+    
+};
 
+
+// Get запрос на login
+exports.login = function(req, res) {
+
+    req.flash('warning', 'какое-то сообщение из сервера по запросу get login');
     res.render('login/login', { user: req.user, 
                                 message: req.flash('message'),
                                 warning: req.flash('warning'),
                                 usermail: req.flash('usermail'),
                                 adminmail: req.flash('adminmail')
     });
-    
                       
 };
 
