@@ -36,8 +36,10 @@ userRouter.post('/register', userController.register_post);
 userRouter.get('/login', userController.login);
 userRouter.post('/login', passport.authenticate('local', { 
                     successRedirect: '/',
+                    failureRedirect: '/login',
                     failureFlash: true,
                     successFlash: true
+                    
 }));
 
 userRouter.get('/logout', userController.logout);

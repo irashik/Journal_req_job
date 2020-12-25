@@ -90,14 +90,15 @@ UserSchema.methods.approvalUser = function() {
     const user = this;
     
     if (user.Verifed) {
-        //return true;
+       
         log.debug('user.Verifed ==  true');
+        return true;
     } else {
-        //return false;
         // todo как сообщение передать??
         log.debug('user.Verifed== false');
+        return false;
     }
-    return true; //todo
+
 };
 
 // проверяю подтвержден ли пользователь админом
@@ -107,14 +108,13 @@ UserSchema.methods.confirmUser = function() {
     if(user.Confirmation) {
         //return true;
         log.debug('user.Confirmation == true');
+        return true;
     } else {
-        //return false;
-        // messages  AuthError
+        // todo messages  AuthError
         log.debug('user.Confirmation == false');
-        
+        return false;
     }
-    
-    return true; //todo
+
 };
 
 
