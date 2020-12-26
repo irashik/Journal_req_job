@@ -9,11 +9,15 @@
 
 const express                       = require('express');
 const journalRouter                 = express.Router();
-
 const log                           = require('../utils/log')(module);
 
 
 const journalController = require('../journal/journal.controller');
+
+        // проверку аутентификации добавить.
+
+
+const authenticationMiddleware      = require('../middleware/auth');
 
 
 journalRouter.get('/journal/:id', journalController.open);

@@ -101,7 +101,6 @@ app.use(reportRouter);
 
 
 
-
 app.use(express.static(path.join(__dirname, './public')));
 
 //todo найди какой ни будь значек для приложения
@@ -109,29 +108,13 @@ app.use(express.static(path.join(__dirname, './public')));
 
 
 app.use(require('./middleware/sendHttpError'));
-
 app.use(require('./middleware/loadUser')); // не может прочитать свойство user
-
-app.use(require('./middleware/auth'));  // так не хочет подключать.
-
-
-
-
-
-
-
 
 
 if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler());
     app.use(logger('dev'));
-    
-    
-    
 };
-
-
-
 
 
 if (process.env.NODE_ENV === 'development') {
@@ -144,7 +127,6 @@ app.use((req, res, next) => {
     
     res.json({
         message: req.message,
-        message2: res.message
         
         
     });
@@ -162,16 +144,22 @@ app.use(function (err, req, res, next) {        // одного наверное
         res.json({
             errors: {
                 message: err.message,
-                error: err,
+                UrlRequest: req.url,
                 error_status: err.status,
-                stack: err.stack
+                error: err,
+            
+                
+                stack: err.stack,
                 
             }
         });
+        
+        // next(); // дальше не передается
+        
     });
 
 
-
+     
 
 
 
@@ -183,7 +171,7 @@ app.use(function (err, req, res, next) {        // одного наверное
 
 // ОБРАБОТЧИКИ ОШИБОК.
 
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
     log.debug("получено управление ОБРАБОТЧИК ОШИБОК");
     
     if (typeof err === 'number') {
@@ -201,7 +189,7 @@ app.use(function(err, req, res, next) {
            if (process.env.NODE_ENV === 'development') {
                
                log.debug("started errorHandler");
-               express.errorHandler()(err, req, res, next);
+               express.errorHandler()(err, req, res);
                
                } else {
                log.error(err);
@@ -215,6 +203,9 @@ app.use(function(err, req, res, next) {
     
 });
 
+
+
+app.use(require('./middleware/auth'));  // в конце потому что иначе не срабатывают обработчики ошибок.
 
 
 module.exports = app;

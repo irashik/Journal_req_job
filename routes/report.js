@@ -11,6 +11,13 @@ const Router                        = express.Router();
 const log                           = require('../utils/log')(module);
 const reportController                = require('../report/report.controller');
 const taskController                = require('../task/task.controller');
+const authenticationMiddleware      = require('../middleware/auth');
+
+
+        // проверку аутентификации добавить.
+
+
+
 
 // открыть задачу использую taskController
 Router.get('/Report/:id', taskController.open);

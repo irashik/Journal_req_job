@@ -1,22 +1,19 @@
 <% layout('layout/page') -%>
-
-<% block('title', 'О проекте'); -%>
-
-
-<script src="./js/about_load.js"></script>
+<% block('title', 'Error 404 Not Found'); -%>
 
 
+<script src="./js/error_load.js"></script>
   
 
 <h1>Страница одной ошибки</h1
 
     <div class="Error">
 
-        <img src="./image/head-1-750x410.png"  width="300px" border:0 alt="Error"/>
-        <h1>Ошибка 404</h1>
+        <img src="./images/404.jpeg"  width="300px" border:0 alt="Error"/>
+        <!--<h1>Ошибка 404</h1>-->
 
         <p>Вы попали сюда, потому что: 
-            <% if (error) { %>
+            <% if (error.length > 0) { %>
         <p> <%=error %></p>
             <% } else { %>
         <p>набрали неверный адрес, либо непонятно почему.</p>
@@ -24,5 +21,5 @@
         <br>
         
         
-        <a href="/">Начните, пожалуй, с главной страницы!</a>
+        <p> <a href="/">Начните с начала!</a></p>
     </div>

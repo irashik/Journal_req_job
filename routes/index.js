@@ -6,6 +6,7 @@ const express                       = require('express');
 const router                        = express.Router();
 const log                           = require('../utils/log')(module);
 
+const authenticationMiddleware      = require('../middleware/auth');
 
 
 
@@ -13,7 +14,7 @@ const log                           = require('../utils/log')(module);
 // страница входа на сайт.
 router.get('/', function(req, res) {
 
-    res.render('index', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
+    res.render('index', { user: req.user, message: req.flash('message'), warning: req.flash('warning'), error: 'Error' });
                          
 });
 
@@ -37,7 +38,23 @@ router.get('/test', function(req, res) {
     
     
     // нужно передавать error
-    res.render('Error404', { error: 'тестовая ошибка'});
+    res.render('Error404', { error: 'тестовая ошибка', user: req.user });
+    
+    
+                               
+});
+
+
+
+// страница "о проекте"
+router.get('/test2', authenticationMiddleware(), function(req, res) {
+    
+    
+    // нужно передавать error
+    //res.render('Error404', { error: 'тестовая ошибка2', user: req.user });
+    
+    //let err = new Error('Not Found');
+    res.status(404).send('not found from test2 router');
     
     
                                

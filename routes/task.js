@@ -11,7 +11,9 @@ const taskRouter                    = express.Router();
 const log                           = require('../utils/log')(module);
 const taskController                = require('../task/task.controller');
 
+const authenticationMiddleware      = require('../middleware/auth');
 
+        // проверку аутентификации добавить.
 
 
 taskRouter.get('/JobList/:id', taskController.open);

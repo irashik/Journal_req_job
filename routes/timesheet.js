@@ -12,6 +12,11 @@ const log                           = require('../utils/log')(module);
 const timesheetController                = require('../timesheet/timesheet.controller');
 
 
+const authenticationMiddleware      = require('../middleware/auth');
+
+        // проверку аутентификации добавить.
+
+
 timesheetRouter.get('/timesheet/:id', timesheetController.open);
 
 timesheetRouter.get('/timesheet', timesheetController.index);

@@ -103,30 +103,49 @@ exports.register_post = function(req, res) {
                           
 };
 
-
-
 // Авторизация пользователя post req in login
-exports.login_post = function(req, res) {
+exports.login_post = function(req, res, next) {
   
-    passport.authenticate('local', { 
-                    successRedirect: '/',
-                    failureRedirect: '/login',
-                    failureFlash: true,
-                    successFlash: true 
-                })(req, res); 
+//    passport.authenticate('local', { 
+//                    successRedirect: '/',
+//                    failureRedirect: '/login',
+//                    failureFlash: true,
+//                    successFlash: true 
+//                })(req, res); 
                     
+    passport.authenticate('local', function(err, user, info) {
+        
+        log.debug('message from passport ==' + JSON.stringify(info));
+        
+      
+
+        if (err) {  
+            log.error('error first in controller post passp auth');
+            return next(err); 
+        }
+        if (!user) { 
+            req.flash('warning', info.message);
+            return res.redirect('/login');
+        } else {
+            req.logIn(user, function(err) {
+                if(err) { return next(err); }
+                req.flash('message', info.message);
+                return res.redirect('/');
+            });
+        }
+    }
+ 
+    )(req, res, next); 
     
-    
-    
-    
+   
     
 };
 
 
+
 // Get запрос на login
 exports.login = function(req, res) {
-
-    req.flash('warning', 'какое-то сообщение из сервера по запросу get login');
+   
     res.render('login/login', { user: req.user, 
                                 message: req.flash('message'),
                                 warning: req.flash('warning'),
