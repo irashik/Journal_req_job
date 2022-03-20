@@ -40,12 +40,15 @@ $(document).ready(function() {
         let Foto = $('#foto-upload').val(); // как корректно передать???
         
         let id = $('p#task-id.text-info').text();
+        
         // если тип задачи выбран выполнено, то добавляем дату закрытия
         if (!DateEnd) {
             if (Status === 'Выполнено') {
             DateEnd = new Date();
             }
         }
+               
+         // где-то должна быть обработка даты создания DateStart       
                
         //  подготавливаем json в соответствии со схемой mongodb
         let task = {
@@ -109,6 +112,8 @@ $(document).ready(function() {
     // добавление новой задачи
     $("#task_add").click(function() {
      //todo забыл что хотел
+     
+     
     });
         //открытие окна модального
     $('[data-target|="#edit_task_modal"]').click(() => {

@@ -7,7 +7,6 @@ const path = require('path');
 const log                           = require('../utils/log')(module);
 
 
-
 switch (process.env.NODE_ENV) {
     
     case 'development':
@@ -48,9 +47,6 @@ switch (process.env.NODE_ENV) {
 
 
 log.info('process.env.NODE_ENV:  ' + process.env.NODE_ENV);
-
-
-
 module.exports = nconf;
 
 

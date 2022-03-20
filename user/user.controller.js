@@ -11,21 +11,16 @@ const log               = require('../utils/log')(module);
 const passport          = require('../middleware/passport');
 
 
-
-
 //  Регистрация пользователя
 exports.register = function(req, res) {
-
     log.info('get register');
     //res.render('login/register', { user: req.user, message: req.flash('message'), warning: req.flash('warning') });
     res.render('login/register', { user: req.user });
-                          
 };
 
 // Кнопка отправить рег данные - обработчик
 exports.register_post = function(req, res) {
-    log.info('post register');
-         
+
      /*
       * получаем данные от view из полей для регистрации
       * передаем в модель для записи в базу данных и создания хеша пароля
@@ -33,17 +28,13 @@ exports.register_post = function(req, res) {
       * если ошибка то передаем клиенту ошибку
       * 
       */
-     
-     
-     log.warn(req.body);
-         
+              
      let email = req.body.Email;
      let password = req.body.Password;
      let name = req.body.Name;
      let position = req.body.Position;
      let departament = req.body.Departament;
      let created = new Date();
-     
      
      const registerData = {
                 Email: email,
@@ -59,48 +50,28 @@ exports.register_post = function(req, res) {
         
         //todo можно сделать чтобы данные подтягивались из модели недостающие, чтобы
         // в объекте не прописывать??
-        
-    // реализуй этот функционал с помощью промисов а не ада колбэков
-      
-    
+            // реализуй этот функционал с помощью промисов а не ада колбэков
         // после того как получен хеш пароля и соль
         // регистрируем пользователя
         // если неудачно то отправляем статус 500 и ошибку
         // если удачно, то редиректим на логин
-        
-        
-        
         let promise = User.Register(registerData);
-        
         // от метода модели возвращается массив значений
-        
         promise.then(result => {
             log.info('успешно');
                                                        
              log.debug('Данные пользователя= ' + result[0]);
              log.debug('Статус отправки админу= ' + result[1].value);
              log.debug('Статус отправки пользователю: ' + result[2].value);
-             
-
-                            
-                            
                             
             req.flash('message', "Ваша заявка принята. ");
             req.flash('adminmail', "Статус отправки заявки админу: " + result[1].value);
             req.flash('usermail', "Статус отправки ссылки подтверждения на вашу почту: " + result[2].value);
             
             res.status(200).send();
-            
         }).catch(err => {
-            log.error(err);
             res.status(500).send(err);
-        
         });
-           
-                        
-        
-    
-                          
 };
 
 // Авторизация пользователя post req in login
@@ -140,8 +111,6 @@ exports.login_post = function(req, res, next) {
    
     
 };
-
-
 
 // Get запрос на login
 exports.login = function(req, res) {
@@ -269,8 +238,6 @@ exports.profileChange = function(req, res) {
                           
 };
 
-
-
     // изменение пароля
 exports.changePassw = function(req, res) {
     log.info('post profile');
@@ -321,8 +288,6 @@ exports.changePassw = function(req, res) {
                           
 };
 
-
-
     //  проверка адреса почты
 exports.userVerife = function(req, res) {
     log.info('get request verife run');
@@ -353,8 +318,6 @@ exports.userVerife = function(req, res) {
     
     
 };
-         
-         
          
     // подтверждение пользователя администратором.
 exports.userConfirm = function(req, res) {

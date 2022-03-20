@@ -5,7 +5,7 @@
             <url>js/task_load.js</url>
             <bookmark id="2">
                 <name/>
-                <line>324</line>
+                <line>329</line>
                 <key/>
             </bookmark>
         </file>
@@ -20,9 +20,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/routes/user.js</file>
-            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/middleware/passport.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/Develop_list.MD</file>
             <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/user/user.controller.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/user/user.model.js</file>
+            <file>file:/home/dmitrii/NetBeansProjects/Journal_registration_job/README.MD</file>
         </group>
     </open-files>
 </project-private>
