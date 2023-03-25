@@ -1,5 +1,3 @@
-'use strict';
-
 /*
  * Наверное этот модуль делает следующее:
  *  при вызове любого роутера, запрос проходит через данное мидлеваре
@@ -16,10 +14,7 @@ const log                           = require('../utils/log')(module);
 
 module.exports = function(req, res, next) {
     
-    
     req.user = res.locals.user = null;  // зачем это - чтобы исключить наложение (повторное использование)??
-    
-    
     
     if (!req.session.user) return next();
     

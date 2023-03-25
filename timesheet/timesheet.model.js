@@ -6,19 +6,11 @@
  *  
  */
 
-
-'use strrict';
-
-
-
 const db                      = require('../utils/mongoose');
 const mongoose                = require('mongoose');
 const log                     = require('../utils/log')(module);
 const Worker                  = require('../worker/worker.model');
 let Schema                    = mongoose.Schema;
-
-
-
 
 
 // todo реализуй date references
@@ -42,14 +34,8 @@ let TSheet = new Schema({
     Comment: {
         type: String
         
-    }
-        
-    
+    } 
 });
-
-
- 
-
 module.exports = db.model('TSheet', TSheet);
 
 

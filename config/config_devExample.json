@@ -1,15 +1,18 @@
 {
-    "url" : "http://127.0.0.1",
+    "url" : "http://localhost",
     "port" : 3000,
     
     "mongoose": {
-        "uri": "mongodb://127.0.0.1:27017/Journal_reg_job",
+        "uri": "mongodb://localhost:27017/Journal_reg_job",
         "options": {
             "useNewUrlParser": true, 
             "useUnifiedTopology": true, 
             "keepAlive": 1,
             "useCreateIndex": true,
             "useFindAndModify": false
+            
+                
+            
         }
     },
     
@@ -24,20 +27,9 @@
             "httpOnly": true,
             "maxAge": null,
             "secure": false
+           
+                
+            
         }
-    },
-    
-    "emailsend": {
-        "user": "sharon.abernathy15@ethereal.email",
-        "password": "PDxCCxNTRwZ9q6JQnp",
-        "host": "smtp.ethereal.email",
-        "port": 587,
-        "secure": false
-        
-    },
-    
-    "AdminEmail": "sharon.abernathy15@ethereal.email",
-    "confirmKey": "8ffTIwOWXB4yEiV1WL"
-
+    }
 }
-

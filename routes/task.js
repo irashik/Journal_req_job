@@ -1,10 +1,7 @@
-
-/*
- * 
- * роутер принимает запросы по запросам /task
+/* 
+ * роутер принимает запросы по url /task
  * и перенаправляет их контроллеру.
  */
-'use strict';
 
 const express                       = require('express');
 const taskRouter                    = express.Router();
@@ -12,7 +9,6 @@ const log                           = require('../utils/log')(module);
 const taskController                = require('../task/task.controller');
 
 const authenticationMiddleware      = require('../middleware/auth');
-
         // проверку аутентификации добавить.
 
 

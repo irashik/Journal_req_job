@@ -1,4 +1,3 @@
-
 'use strict';
 
 const winston = require('winston');
@@ -42,10 +41,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 
 
 function getLogger(module) {
-    
-  var path = module.filename.split('/').slice(-2).join('/');
-
-
+  let path = module.filename.split('/').slice(-2).join('/');
   const logger = new createLogger({
         
         levels: config.levels,

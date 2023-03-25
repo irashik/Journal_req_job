@@ -1,11 +1,9 @@
-
 /*
  * 
  * роутер принимает запросы по запросам /task
  * и перенаправляет их контроллеру.
  */
 'use strict';
-
 const express                       = require('express');
 const timesheetRouter               = express.Router();
 const log                           = require('../utils/log')(module);

@@ -1,47 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title><%= block('title').toString() %></title>
+  <html>
+    <head>
+      <title><%= block('title').toString() %></title>
 
-  <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css"/>
-  <link rel="stylesheet" href="./bower_components/jquery-ui/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css"/>
+      <link rel="stylesheet" href="./bower_components/jquery-ui/themes/base/jquery-ui.css">  
+      <link rel="stylesheet" href="./css/custom.css"/>
+
+      <script src="./bower_components/jquery/dist/jquery.js"></script>
+      <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
+      <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
   
-  <link rel="stylesheet" href="./css/custom.css"/>
-  
+    </head>
 
-  <script src="./bower_components/jquery/dist/jquery.js"></script>
-  <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="./bower_components/jquery-ui/jquery-ui.js"></script>
-  
-</head>
-
-<body>
+    <body>
     
     
-    <header class='container-fluid'>
-        <% include ../partials/header %>
-
-
-    </header>
+      <header class='container-fluid'>
+        <%- include('../partials/header') %>
+      </header>
     
-    
+      <%- partial ('../partials/topNavigation') %> 
+      
+      <main class='container-fluid'>
+        <%- body -%>
+      </main>
 
-    <%- partial ('../partials/topNavigation') %> 
+      <footer class='container-fluid'>
+        <%- include('../partials/footer') %>
+      </footer>
 
-   
-    <main class='container-fluid'>
-      <%- body -%>
-    
-    </main>
-       
-  
-    
+    </body>
 
-    
-    <footer class='container-fluid'>
-     <% include ../partials/footer %>
-    </footer>
-
-</body>
-
-</html>
+  </html>

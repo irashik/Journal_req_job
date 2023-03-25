@@ -1,23 +1,13 @@
-'use strict';
-
-
 /*
  * Authentication is Google OAuth
  * 
  */
 
-
-
 const log                           = require('../utils/log')(module);
 const passport                      = require('passport');
-
 const bcrypt                        = require('bcrypt');
 const User                          = require('../user/user.model');
-
-
 const GoogleStrategy                =require('passport-google-oauth20');
-
-
 
 
 

@@ -1,4 +1,3 @@
-
 /*
  * Контроллер взаимодействует с представлением и моделью
  * Когда происходит событие, контроллер считывает данные и принимает решения о дальнейших действиях. 
@@ -6,12 +5,8 @@
  * 
  */
 
-'use strrict';
-
 const Task                          = require('./task.model');
 const log                           = require('../utils/log')(module);
-
-
 
 // получи данные по конкретной задачи
 exports.open = function(req, res, next) {
@@ -76,8 +71,6 @@ exports.index = function(req, res) {
         }
         
     });
-    
-    
 };
 
 // обновление данных в модели
@@ -102,13 +95,11 @@ exports.saved = function(req, res) {
               //TODO доработай чтобы можно загрузить фото.
         let Foto = req.body.Foto; 
 
-
         let id = req.body.id;
         let DateStart = new Date();
         
         let task_create = {
             DateStart: DateStart,
-            
             Name: Name,
             Profession: Profession,
             ExpenseTime: ExpenseTime,
@@ -120,7 +111,6 @@ exports.saved = function(req, res) {
             DateEnd: DateEnd,
             Responsible: Responsible,
             Creator: Creator,
-            
             Foto: {
                 foto1: null,
                 foto2: null,
@@ -129,11 +119,8 @@ exports.saved = function(req, res) {
                 foto5: null
                 
             }
-            
         };
         
-        
-      
         let task_update = task_create;
         delete task_update.Foto;
         delete task_update.DateStart;
@@ -185,8 +172,6 @@ exports.del = function(req, res) {
     });
 };
 
-
-
 exports.DownloadFile = function(req, res, next) {
     
      /*
@@ -226,7 +211,6 @@ exports.DownloadFile = function(req, res, next) {
         }
 };
 
-
 exports.UploadFile = function(req, res) {
      log.debug('сработал вызов UploadFile');
    
@@ -239,19 +223,12 @@ exports.UploadFile = function(req, res) {
      * передай в модель эти файлы для записи в базу
      * верни ответ, что все хорошо. или ошибку.
      */
-    
-    
-    
-    
+        
     let id = req.query['id'];
     log.info('req.query==' + id);
             
-    if (id) {
-        
-        
+    if (id) {    
         log.warn(req.files);
-        
-        
         // Это объект содержащий информацию о переданных файлах.
         let upFile = req.files.uploadedFile;
                 // образец объекта.
