@@ -1,6 +1,4 @@
 'use strict';
-
-
 /*
  * тестирование роутера Worker
  */
@@ -12,15 +10,12 @@ const should           = require('should');
 const chaiAsPromised   = require('chai-as-promised');
 const sinon            = require('sinon');
 const _                = require ('lodash');
-const log                           = require('../utils/log')(module);
+const log              = require('../utils/log')(module);
 const request          = require('supertest');
-
 const router       = require('./worker');
 
-//
 chai.use(chaiAsPromised);
 
-//
 
 //const express                       = require('express');
 //const workerRouter                  = express.Router();
@@ -43,12 +38,7 @@ chai.use(chaiAsPromised);
 
 
 
-describe('Tестирование роутера Worker', () => {
-   
-    
-    
-    
-    
+describe('тестирование роутера Worker', () => {
     
     it('Test route created', () => {
      
@@ -62,6 +52,6 @@ describe('Tестирование роутера Worker', () => {
              
          });
          
-        router.WorkerRouter.post(/worker/add)
+       // router.WorkerRouter.post('/worker/add')
    });
 });

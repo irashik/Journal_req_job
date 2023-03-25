@@ -1,13 +1,7 @@
 <% layout('layout/page') -%>
-
 <% block('title', 'Аутентификация'); -%>
 
-
-
 <h1>Аутентификация</h1>
-  
-
-  
 
 
 <% if (message.length > 0 ) { %>
@@ -28,13 +22,11 @@
 </div>
 <% } %>
 
-
 <% if (warning.length >0) { %>
 <div class='alert alert-warning'>
     <p>my flash message warning: <%= warning %> </p>
 </div>
 <% } %>
-
 
 <form id="login-form" action='/login' method='POST' accept-charset='utf-8'>
     <div class="form-group">

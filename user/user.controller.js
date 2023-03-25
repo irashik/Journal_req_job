@@ -4,12 +4,13 @@
  * 
  */
 
-'use strict';
-
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
+<<<<<<< HEAD
 const passport          = require('../middleware/passport');
 
+=======
+>>>>>>> developer
 
 //  Регистрация пользователя
 exports.register = function(req, res) {
@@ -28,7 +29,13 @@ exports.register_post = function(req, res) {
       * если ошибка то передаем клиенту ошибку
       * 
       */
+<<<<<<< HEAD
               
+=======
+     
+     log.warn(req.body);
+         
+>>>>>>> developer
      let email = req.body.Email;
      let password = req.body.Password;
      let name = req.body.Name;
@@ -48,6 +55,7 @@ exports.register_post = function(req, res) {
                 Confirmation: false
         };
         
+<<<<<<< HEAD
         //todo можно сделать чтобы данные подтягивались из модели недостающие, чтобы
         // в объекте не прописывать??
             // реализуй этот функционал с помощью промисов а не ада колбэков
@@ -55,6 +63,18 @@ exports.register_post = function(req, res) {
         // регистрируем пользователя
         // если неудачно то отправляем статус 500 и ошибку
         // если удачно, то редиректим на логин
+=======
+        
+        
+    //TODO  реализуй этот функционал с помощью промисов а не ада колбэков
+        /* после того как получен хеш пароля и соль
+        * регистрируем пользователя
+        * если неудачно то отправляем статус 500 и ошибку
+        * если удачно, то редиректим на логин
+        */
+        
+        
+>>>>>>> developer
         let promise = User.Register(registerData);
         // от метода модели возвращается массив значений
         promise.then(result => {
@@ -219,9 +239,6 @@ exports.profileChange = function(req, res) {
             
         };
         
-        
-     
-     
         User.UpdateProfile(id, profile, (err, data) => {
             if (err) {
                 log.error(err);
@@ -233,9 +250,7 @@ exports.profileChange = function(req, res) {
                      
             };
             
-            });
-            
-                          
+            });           
 };
 
     // изменение пароля
@@ -336,18 +351,11 @@ exports.userConfirm = function(req, res) {
             
             .then(data => {
                   log.debug('new user: ' + data);
-                  res.status(200).send('Пользователь подтвержден: ' + data);
-                  
-                  
-                  
+                  res.status(200).send('Пользователь подтвержден: ' + data);         
       })
       .catch(err => {
             log.error('User.confirmUser return err= ' + err);
             res.status(500).send(err);
-      });
-              
- 
-    
-    
+      });  
 };
          

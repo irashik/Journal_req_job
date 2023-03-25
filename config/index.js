@@ -1,11 +1,8 @@
 // файл настройки конфигурации приложения.
 
-'use strict';
-
-const nconf = require('nconf');
+const  nconf = require('nconf');
 const path = require('path');
-const log                           = require('../utils/log')(module);
-
+const log  = require('../utils/log')(module);
 
 switch (process.env.NODE_ENV) {
     
@@ -40,12 +37,7 @@ switch (process.env.NODE_ENV) {
         log.info('Default!!! Выбрана конфигурация development по default');
 
     break;
-
-
-
 };
-
-
 log.info('process.env.NODE_ENV:  ' + process.env.NODE_ENV);
 module.exports = nconf;
 

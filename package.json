@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "journal_registration_job",
   "version": "1.0.0",
   "scripts": {
@@ -72,4 +73,76 @@
     "url": "https://github.com/irashik/Journal_req_job/issues"
   },
   "homepage": "https://github.com/irashik/Journal_req_job#readme"
+=======
+    "name": "Journal_registration_job",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "node -r dotenv/config server.js",
+        "test": "mocha -r dotenv/config --recursive ./*/*.test.js",
+        "start:dev": "nodemon -r dotenv/config server.js",
+        "start:prod": ""
+    },
+    "homepage": "http://irashin-ptz.ru",
+    "license": "GPLv3.0",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "author": {
+        "name": "Irashin Dmitrii",
+        "email": "admin@irashin-ptz.ru",
+        "url": "https://irashin-ptz.ru"
+    },
+    "contributors": [],
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "body-parser": "^1.19.0",
+        "connect-flash": "^0.1.1",
+        "connect-mongo": "^3.2.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.1.8",
+        "ejs-mate": "^4.0.0",
+        "errorhandler": "^1.5.1",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.0",
+        "express-session": "^1.17.1",
+        "flat": "^5.0.2",
+        "http": "0.0.0",
+        "http-errors": "^1.8.0",
+        "livereload": "^0.9.1",
+        "lodash": "^4.17.21",
+        "moment": "^2.27.0",
+        "mongodb": "^3.5.9",
+        "mongoose": "^5.9.23",
+        "morgan": "^1.10.0",
+        "nconf": "^0.12.0",
+        "nodemailer": "^6.4.11",
+        "passport": "^0.6.0",
+        "passport-google-oauth20": "^2.0.0",
+        "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^6.0.1",
+        "passport-oauth": "^1.0.0",
+        "path": "^0.12.7",
+        "sass-mediascreen": "^1.0.3",
+        "sinon": "^9.0.2",
+        "util": "^0.12.3",
+        "winston": "^3.3.3"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "chai-http": "^4.3.0",
+        "mocha": "^10.2.0",
+        "node-mocks-http": "^1.8.1",
+        "should": "^13.2.3",
+        "should-sinon": "0.0.6",
+        "supertest": "^4.0.2"
+    },
+    "type": "commonjs"
+>>>>>>> developer
 }

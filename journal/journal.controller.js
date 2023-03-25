@@ -1,4 +1,3 @@
-
 /*
  * Контроллер взаимодействует с представлением и моделью
  * Когда происходит событие, контроллер считывает данные и принимает решения о дальнейших действиях. 
@@ -6,16 +5,8 @@
  * 
  */
 
-'use strrict';
-
 const Journal                       = require('./journal.model');
 const log                           = require('../utils/log')(module);
-
-
-
-
-
-
 
 exports.open = function(req, res, next) {
     
@@ -43,12 +34,9 @@ exports.open = function(req, res, next) {
         
     } else {
         
-            next();
+        next();
         
     }
-    
-    
-    
 };
 
 
@@ -62,16 +50,10 @@ exports.index = function(req, res) {
     
     log.debug("сработал метод index в контроллере ");
        
-    
          /* // этот метод должен получать данные из БД
           * и передавать данные на страницу через res
           */
-    
-    
         res.render('journal');
-
-   
-    
     
 };
 
@@ -90,22 +72,11 @@ exports.created = function(req, res) {
     
     log.debug("сработал вызов created в контроллере");
     
-  
-    
-      
-    
-    
-    
-    
-    
-    
-    
 };
 
 exports.delete = function(req, res) {
     
-    log.debuug('method delete');
-    
+    log.debug('method delete');
     
 };
 

@@ -2,14 +2,9 @@
  * класс реализует работу с базой данных в части задач
  * запись в базу денных
  * создание схемы
- * 
  * внесение изменений в базу данных
- * 
  * нужен метод которы реализиует сортировку и фильтрацию.
  */
-'use strrict';
-
-
 
 const db                            = require('../utils/mongoose');
 const mongoose                      = require('mongoose');
@@ -17,14 +12,11 @@ const log                           = require('../utils/log')(module);
 let Schema                          = mongoose.Schema;
 const mongodb = require('mongodb');
 const binary = mongodb.Binary;
-
-
 const chai             = require('chai');
 const assert           = chai.assert;
 
 
-let TaskSchema = new Schema({
-  
+let TaskSchema = new Schema({  
   Name: {          // имя задачи - краткое описание.
     type: String,
     required: true,
@@ -84,7 +76,6 @@ let TaskSchema = new Schema({
   ExpenseTime: {  // затраты времени на задачу
       type: String 
   }
-             
 });
 
 const Task = db.model('Task', TaskSchema);
@@ -97,9 +88,7 @@ function TaskCreate(data, callback) {
       //log.debug(JSON.parse(data));
       log.debug(data);
             
-      
     const task = new Task(data);
-     
             // {       
             //         Name: 
             //         Description:
@@ -115,28 +104,19 @@ function TaskCreate(data, callback) {
             //         Resource:     // требуемые ресурсы (материалы)
             //         ExpenseTime:   // затраты времени на задачу
             // }
-        
-        
+            
         log.debug('task model from object =' + task);
-
-        
         let promise = Task.create(task);
-        
         
         promise
             .then(result => {
                 log.debug('Task Create==' + result);
-        
                 callback(null, result);
-                    
                 })
-                
             .catch(err => {
                 log.error(err);
-                callback(err, null);
-                    
-                });
-    
+                callback(err, null);  
+            });
 };
 module.exports.TaskCreate = TaskCreate;
 
@@ -155,13 +135,11 @@ function TaskUpdate(id, task, callback) {
                 callback(null, result);
                     
             })
-                
             .catch(err => {
                 log.error(err);
                 callback(err, null);
                     
             });
-       
 };
 module.exports.TaskUpdate = TaskUpdate;
 
@@ -181,9 +159,6 @@ function TaskFindAll(options, callback) {
                 callback(err, null);
     
     });
-    
-    
-   
 };
 module.exports.TaskFindAll = TaskFindAll;
 
@@ -201,15 +176,12 @@ function TaskFindById(id, option, callback)  {
                 log.error(err);
                 callback(err, null);
     });
-        
-    
 };
 module.exports.TaskFindById = TaskFindById;
 
 // найти по id  и удалить задачу
 function TaskDel(id, callback) {
     log.debug('id request: ' + id);
-    
     let promise = Task.findByIdAndRemove(id);
     
     promise
@@ -222,7 +194,6 @@ function TaskDel(id, callback) {
                 log.error(err);
                 callback(err, null);
     });
-    
 };
 module.exports.TaskDel = TaskDel;
 
@@ -235,9 +206,7 @@ function TaskClose(id, callback) {
      * найти задачу, присвоить сначения для закрытия задачи
      * вернуть callback
      */
-    
     const option = { new: true };  // вернуть обновленный документ.
-    
     let DateEnd = new Date();
     
     const data = {
@@ -261,7 +230,6 @@ function TaskClose(id, callback) {
                 callback(err, null);
                     
             });
-    
 };
 module.exports.TaskClose = TaskClose;
 
@@ -271,9 +239,7 @@ function FindAndDownload (id, fotoNum) {
     return new Promise((resolve, reject) => {
         // по нормальному нужно запрашивать только поле fotoNum
         // нужно получить только данные из поля fotoNum
-        
         let query = Task.findById(id).exec();
-      
         query
             .then((doc) => {
                  // получили документ целиком.
@@ -286,19 +252,13 @@ function FindAndDownload (id, fotoNum) {
                     throw new Error('not file');
                     reject('not file');
                  }
-                 
-                 
-                 
-        
             })
             .catch((err) => {
                 log.error('request error== ' + err);
                 reject(err);
                 //throw new Error('not file - catch ++ ' + err);
             });
-        
     });
-
 };
 module.exports.FindAndDownload = FindAndDownload;
 
@@ -315,15 +275,11 @@ function FindAndUpload (id, file, fotoNum) {
     
     return new Promise((resolve, reject) => {
         
-      
-        
         let update = { Foto: {}};
         let buffer = binary(file);
         update.Foto[fotoNum] = buffer;
         const options = { new: true };
                
-      
-        
         let query = Task.findByIdAndUpdate(id, update, options).exec();
         query
             .then((doc) => {
@@ -341,7 +297,6 @@ function FindAndUpload (id, file, fotoNum) {
 
 };
 module.exports.FindAndUpload = FindAndUpload;
-
 
 function FindAndDeleteFile (id, fotoNum) {
     log.info('FindAndDeleteFile started');
@@ -362,13 +317,12 @@ function FindAndDeleteFile (id, fotoNum) {
             });
     });
 };
+
 module.exports.FindAndDeleteFile = FindAndDeleteFile;
 
 
 
-// экспорт функции модели или схемы mongodb Task
+// экспорт функции модели или схемы mongodb Task/
+
 module.exports.Task = Task;
-        
-
-
-
+//export {Task, FindAndDeleteFile};
