@@ -1,5 +1,3 @@
-"use strict";
-
 /* модуль настаривает конфигурацию для отправки емейла с сервера */
 
 const nodemailer                    = require("nodemailer");
@@ -37,14 +35,7 @@ function main(message) {
         .catch(err => {
             reject(err);
     });
-       
-       
-       
-   });
-    
-    
-
-
+  });
 };
 
 

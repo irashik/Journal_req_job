@@ -1,14 +1,11 @@
 /* 
  * основной входной файл приложения
  */
-'use strrict';
 
 const log                           = require('./utils/log')(module);
 const config                        = require('./config');
 const path                          = require('path');
-
 const express                       = require('express');
-
 const router                        = require('./routes');
 const workerRouter                  = require('./routes/worker');
 const taskRouter                    = require('./routes/task');
@@ -28,14 +25,11 @@ const livereload                    = require('livereload');
 const session                       = require('express-session');
 const HttpError                     = require('./error').HttpError;
 
-
 //PassportJS
 const passport                      = require('passport');
 // подключение стратегии passport
 const myPassport                    = require('./middleware/passport');
 //const myPassportGoogle              = require('./middleware/google-strategy');
-
-
 
 const sessionStore                  = require('./utils/sessionStore');
 const flash                         = require('connect-flash');
@@ -45,6 +39,8 @@ const fileUpload                    = require('express-fileupload');
 
 
 //const middleware = require('./middleware')(app, express)
+const  sendHttpError = require('./middleware/sendHttpError').sendHttpError;
+
 
 const app                           = express();
 const server                        = livereload.createServer();
@@ -87,8 +83,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 //////////#####################3
 app.use(router);
 app.use(workerRouter);
@@ -108,7 +102,7 @@ app.use(express.static(path.join(__dirname, './public')));
 //app.use(express.favicon('public/images/favicon.ico'));
 
 
-app.use(require('./middleware/sendHttpError'));
+app.use(sendHttpError);
 
 app.use(require('./middleware/loadUser')); // не может прочитать свойство user
 
@@ -116,22 +110,11 @@ app.use(require('./middleware/auth'));  // так не хочет подключ
 
 
 
-
-
-
-
-
-
 if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler());
     app.use(logger('dev'));
     
-    
-    
 };
-
-
-
 
 
 if (process.env.NODE_ENV === 'development') {
@@ -156,7 +139,7 @@ app.use((req, res, next) => {
 
 // обработчики ошибок.2
 app.use(function (err, req, res, next) {        // одного наверное достаточно.
-      
+    
         console.error(err.stack);
         res.status(err.status || 500);
         res.json({
@@ -164,32 +147,19 @@ app.use(function (err, req, res, next) {        // одного наверное
                 message: err.message,
                 error: err,
                 error_status: err.status,
-                stack: err.stack
-                
+                stack: err.stack         
             }
         });
     });
-
-
-
-
-
-
-
 };
 
-
-
-
 // ОБРАБОТЧИКИ ОШИБОК.
-
 app.use(function(err, req, res, next) {
     log.debug("получено управление ОБРАБОТЧИК ОШИБОК");
     
     if (typeof err === 'number') {
         err = new HttpError(err);
-        log.debug("запущен httpError");
-        
+        log.debug("запущен httpError");        
     }
     
     if (err instanceof HttpError) {
@@ -206,15 +176,9 @@ app.use(function(err, req, res, next) {
                } else {
                log.error(err);
                err = new HttpError(500);
-               res.sendHttpError(err);
-                
+               res.sendHttpError(err);   
             }
-        
         } 
-        
-    
 });
-
-
 
 module.exports = app;

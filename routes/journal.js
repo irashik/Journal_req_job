@@ -1,18 +1,12 @@
-
-/*
- * 
+/* 
  * роутер принимает запросы по запросам /journal
  * и перенаправляет их контроллеру.
  */
 
 'use strict';
-
 const express                       = require('express');
 const journalRouter                 = express.Router();
-
 const log                           = require('../utils/log')(module);
-
-
 const journalController = require('../journal/journal.controller');
 
 

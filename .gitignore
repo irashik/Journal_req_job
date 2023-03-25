@@ -1,3 +1,14 @@
-/node_modules/
-/public/bower_components/
-/config/config.json
+node_modules/
+public/bower_components/
+config/config.json
+vscode
+
+
+
+package-lock.json
+
+.env
+.development.env
+.production.env
+.testing.env
+

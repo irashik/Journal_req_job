@@ -1,27 +1,19 @@
-// взаимодействие со странице Login и передача действий контроллеру
-/* 
- * 
+/* взаимодействие со странице Login и передача действий контроллеру
+ *  * берем данные из полей
+         * форма проверяет валидацию сама
+         * передаем на сервер методом post
+         * получаем ответ с сервера - ничего не  & redirect main page.
+         * если ошибка - то показываем флеш сообщение с ошибкой, оставляем на странице
  * 
  */
 
 $(document).ready(function() {
     // нажатие клавиши отправки формы регистрации
     
-    $('#login-form').on('submit', function(e) {
-        /*
-         * берем данные из полей
-         * форма проверяет валидацию сама
-         * передаем на сервер методом post
-         * получаем ответ с сервера - ничего не делаем
-         * если ошибка - то показываем флеш сообщение с ошибкой, оставляем на странице
-         * 
-         */
-          
+    $('#login-form').on('submit', function(e) {        
         e.preventDefault();
-          
         const email = $('#InputEmail').val();
         const password = $('#InputPassword').val();
-        
         const login_data = {
             email: email,
             password: password
@@ -34,7 +26,6 @@ $(document).ready(function() {
             credentials: 'same-origin',
             redirect: 'follow',
             referrerPolicy: 'origin-when-cross-origin',
-            
             headers: {
                        'Accept': 'application/json',
                        'Content-Type': "application/json",
@@ -45,22 +36,16 @@ $(document).ready(function() {
             },
             body: JSON.stringify(login_data)
             
-                    
         })
         .then(result => {
-                  
                     // тут также может быть ошибка показываем флеш сообщение
 //                    if(result.se.status === 500) {
 //                        alert('code 500');
 //                        
 //                    };
 //                    
-                    
-                    
                     if (result.status == 200) {
                         window.location.href = '/';
-                        
-                        
                     }
                     
                     if (result.status == 401 ) {
@@ -98,11 +83,6 @@ $(document).ready(function() {
                       //  Это уведомление об опасности — check it out!
                     //</div>
             
-        });
-        
-        
+        });   
   });
-       
-    
-    // end ready document
 });

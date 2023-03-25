@@ -1,4 +1,16 @@
 
+## установка и запуск ##
+
+check env files.
+
+npm i
+npm i --global sass bower
+
+cd public && npm bower i
+
+
+
+
 ####Приложение реализующее журнал учета работ на предприятии
 
 

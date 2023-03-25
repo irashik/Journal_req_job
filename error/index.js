@@ -1,6 +1,6 @@
-var path = require('path');
-var util = require('util');
-var http = require('http');
+let path = require('path');
+let util = require('util');
+let http = require('http');
 
 function HttpError(status, message) {
     Error.apply(this, arguments);

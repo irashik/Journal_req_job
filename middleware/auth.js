@@ -1,10 +1,7 @@
-'use strict';
-
 // midellware проверяет аутентификацию
 function authenticationMiddleware() {
          
     return function(req, res, next) {
-        
 
         if (req.isAuthenticated()) {
             
@@ -13,7 +10,6 @@ function authenticationMiddleware() {
         req.flash('warning', 'Для начала зарегайтесь');
         res.redirect('/login');
     };
-    
 };
 
 module.exports = authenticationMiddleware;

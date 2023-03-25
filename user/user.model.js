@@ -6,12 +6,10 @@
  */
 
 'use strict';
-
 const db                            = require('../utils/mongoose');
 const mongoose                      = require('mongoose');
 const log                           = require('../utils/log')(module);
 const Schema                        = mongoose.Schema;
-
 const bcrypt                        = require('bcrypt');
 const passportLocalMongoose         = require('passport-local-mongoose');
 const emailservice                  = require('../utils/mailSend');
@@ -20,11 +18,7 @@ const config                        = require('../config');
 const ejs                           = require('ejs');
 const path                          = require('path');
 
-
-
-
 const UserSchema = new Schema({
-  
   Email: {
     type: String,
     required: true,
@@ -56,36 +50,26 @@ const UserSchema = new Schema({
   Confirmation: {   // проврка пользователя админом
       type: Boolean
   }
-  
-  
-  
-  
 });
 
 UserSchema.plugin(passportLocalMongoose, {
       usernameField: 'Email',
       passwordField: 'Password'
-    
 });
 
 // метод схемы монгуста для проверки пароля
 UserSchema.methods.validPassword = function(password) {
-    
     let user = this;
-    
     if (bcrypt.compareSync(password, user.Password)) { 
         return true;
     } else {
         return false;
     }
-
 };
 
 // подтвержден ли адрес эл. почты пользователя
 UserSchema.methods.approvalUser = function() {
-    
     let user = this;
-    
     if (user.Verifed) {
         //return true;
     } else {
@@ -93,61 +77,45 @@ UserSchema.methods.approvalUser = function() {
         // todo как сообщение передать??
     }
     return true; //todo
-    
-   
 };
 
 // проверяю подтвержден ли пользователь админом
 UserSchema.methods.confirmUser = function() {
-    
     let user = this;
         
     if(user.Confirmation) {
-        //return true;
-        
+        //return true;   
         log.debug('user.Confirmation == true');
     } else {
         //return false;
         // messages  AuthError
         log.debug('user.Confirmation == false');
     }
-    
-    return true; //todo
-//    
-    
-    
+    return true; //todo    
 };
-
-
 
 // генерация пароля и возврат хеша  
 function setPassword (password) {
-
         return new Promise((resolve, reject) => {
-
             // проверяет не пустой ли пароль
             if (!password) { 
                 //return callback("empty password", null);
                 reject('password empty');
             } 
-
             const saltRounds = 10;
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 if(err) { 
                     log.error(err);
                     reject(err);
                 }
-             
                 //вычисляем хэш.    
                 bcrypt.hash(password, salt)
 
                     .then(function (hash) {
                         log.debug('pass = ' + hash + ' && salt== ' + salt);
-                        
                         //return this.update({ Password: hash });
                         //return callback(null, hash);
                         resolve(hash);
-
                     })
                     .catch(err => {
                         //return callback(err, null);
@@ -156,13 +124,8 @@ function setPassword (password) {
                     });
                 
             });
-            
     });
-    
 };
-
-
-
 
 //todo как его использовать???
 // обработчик ошибки авторизации
@@ -178,14 +141,10 @@ AuthError.prototype.name = 'AuthError';
 exports.AuthError = AuthError;
 
 
-
-
-
 // запись данных пользователя в базу данных
-function Register(data) {
-    
+function Register(data) {    
     return new Promise((resolve, reject) => {
-        
+
         /*
          * в аргументе объект с данными пользователя для регистрации
          * создаем модель из объекта
@@ -201,14 +160,9 @@ function Register(data) {
         const passwordUser = data.Password;
         log.info('passwordUser===' + passwordUser);
         log.info('register data==' + JSON.stringify(data));
-        
         const user = new User(data);
-        
-        
-    
         // получить hash для пароля 
         let promise = setPassword(passwordUser);
-        
         promise
             .then(hash => {
                     // получаем хеш и сохраняем в базе его и сохраняем юзера
@@ -217,15 +171,11 @@ function Register(data) {
                     // сохраним юзера в базе данных
                     user.Password = hash;
                     return user.save();
-                             
-                    
             })
             .then(savedUser => {
                 // при возврате пользователя сохраненного резолвим.
                 log.debug('savedUser=' + savedUser);
-                
                 // на данном этапе отправляем письма админу и самому пользователю
-                
                 const admin = SendMailAdmin(savedUser);
                 const user =  SendMailUser(savedUser);
                 let result = null;
@@ -260,15 +210,6 @@ function Register(data) {
                         resolve(result);
                     
                     });
-                
-                
-                
-                
-                
-                
-                
-                
-                
             })
             .catch(err => {
                     reject(err);
@@ -389,8 +330,6 @@ function SendMailAdmin(user) {
     log.info('function SendMailAdmin start');
     return new Promise((resolve, reject) => {
         
-        
-
         // объект сообщение для отправки на адрес админа
         let adress = config.get('AdminEmail');
         
@@ -468,14 +407,7 @@ function SendMailAdmin(user) {
                  });
             
         });
-        
-           
-        
-        
-        
-        
     });
-    
 };
     
 

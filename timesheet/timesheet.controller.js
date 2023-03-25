@@ -1,4 +1,3 @@
-
 /*
  * Контроллер взаимодействует с представлением и моделью
  * Когда происходит событие, контроллер считывает данные и принимает решения о дальнейших действиях. 
@@ -6,19 +5,12 @@
  * 
  */
 
-const Timesheet                        = require('./timesheet.model');
+const Timesheet                     = require('./timesheet.model');
 const log                           = require('../utils/log')(module);
 
-
-
 // получи данные по конкретной записи
-exports.open = function(req, res, next) {
-    
+exports.open = function(req, res, next) {    
      log.debug("сработал вызов open в контроллере");
- 
-    
-    
-    
      let id = req.params.id;
     
 //     if (id) {
@@ -80,12 +72,6 @@ exports.index = function(req, res) {
              res.render('TimeSheet', {  });
 
     
-  
-    
-    
-    
-    
-    
 };
 
 
@@ -135,10 +121,5 @@ exports.created = function(req, res) { // next??
 //        
 //    });
 //    
-    
-    
-    
-    
-    
-    
+
 };

@@ -4,13 +4,8 @@
  * 
  */
 
-'use strict';
-
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
-
-
-
 
 //  Регистрация пользователя
 exports.register = function(req, res) {
@@ -33,7 +28,6 @@ exports.register_post = function(req, res) {
       * 
       */
      
-     
      log.warn(req.body);
          
      let email = req.body.Email;
@@ -42,7 +36,6 @@ exports.register_post = function(req, res) {
      let position = req.body.Position;
      let departament = req.body.Departament;
      let created = new Date();
-     
      
      const registerData = {
                 Email: email,
@@ -56,30 +49,23 @@ exports.register_post = function(req, res) {
         
         
         
-    // реализуй этот функционал с помощью промисов а не ада колбэков
-      
-    
-        // после того как получен хеш пароля и соль
-        // регистрируем пользователя
-        // если неудачно то отправляем статус 500 и ошибку
-        // если удачно, то редиректим на логин
-        
+    //TODO  реализуй этот функционал с помощью промисов а не ада колбэков
+        /* после того как получен хеш пароля и соль
+        * регистрируем пользователя
+        * если неудачно то отправляем статус 500 и ошибку
+        * если удачно, то редиректим на логин
+        */
         
         
         let promise = User.Register(registerData);
         
         // от метода модели возвращается массив значений
-        
         promise.then(result => {
             log.info('успешно');
                                                        
              log.debug('Данные пользователя= ' + result[0]);
              log.debug('Статус отправки админу= ' + result[1].value);
              log.debug('Статус отправки пользователю: ' + result[2].value);
-             
-
-                            
-                            
                             
             req.flash('message', "Ваша заявка принята. ");
             req.flash('adminmail', "Статус отправки заявки админу: " + result[1].value);
@@ -92,11 +78,6 @@ exports.register_post = function(req, res) {
             res.status(500).send(err);
         
         });
-           
-                        
-        
-    
-                          
 };
 
 
@@ -215,9 +196,6 @@ exports.profileChange = function(req, res) {
             
         };
         
-        
-     
-     
         User.UpdateProfile(id, profile, (err, data) => {
             if (err) {
                 log.error(err);
@@ -229,9 +207,7 @@ exports.profileChange = function(req, res) {
                      
             };
             
-            });
-            
-                          
+            });           
 };
 
 
@@ -338,18 +314,11 @@ exports.userConfirm = function(req, res) {
             
             .then(data => {
                   log.debug('new user: ' + data);
-                  res.status(200).send('Пользователь подтвержден: ' + data);
-                  
-                  
-                  
+                  res.status(200).send('Пользователь подтвержден: ' + data);         
       })
       .catch(err => {
             log.error('User.confirmUser return err= ' + err);
             res.status(500).send(err);
-      });
-              
- 
-    
-    
+      });  
 };
          

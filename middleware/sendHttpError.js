@@ -1,4 +1,4 @@
-module.exports = function(req, res, next) {
+function sendHttpError(req, res, next) {
     
     res.sendHttpError = function(error) {
         
@@ -14,3 +14,4 @@ module.exports = function(req, res, next) {
     next();
 };
 
+exports.sendHttpError = sendHttpError;

@@ -3,14 +3,10 @@
  * в части выборки данных для отчетов.
  * также сортировку и фильтрацию.
  */
-
 'use strrict';
-
-
-
 const db                      = require('../utils/mongoose');
 const mongoose                = require('mongoose');
-const log                           = require('../utils/log')(module);
+const log                     = require('../utils/log')(module);
 let Schema                    = mongoose.Schema;
 
             // {       

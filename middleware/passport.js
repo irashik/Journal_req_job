@@ -1,5 +1,3 @@
-'use strict';
-
 /* 
  * Модуль для работы с аутентификацией пользователей
  * */
@@ -10,7 +8,6 @@ const LocalStrategy                 = require('passport-local');
 const bcrypt                        = require('bcrypt');
 const User                          = require('../user/user.model');
 
-
 passport.use(new LocalStrategy ({
     
     usernameField: 'email',
@@ -20,7 +17,6 @@ passport.use(new LocalStrategy ({
     }, function(username, password, done) {
             
             log.debug('passport Strategy loading = ' + username + '&&' + password);
-            
             
             User.User.findOne({ Email: username }, function (err, user) {
                 
@@ -34,7 +30,6 @@ passport.use(new LocalStrategy ({
                 }
               
                 if (!user.validPassword(password)) {
-                    
                     log.debug('Incorrect user || password');
                     return done(null, false, { message: 'Incorrect password'});
                 }
@@ -57,16 +52,8 @@ passport.use(new LocalStrategy ({
             });
         }));
         
-
-
-        
-        
-        
     passport.serializeUser(User.User.serializeUser());
     passport.deserializeUser(User.User.deserializeUser());
 
 
-
-
 module.exports = passport;
-
