@@ -14,10 +14,6 @@ const config                        = require('../config');
 const ejs                           = require('ejs');
 const path                          = require('path');
 
-<<<<<<< HEAD
-
-=======
->>>>>>> developer
 const UserSchema = new Schema({
   Email: {
     type: String,
@@ -59,11 +55,6 @@ UserSchema.plugin(passportLocalMongoose, {
 
 // метод схемы монгуста для проверки пароля
 UserSchema.methods.validPassword = function(password) {
-<<<<<<< HEAD
-    log.info('schema method validPassword run');
-    
-=======
->>>>>>> developer
     let user = this;
     if (bcrypt.compareSync(password, user.Password)) { 
         return true;
@@ -73,47 +64,28 @@ UserSchema.methods.validPassword = function(password) {
 };
 
 // подтвержден ли адрес эл. почты пользователя
-<<<<<<< HEAD
-UserSchema.methods.approvalUser = function() {  
-    const user = this;
-    if (user.Verifed) {  
-        return true;
-=======
 UserSchema.methods.approvalUser = function() {
     let user = this;
     if (user.Verifed) {
         //return true;
->>>>>>> developer
     } else {
         // todo как сообщение передать??
         return false;
     }
-<<<<<<< HEAD
-=======
     return true; //todo
->>>>>>> developer
 };
 
 // проверяю подтвержден ли пользователь админом
 UserSchema.methods.confirmUser = function() {
-<<<<<<< HEAD
-    const user = this;
-    if(user.Confirmation) {
-        return true;
-=======
     let user = this;
         
     if(user.Confirmation) {
         //return true;   
         log.debug('user.Confirmation == true');
->>>>>>> developer
     } else {
         return false;
     }
-<<<<<<< HEAD
-=======
     return true; //todo    
->>>>>>> developer
 };
 
 // генерация пароля и возврат хеша  
@@ -149,12 +121,8 @@ function setPassword (password) {
     });
 };
 
-<<<<<<< HEAD
-//todo как его использовать??? // обработчик ошибки авторизации
-=======
 //todo как его использовать???
 // обработчик ошибки авторизации
->>>>>>> developer
 function AuthError(message) {
     Error.apply(this, arguments);
     Error.captureStackTrace(this, AuthError);
@@ -164,17 +132,11 @@ util.inherits(AuthError, Error);
 AuthError.prototype.name = 'AuthError';
 exports.AuthError = AuthError;
 
-<<<<<<< HEAD
-// запись данных пользователя в базу данных
-function Register(data) {
-    return new Promise((resolve, reject) => {
-=======
 
 // запись данных пользователя в базу данных
 function Register(data) {    
     return new Promise((resolve, reject) => {
 
->>>>>>> developer
         /*
          * в аргументе объект с данными пользователя для регистрации
          * создаем модель из объекта
@@ -187,14 +149,10 @@ function Register(data) {
          * 
          */
         const passwordUser = data.Password;
-<<<<<<< HEAD
-        const user = new User(data);
-=======
         log.info('passwordUser===' + passwordUser);
         log.info('register data==' + JSON.stringify(data));
         const user = new User(data);
         // получить hash для пароля 
->>>>>>> developer
         let promise = setPassword(passwordUser);
         promise
             .then(hash => {
@@ -304,11 +262,8 @@ module.exports.SendMailUser = SendMailUser;
 //функция для отправки данных пользователя админу - проверка по контроллеру userConfirm
 function SendMailAdmin(user) {
     return new Promise((resolve, reject) => {
-<<<<<<< HEAD
-=======
         
         // объект сообщение для отправки на адрес админа
->>>>>>> developer
         let adress = config.get('AdminEmail');
         let url = config.get('url') +':' + config.get('port') + '/register/' + config.get("confirmKey") + '/' +  user._id;
         let way = path.join(__dirname, '..', '/view/password/confirm.ejs');

@@ -1,9 +1,9 @@
 {
-    "name": "Journal_registration_job",
-    "version": "1.0.0",
+    "name": "JournalRegistrationsJob",
+    "version": "0.0.1",
     "scripts": {
-        "start": "node -r dotenv/config server.js",
-        "test": "mocha -r dotenv/config --recursive ./*/*.test.js",
+        "start": "node -r dotenv/config server.js --env development",
+        "test": "mocha -r dotenv/config --recursive ./*/*.test.js --env testing",
         "start:dev": "nodemon -r dotenv/config server.js",
         "start:prod": ""
     },

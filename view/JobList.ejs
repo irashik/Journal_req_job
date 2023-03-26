@@ -19,10 +19,12 @@
   </div>
 </div>-->
 
-    <button type='button' data-toggle='modal' data-target='#edit_task_modal'
+    <button type='button' data-bs-toggle='modal' 
+            data-bs-target='#edit_task_modal'
                    class="btn btn-primary my-2">Добавление задачи
     </button>
-   <button type='button' id='filter1' class="btn btn-secondary my-2 btn-sm">
+
+    <button type='button' id='filter1' class="btn btn-secondary my-2 btn-sm">
        Фильтр локомотивы
     </button>
     <button type='button' id='filter2' class="btn btn-secondary my-2 btn-sm">
@@ -52,7 +54,6 @@
           
   
   
-      
     <div class="list-group">
     <!--TODO: IF ACTIVE TO SHOW button-->
         <% data.forEach(datai => { %>
@@ -77,18 +78,11 @@
                             Ресурсы для исполнения: <%= datai.Resource %>
                         <% } %>
             </span>
-                            
-                
         
         <% } %>
-        </button>
-        
+        </button>      
         <% }) %>
     </div>
-  
-
-  
-
 
 <!-- Modal Create-->
 <%- partial ('./partials/ModalWindowTask') %> 

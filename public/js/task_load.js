@@ -115,10 +115,7 @@ $(document).ready(function() {
      
      
     });
-        //открытие окна модального
-    $('[data-target|="#edit_task_modal"]').click(() => {
-        //console.log('modal window opened');
-    });
+        
     
     // по открытию модального окна поместить курсор в поле ввода названия задачи.
     $('#edit_task_modal').on('shown.bs.modal', function () {
@@ -126,7 +123,7 @@ $(document).ready(function() {
     });
 
     // открытие отдельной задачи
-    $('button[data-target="edit_task_modal2"]').click((e) => {
+    $('button[data-bs-target="edit_task_modal2"]').click((e) => {
         /*
          * открыть модальное окно
          * взять id из выбранного блока
@@ -135,7 +132,7 @@ $(document).ready(function() {
          */
               
         // открыть модальное окно
-        $('[data-target|="#edit_task_modal"]').trigger('click');
+        $('[data-bs-target|="#edit_task_modal"]').trigger('click');
             e.preventDefault();
             let id;
             try {
@@ -376,23 +373,14 @@ $(document).ready(function() {
                         $('.toast-body').text('не удалось удалить фото');    
                         $('.toast').toast({ delay:5000 });
                         $('#testToast').toast('show');
-                
-                
                 }
             })
             .catch(err => {
                 $('#foto1_load').attr("src", "#");
                 $('#foto1_load').attr("alt", err);
                 //$('#foto1_load').attr('class', 'd-none');
-
         });
-
-
     });
-
-    
-    
-    
     // end ready document
 });
 
@@ -486,10 +474,8 @@ function deleteFileServer(id, fotoNum) {
             })
             .catch(err => {
                 reject('deleteFileServer:catch:error==' + err);
-        });
-        
-    });
-    
+        }); 
+    });    
 };
 
 

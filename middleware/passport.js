@@ -13,12 +13,9 @@ passport.use(new LocalStrategy ({
     passwordField: 'password'
     
     }, function(username, password, done) {
-<<<<<<< HEAD
-=======
             
             log.debug('passport Strategy loading = ' + username + '&&' + password);
             
->>>>>>> developer
             User.User.findOne({ Email: username }, function (err, user) {
                 
                 if (err) {
