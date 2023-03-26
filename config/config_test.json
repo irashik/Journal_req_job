@@ -1,8 +1,8 @@
 {
-    "url" : "http://localhost",
+    "url" : "http://127.0.0.1",
     "port" : 3000,
     "mongoose": {
-        "uri": "mongodb://localhost:27017/Journal_reg_job",
+        "uri": "mongodb://localhost:27017/Journal_reg_job_test",
         "options": {
             "useNewUrlParser": true, 
             "useUnifiedTopology": true, 

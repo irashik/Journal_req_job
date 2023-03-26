@@ -127,9 +127,6 @@ exports.saved = function(req, res) {
     
 };
 
-
-
-
 // добавление данных в базу
 exports.created = function(req, res) { // next??
    
@@ -159,12 +156,6 @@ exports.created = function(req, res) { // next??
         };
         
     });
-    
-    
-    
-    
-    
-    
     
 };
 

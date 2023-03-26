@@ -4,7 +4,10 @@ public/bower_components/
 public/css/
 
 
-config/config.json
+config/config_dev.json
+config/config_prod.json
+config/config_test.json
+
 
 .vscode/
 nbproject/

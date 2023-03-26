@@ -101,11 +101,6 @@ app.use(express.static(path.join(__dirname, './public')));
 //app.use(express.favicon('public/images/favicon.ico'));
 
 
-<<<<<<< HEAD
-app.use(require('./middleware/sendHttpError'));
-app.use(require('./middleware/loadUser')); // не может прочитать свойство user
-
-=======
 app.use(sendHttpError);
 
 app.use(require('./middleware/loadUser')); // не может прочитать свойство user
@@ -113,15 +108,11 @@ app.use(require('./middleware/loadUser')); // не может прочитать
 app.use(require('./middleware/auth'));  // так не хочет подключать.
 
 
->>>>>>> developer
 
 if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler());
     app.use(logger('dev'));
-<<<<<<< HEAD
-=======
     
->>>>>>> developer
 };
 
 
@@ -154,40 +145,17 @@ app.use(function (err, req, res, next) {        // одного наверное
                 message: err.message,
                 UrlRequest: req.url,
                 error_status: err.status,
-<<<<<<< HEAD
-                error: err,
-            
-                
-                stack: err.stack,
-                
-=======
                 stack: err.stack         
->>>>>>> developer
             }
         });
         
         // next(); // дальше не передается
         
     });
-<<<<<<< HEAD
-
-
-     
-
-
-
-
-=======
->>>>>>> developer
 };
 
 // ОБРАБОТЧИКИ ОШИБОК.
-<<<<<<< HEAD
-
-app.use(function(err, req, res) {
-=======
 app.use(function(err, req, res, next) {
->>>>>>> developer
     log.debug("получено управление ОБРАБОТЧИК ОШИБОК");
     
     if (typeof err === 'number') {
@@ -214,12 +182,4 @@ app.use(function(err, req, res, next) {
         } 
 });
 
-<<<<<<< HEAD
-
-
-app.use(require('./middleware/auth'));  // в конце потому что иначе не срабатывают обработчики ошибок.
-
-
-=======
->>>>>>> developer
 module.exports = app;

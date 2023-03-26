@@ -6,11 +6,8 @@
 
 const User              = require('./user.model');
 const log               = require('../utils/log')(module);
-<<<<<<< HEAD
-const passport          = require('../middleware/passport');
+const passport = require ('../middleware/passport');
 
-=======
->>>>>>> developer
 
 //  Регистрация пользователя
 exports.register = function(req, res) {
@@ -29,13 +26,9 @@ exports.register_post = function(req, res) {
       * если ошибка то передаем клиенту ошибку
       * 
       */
-<<<<<<< HEAD
-              
-=======
      
      log.warn(req.body);
          
->>>>>>> developer
      let email = req.body.Email;
      let password = req.body.Password;
      let name = req.body.Name;
@@ -55,15 +48,6 @@ exports.register_post = function(req, res) {
                 Confirmation: false
         };
         
-<<<<<<< HEAD
-        //todo можно сделать чтобы данные подтягивались из модели недостающие, чтобы
-        // в объекте не прописывать??
-            // реализуй этот функционал с помощью промисов а не ада колбэков
-        // после того как получен хеш пароля и соль
-        // регистрируем пользователя
-        // если неудачно то отправляем статус 500 и ошибку
-        // если удачно, то редиректим на логин
-=======
         
         
     //TODO  реализуй этот функционал с помощью промисов а не ада колбэков
@@ -74,7 +58,6 @@ exports.register_post = function(req, res) {
         */
         
         
->>>>>>> developer
         let promise = User.Register(registerData);
         // от метода модели возвращается массив значений
         promise.then(result => {
@@ -121,7 +104,8 @@ exports.login_post = function(req, res, next) {
             req.logIn(user, function(err) {
                 if(err) { return next(err); }
                 req.flash('message', info.message);
-                return res.redirect('/');
+
+                return 'auth is successfull' //res.redirect('/');
             });
         }
     }
@@ -134,7 +118,6 @@ exports.login_post = function(req, res, next) {
 
 // Get запрос на login
 exports.login = function(req, res) {
-   
     res.render('login/login', { user: req.user, 
                                 message: req.flash('message'),
                                 warning: req.flash('warning'),
@@ -194,11 +177,7 @@ exports.forgot_post = function(req, res) {
        * отправь емейл с новым паролем на емейл пользователя.
        * 
        * 
-       */
-
-    
-        
-                          
+       */             
 };
 
 // profile view
@@ -207,7 +186,6 @@ exports.profile = function(req, res) {
     res.render('login/profile', { user: req.user } );
         
 };
-
     // изменение данных профиля пользователя
 exports.profileChange = function(req, res) {
     log.info('request path profileChange');
@@ -252,8 +230,7 @@ exports.profileChange = function(req, res) {
             
             });           
 };
-
-    // изменение пароля
+// изменение пароля
 exports.changePassw = function(req, res) {
     log.info('post profile');
          
@@ -302,8 +279,7 @@ exports.changePassw = function(req, res) {
     
                           
 };
-
-    //  проверка адреса почты
+//  проверка адреса почты
 exports.userVerife = function(req, res) {
     log.info('get request verife run');
     
@@ -332,9 +308,8 @@ exports.userVerife = function(req, res) {
  
     
     
-};
-         
-    // подтверждение пользователя администратором.
+};         
+// подтверждение пользователя администратором.
 exports.userConfirm = function(req, res) {
     log.info('get request confirm run');
     
@@ -358,4 +333,3 @@ exports.userConfirm = function(req, res) {
             res.status(500).send(err);
       });  
 };
-         
