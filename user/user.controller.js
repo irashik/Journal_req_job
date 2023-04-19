@@ -9,6 +9,7 @@ const log               = require('../utils/log')(module);
 const passport = require ('../middleware/passport');
 
 
+
 //  Регистрация пользователя
 exports.register = function(req, res) {
     log.info('get register');
