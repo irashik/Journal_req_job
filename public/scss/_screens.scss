@@ -1,0 +1,180 @@
+@use "../../node_modules/sass-mediascreen//mediascreen";
+@use "./mycolors";
+
+
+
+
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 1.75rem auto;
+    //margin: 5px;
+    
+  }
+}
+
+
+
+
+
+
+@media (min-width: 576px) {
+
+    .form-control  {
+        flex-grow:2;
+    
+    }
+    
+   
+}
+
+
+
+
+    
+
+
+
+@media screen and (max-width: 380px) {
+
+    html {
+        -webkit-text-size-adjust: none; // 4
+    } 
+}
+
+
+
+
+@media screen and (min-width: 380px) and (max-width: 680px) {
+
+    html {
+        -webkit-text-size-adjust: none; // 4
+    } 
+
+
+}
+
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) { 
+   //эта настройка срабатывает.
+    
+    html {
+        
+        -webkit-text-size-adjust: none;
+        
+    }
+
+
+    body {
+           
+        }
+    
+     //Экраны маленьго размера 
+
+}
+
+
+
+
+@media (max-device-width: 380px) {
+
+        html {
+              -webkit-text-size-adjust: 200%; // 4
+        }
+   
+        body {
+           color: red;
+        }
+}
+
+    
+    
+    
+    
+
+
+
+
+ 
+@include mediascreen.device(iPhone6, landscape) {
+    
+    body {
+        //background-color: green;
+        
+    }
+    
+     html {
+              -webkit-text-size-adjust: 150%; // 4
+    }
+    
+     .modal-dialog {
+        max-width: 200%;
+        
+    }
+    
+    
+    
+}
+ 
+
+@include mediascreen.device(iPhone6, portrait) {
+    
+    html {
+              -webkit-text-size-adjust: 300%; // 4
+    }
+        
+    body {
+        //background-color: yellow;
+        
+    }
+    
+     .modal-dialog {
+        max-width: 200%;
+        
+    }
+}
+
+
+
+
+//для всех мобильных экранов. мой Vertex Luck 854x480
+@include mediascreen.device(mobile, portrait) {
+    
+    html {
+              -webkit-text-size-adjust: 300%; // 4
+    }
+        
+    body {
+        //background-color: yellow;
+        
+    }
+    
+    .modal-dialog {
+        max-width: 200%;
+        
+    }
+}
+
+
+@include mediascreen.device(mobile, landscape) {
+    
+    html {
+              -webkit-text-size-adjust: 150%; // 4
+    }
+        
+    body {
+      
+        
+    }
+    
+    .modal-dialog {
+        max-width: 200%;
+        
+    }
+}
+
+
+

@@ -1,20 +1,9 @@
 // стили для больших экронов и корневой стиль
 
+@use "./fonts";
+@use "./mycolors";
 
-// подключение шрифтов
-@import 'https://fonts.googleapis.com/css?family=PT+Sans';
-@import 'https://fonts.googleapis.com/css?family=Arimo:400,700|Poiret+One';
-@import 'https://fonts.googleapis.com/css?family=Jura';
 
-@font-face {
-font-family: 'Roboto-Light';
-src: url('../fonts/Roboto-Light.ttf');
-}
-
-@font-face {
-  font-family: "NimbusSanLConRegular";
-  src: url(NimbusSanL-Regu.ttf);
-}
 
 
 
@@ -80,7 +69,7 @@ h6 {
   font-size: 11px;
   font-family: monospace;
   font-weight: 500;
-  color: #5E5e5e;
+  color: mycolors.$h6;
   line-height: 1.2;
   text-align: left;
   font-style: normal;
@@ -113,8 +102,8 @@ main {
     flex-grow: 4;
 }
 
-nav, main, header, footer {
-    border: 1px solid black;
+ footer, main, header, nav {
+    border: 1px solid mycolors.$grey;
     border-radius: 10px;
     margin: 1px;
     
@@ -140,7 +129,7 @@ div {
 
 
 .task {
-    background-color: blueviolet;
+    background-color: mycolors.$task;
     
     
 }
@@ -202,7 +191,8 @@ div {
 #my-flash-message {
     font-family: Poiret One;
     font-size: 14px;
-    color: darkgreen;
+    color: mycolors.$flashMessage;
+
     
     
 }
@@ -222,11 +212,7 @@ div {
 
 
 
-h1 {
-    
-    color: none;
-    
-}
+
 
 header {
     height: 5rem;
@@ -241,3 +227,75 @@ th {
     font-size: 0.8rem;
 
 }
+
+
+input[type='file'] {
+    display: none;
+}
+
+
+.link:hover {
+    text-decoration: underline;
+}
+
+label {
+    font-size: 0.8em;
+}
+
+#task-id {
+    font-size: 0.8em;
+ 
+}
+
+
+.form-inline {
+    flex-flow: nowrap;
+        
+}
+    
+
+html {
+    //-webkit-text-size-adjust: 250%; // 4
+  
+  
+  
+    
+  }
+  
+  .container-fluid {
+      
+  }
+  
+  .modal-xl {
+  
+      //    -webkit-width: 100%;
+      //-webkit-text-size-adjust: 250%; // 4
+  
+      //-webkit-text-size-adjust: 100%; // 4
+      
+      //background-color: $grey;
+      //width: 1500px;
+      
+     
+      
+      
+  }
+  
+  .modal-dialog {
+     // width: 1500px;
+      //background-color: $grey;
+      //color: red;
+      //background: $grey;
+      
+      
+      
+      
+      
+  }
+  
+  .modal-content {
+      //widht: 1500px;
+      
+  }
+  
+  

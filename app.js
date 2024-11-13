@@ -1,7 +1,3 @@
-/* 
- * основной входной файл приложения
- */
-
 const log                           = require('./utils/log')(module);
 const config                        = require('./config');
 const path                          = require('path');
@@ -83,7 +79,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-//////////#####################3
+
 app.use(router);
 app.use(workerRouter);
 app.use(taskRouter);
