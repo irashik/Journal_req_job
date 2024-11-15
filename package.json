@@ -5,7 +5,7 @@
         "start": "node -r dotenv/config server.js --env development",
         "test": "mocha -r dotenv/config --recursive ./*/*.test.js --env testing",
         "start:dev": "nodemon -r dotenv/config server.js",
-        "start:prod": ""
+        "start:prod": "node -r dotenv/config server.js --env producton"
     },
     "homepage": "http://irashin-ptz.ru",
     "license": "GPLv3.0",
